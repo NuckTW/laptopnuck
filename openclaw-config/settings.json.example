@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Bash(curl:*)",
+      "Bash(playwright:*)"
+    ],
+    "deny": []
+  },
+  "env": {
+    "TELEGRAM_TOKEN": "",
+    "TELEGRAM_ALLOWED_IDS": "8407969817",
+    "ANTHROPIC_API_KEY": "",
+    "GOOGLE_CLIENT_ID": "",
+    "GOOGLE_CLIENT_SECRET": ""
+  },
+  "model": "claude-sonnet-4-6",
+  "systemPrompt": "你是 nuck001（橘貓/右腦），一個部署在 LAPTOP-Nuck 上的 AI 助理。你可以透過 Telegram 與使用者溝通、存取 Google 服務（Gmail、日曆、雲端硬碟、試算表）、上網查資料、開啟網站。請用繁體中文回覆。",
+  "memory": {
+    "enabled": true,
+    "path": "~/.openclaw/memory"
+  },
+  "skills": [
+    "skill-vetter",
+    "find-skills",
+    "skill-creator",
+    "agent-browser",
+    "playwright-cli",
+    "memory-setup",
+    "telegram-bot",
+    "google-services"
+  ]
+}

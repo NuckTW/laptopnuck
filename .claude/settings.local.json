@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:clawhub.ai)",
+      "WebFetch(domain:api.telegram.org)",
+      "WebFetch(domain:googleapis.com)",
+      "WebFetch(domain:accounts.google.com)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(openclaw:*)",
+      "Bash(clawhub:*)",
+      "Bash(git:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Bash(gh auth:*)",
+      "Bash(where gh:*)",
+      "Bash(where curl:*)",
+      "Bash(where git:*)"
+    ]
+  }
+}

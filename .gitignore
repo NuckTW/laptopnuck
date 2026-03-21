@@ -1,0 +1,27 @@
+# Secrets & credentials
+.env
+credentials.json
+token.json
+*.token
+*.key
+
+# Node
+node_modules/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Data & memory (stay local, not in git)
+data/
+memory/
+.memory/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# OpenClaw local state
+.openclaw-state/

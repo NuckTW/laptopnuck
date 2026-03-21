@@ -74,7 +74,16 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Ok "OpenClaw installed: $(openclaw --version 2>$null)"
 
-# ── STEP 4: Install ClawHub skills ───────────────────────────
+# ── STEP 4: Install ClawHub CLI then skills ──────────────────
+Write-Step "Installing ClawHub CLI"
+
+npm install -g clawhub
+if ($LASTEXITCODE -eq 0) {
+    Write-Ok "ClawHub CLI installed"
+} else {
+    Write-Warn "ClawHub CLI install failed, will skip remote skills"
+}
+
 Write-Step "Installing skills from ClawHub"
 
 $skills = @(
@@ -86,14 +95,18 @@ $skills = @(
     "memory-setup"
 )
 
-foreach ($skill in $skills) {
-    Write-Host "  Installing: $skill ..." -ForegroundColor White
-    clawhub install $skill
-    if ($LASTEXITCODE -eq 0) {
-        Write-Ok "$skill installed"
-    } else {
-        Write-Warn "$skill install failed — you can install manually later: clawhub install $skill"
+if (Get-Command clawhub -ErrorAction SilentlyContinue) {
+    foreach ($skill in $skills) {
+        Write-Host "  Installing: $skill ..." -ForegroundColor White
+        clawhub install $skill
+        if ($LASTEXITCODE -eq 0) {
+            Write-Ok "$skill installed"
+        } else {
+            Write-Warn "$skill install failed — run manually: clawhub install $skill"
+        }
     }
+} else {
+    Write-Warn "clawhub not found, skipping remote skills (custom skills still apply)"
 }
 
 # ── STEP 5: Install Playwright browsers ──────────────────────

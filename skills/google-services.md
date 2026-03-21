@@ -8,9 +8,25 @@ description: Access Gmail, Google Calendar, Google Drive, and Google Sheets via 
 You can read and write to the user's Google account via OAuth2.
 
 ## Credentials Setup
-- `credentials.json` — Google OAuth2 app credentials (from Google Cloud Console)
-- `token.json` — Generated after first OAuth flow (auto-saved, gitignored)
+- `credentials.json` — at `D:\ai\laptop\credentials.json`
+- `token.json` — at `D:\ai\laptop\token.json` (already generated)
 - Environment: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`
+
+## Load credentials (always use this block first)
+```python
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+import os
+
+TOKEN_PATH = r'D:\ai\laptop\token.json'
+CREDS_PATH = r'D:\ai\laptop\credentials.json'
+
+creds = Credentials.from_authorized_user_file(TOKEN_PATH)
+if creds.expired and creds.refresh_token:
+    creds.refresh(Request())
+    with open(TOKEN_PATH, 'w') as f:
+        f.write(creds.to_json())
+```
 
 ## OAuth Scopes Available
 - `https://www.googleapis.com/auth/gmail.modify` — Read + send Gmail

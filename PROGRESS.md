@@ -28,3 +28,27 @@
 - [ ] 完成 Google OAuth2 授權
 - [ ] 測試 Telegram Bot 連線
 - [ ] 測試網頁瀏覽功能
+
+---
+
+## 2026-03-21 (2)
+
+### 新增 Soul / User / Agents 設定
+
+**完成項目：**
+- `soul.md` — nuck001 身分、準則、行為規範（橘貓右腦版本）
+- `user.md` — 主人 NuckTW 完整資料（職業、專案、溝通偏好）
+- `agents.md` — 工作手冊（記憶管理、安全邊界、互動規則、心跳任務）
+- 更新 `openclaw-config/settings.json.example` systemPrompt
+
+**API Keys 清單（3組）：**
+- `ANTHROPIC_API_KEY` — console.anthropic.com
+- `TELEGRAM_TOKEN` — @BotFather
+- `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` — Google Cloud Console
+
+**待完成：**
+- [ ] push 到 GitHub（執行 create-github-repo.ps1）
+- [ ] 在 LAPTOP-Nuck 執行 setup.ps1
+- [ ] 填入 .env 憑證 + 放入 credentials.json
+- [ ] 完成 Google OAuth2 授權
+- [ ] 測試全功能

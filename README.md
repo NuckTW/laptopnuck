@@ -12,9 +12,10 @@
 ### 第一次安裝
 
 ```powershell
-# 1. 用 git clone 或 git pull 取得最新代碼
-git clone https://github.com/NuckTW/<repo> C:\ai\laptopnuck
-cd C:\ai\laptopnuck
+# 1. 建立資料夾並 clone repo
+mkdir D:\ai
+git clone https://github.com/NuckTW/laptopnuck D:\ai\laptop
+cd D:\ai\laptop
 
 # 2. 執行安裝腳本 (會自動刪除舊版 OpenClaw 並安裝新版)
 .\setup.ps1
@@ -30,7 +31,7 @@ openclaw
 ### 正常重啟
 
 ```powershell
-cd C:\ai\laptopnuck
+cd D:\ai\laptop
 git pull
 openclaw
 ```

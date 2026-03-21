@@ -57,8 +57,9 @@ OpenClaw (LAPTOP-Nuck)
 
 ### First-time setup
 ```powershell
-git clone https://github.com/NuckTW/laptopnuck C:\ai\laptopnuck
-cd C:\ai\laptopnuck
+mkdir D:\ai
+git clone https://github.com/NuckTW/laptopnuck D:\ai\laptop
+cd D:\ai\laptop
 powershell -ExecutionPolicy Bypass -File .\setup.ps1
 # Edit .env and place credentials.json
 # Start: openclaw
@@ -66,7 +67,7 @@ powershell -ExecutionPolicy Bypass -File .\setup.ps1
 
 ### Normal restart
 ```powershell
-cd C:\ai\laptopnuck
+cd D:\ai\laptop
 git pull
 openclaw
 ```

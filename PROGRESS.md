@@ -85,9 +85,30 @@
 - [ ] agent-browser
 - [ ] playwright-cli
 
+**完成：**
+- [x] push 到 GitHub（NuckTW/laptopnuck）
+- [x] 在 LAPTOP-Nuck 執行 setup.ps1
+- [x] 填入 .env 憑證 + 放入 credentials.json
+- [x] 完成 Google OAuth2 授權（token.json at D:\ai\laptop\token.json）
+- [x] 測試 Telegram Bot — 成功回應
+
+---
+
+## 2026-03-21 (5)
+
+### Google OAuth2 完成 + 監工日報表 OCR 成功
+
+**完成：**
+- Google OAuth2 授權完成，token.json 產生於 D:\ai\laptop\token.json
+- google-services.md 更新絕對路徑（TOKEN_PATH / CREDS_PATH）
+- nuck001 成功 OCR 監工日報表圖片：
+  - 日期：115/3/18（星期二），第 387 天，晴天
+  - 工頭：朱，水錶：546
+  - 工種：粗工、泥作、鐵工、電工等
+- GitHub repo NuckTW/laptopnuck 建立並 push 完成
+
 **待完成：**
-- [ ] push 到 GitHub（執行 create-github-repo.ps1）
-- [ ] 在 LAPTOP-Nuck 執行 setup.ps1
-- [ ] 填入 .env 憑證 + 放入 credentials.json
-- [ ] 完成 Google OAuth2 授權
-- [ ] 測試全功能
+- [ ] 同步 google-services.md → ~/.openclaw/skills/ 並重啟 gateway
+- [ ] 測試 Google Sheets 上傳（監工日報表 OCR → Sheets）
+- [ ] 測試 Google Drive 上傳（原始圖片，以日期為檔名）
+- [ ] 補裝 ClawHub skills：find-skills, agent-browser, playwright-cli

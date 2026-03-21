@@ -65,6 +65,26 @@
 - `TELEGRAM_TOKEN` -- @BotFather
 - `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` -- Google Cloud Console
 
+---
+
+## 2026-03-21 (4)
+
+### nuck001 成功上線
+
+**完成：**
+- OpenClaw 2026.3.13 安裝完成
+- ClawHub skills: skill-vetter, skill-creator, memory-setup 安裝成功
+- 自定義 skills: telegram-bot, google-services, image-generation 註冊完成
+- Onboarding: Gemini 2.5 Flash + Telegram Bot + Google Search 設定完成
+- Hooks 啟用：boot-md, session-memory
+- Telegram 配對完成（user ID: 8407969817）
+- Gateway 穩定運行，bot 已回應訊息
+
+**待補裝 skills（rate limit 後）：**
+- [ ] find-skills
+- [ ] agent-browser
+- [ ] playwright-cli
+
 **待完成：**
 - [ ] push 到 GitHub（執行 create-github-repo.ps1）
 - [ ] 在 LAPTOP-Nuck 執行 setup.ps1

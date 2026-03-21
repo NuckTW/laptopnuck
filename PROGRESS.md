@@ -116,3 +116,67 @@
 **待完成：**
 - [ ] 測試 Google Drive 上傳（原始圖片，以日期為檔名）
 - [ ] 補裝 ClawHub skills：find-skills, agent-browser, playwright-cli
+
+---
+
+## 2026-03-22
+
+### Google API Bridge + 架構完整化
+
+**完成：**
+- `google_api_server.py` — FastAPI server (port 8766) 常駐，提供 Google API HTTP 介面
+  - GET  /gmail/unread
+  - POST /gmail/send
+  - GET  /calendar/events
+  - POST /calendar/events
+  - GET  /drive/search
+  - GET  /sheets/read
+  - POST /sheets/append
+- `skills/google-services.md` 改為 curl 呼叫 localhost:8766（不再需要 Python 執行環境）
+- `upload_report.py` 修正 tab 名稱自動偵測（支援中文 locale「日報」）
+- OCR 測試成功（115/3/18, 115/3/30 兩份日報皆正確辨識）
+- Google Sheets 上傳成功（手動執行 upload_report.py）
+
+**目前常駐程序（LAPTOP-Nuck 開機後需啟動）：**
+1. `python D:\ai\laptop\google_api_server.py` — Google API Bridge (port 8766)
+2. `openclaw gateway` — OpenClaw Gateway (port 18789)
+
+**待完成：**
+- [ ] 確認 google-services.md curl 版本已被 gateway 載入（Gmail/Calendar 測試）
+- [ ] 讓 nuck001 自動上傳監工日報表（OCR → 直接呼叫 /sheets/append）
+- [ ] 補裝 ClawHub skills：find-skills, agent-browser, playwright-cli
+
+---
+
+## 現有架構（2026-03-22）
+
+```
+使用者 (Telegram: 8407969817)
+        │
+        ▼
+OpenClaw Gateway (port 18789)
+LLM: Google Gemini 2.5 Flash
+        │
+        ├─ 圖片 → Gemini Vision OCR → 回傳結果
+        ├─ Google 服務 → curl http://localhost:8766/...
+        ├─ 生圖 → OpenAI DALL-E 3 API
+        └─ 一般對話 → Gemini 2.5 Flash
+
+Google API Bridge (port 8766)
+python google_api_server.py
+        │
+        └─ Google APIs (OAuth2: token.json)
+           Gmail / Calendar / Drive / Sheets
+
+Skills:
+- telegram-bot.md       (Telegram Bot API)
+- google-services.md    (→ localhost:8766 curl)
+- image-generation.md   (DALL-E 3)
+- skill-vetter          (ClawHub)
+- skill-creator         (ClawHub)
+- memory-setup          (ClawHub)
+
+Hooks:
+- boot-md               (載入 soul/user/agents.md)
+- session-memory        (對話記憶存檔)
+```

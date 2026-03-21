@@ -23,6 +23,11 @@ sheets_service = build('sheets', 'v4', credentials=creds)
 drive_service  = build('drive', 'v3', credentials=creds)
 
 # ── 找或建立試算表 ────────────────────────────────────────
+def get_sheet_tab_name(sheet_id):
+    """取得試算表第一個工作表的實際名稱"""
+    meta = sheets_service.spreadsheets().get(spreadsheetId=sheet_id).execute()
+    return meta['sheets'][0]['properties']['title']
+
 def get_or_create_sheet():
     results = drive_service.files().list(
         q=f"name='{SHEET_NAME}' and mimeType='application/vnd.google-apps.spreadsheet' and trashed=false",
@@ -36,15 +41,16 @@ def get_or_create_sheet():
     # 建立新試算表
     spreadsheet = sheets_service.spreadsheets().create(body={
         'properties': {'title': SHEET_NAME},
-        'sheets': [{'properties': {'title': 'Sheet1'}}]
+        'sheets': [{'properties': {'title': '監工日報表'}}]
     }).execute()
     sheet_id = spreadsheet['spreadsheetId']
     print(f'新建試算表: {sheet_id}')
     # 寫入表頭
+    tab = get_sheet_tab_name(sheet_id)
     headers = [['日期','星期','天數','天氣','工種','上午','下午','合計',
                  '工作進度','材料','廠牌','規格','數量','備註','點工','點工工作','重要記事']]
     sheets_service.spreadsheets().values().append(
-        spreadsheetId=sheet_id, range='Sheet1!A1',
+        spreadsheetId=sheet_id, range=f'{tab}!A1',
         valueInputOption='USER_ENTERED',
         body={'values': headers}
     ).execute()
@@ -73,10 +79,12 @@ data = [
 
 # ── 上傳 ─────────────────────────────────────────────────
 sheet_id = get_or_create_sheet()
+tab = get_sheet_tab_name(sheet_id)
+print(f'工作表名稱: {tab}')
 
 sheets_service.spreadsheets().values().append(
     spreadsheetId=sheet_id,
-    range='Sheet1!A:Q',
+    range=f'{tab}!A:Q',
     valueInputOption='USER_ENTERED',
     body={'values': [data]}
 ).execute()

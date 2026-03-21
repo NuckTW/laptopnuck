@@ -107,8 +107,12 @@
   - 工種：粗工、泥作、鐵工、電工等
 - GitHub repo NuckTW/laptopnuck 建立並 push 完成
 
+**完成：**
+- [x] 同步 google-services.md → ~/.openclaw/skills/ 並重啟 gateway
+- [x] 測試 Google Sheets 上傳（監工日報表 OCR → Sheets 成功）
+  - 試算表名稱：監工日報表，工作表 tab：日報
+  - upload_report.py 自動偵測 tab 名稱
+
 **待完成：**
-- [ ] 同步 google-services.md → ~/.openclaw/skills/ 並重啟 gateway
-- [ ] 測試 Google Sheets 上傳（監工日報表 OCR → Sheets）
 - [ ] 測試 Google Drive 上傳（原始圖片，以日期為檔名）
 - [ ] 補裝 ClawHub skills：find-skills, agent-browser, playwright-cli

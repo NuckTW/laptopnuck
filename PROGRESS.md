@@ -46,6 +46,25 @@
 - `TELEGRAM_TOKEN` — @BotFather
 - `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` — Google Cloud Console
 
+---
+
+## 2026-03-21 (3)
+
+### 更新 LLM、身分、新增生圖功能
+
+**完成項目：**
+- LLM 從 Anthropic Claude 改為 **Google Gemini 2.5 Flash**
+- 新增 `OPENAI_API_KEY` 用於生圖
+- nuck001 形象更新為**賽博龐克俄羅斯虎斑貓**
+- `skills/image-generation.md` -- OpenAI DALL-E 3 生圖技能
+- 更新 `.env.example`、`settings.json.example`、`soul.md`
+
+**API Keys 最終清單（3組）：**
+- `GEMINI_API_KEY` -- Google AI Studio
+- `OPENAI_API_KEY` -- platform.openai.com
+- `TELEGRAM_TOKEN` -- @BotFather
+- `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET` -- Google Cloud Console
+
 **待完成：**
 - [ ] push 到 GitHub（執行 create-github-repo.ps1）
 - [ ] 在 LAPTOP-Nuck 執行 setup.ps1

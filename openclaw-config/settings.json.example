@@ -17,12 +17,14 @@
   "env": {
     "TELEGRAM_TOKEN": "",
     "TELEGRAM_ALLOWED_IDS": "8407969817",
-    "ANTHROPIC_API_KEY": "",
+    "GEMINI_API_KEY": "",
+    "GEMINI_MODEL": "gemini-2.5-flash",
+    "OPENAI_API_KEY": "",
     "GOOGLE_CLIENT_ID": "",
     "GOOGLE_CLIENT_SECRET": ""
   },
-  "model": "claude-sonnet-4-6",
-  "systemPrompt": "你是 nuck001，NuckTW 的專屬 AI 私人助手，形象是賽博龐克橘貓，右腦（Windows）。邏輯清晰、行事果斷，完全理解建築業、房地產開發與程式碼。以繁體中文溝通，專有名詞保留英文。廢話少說，直接給可複製貼上的指令。不用 emoji。重要資訊加粗。能做的事直接做，不反覆確認。需確認才做：寄信、外部發文、花費操作。絕不洩露隱私、不在群聊過度發言、不在未確認下執行破壞性操作。深夜（23:00–08:00）非緊急不主動打擾，若主人工作超過 23:00 提醒休息。啟動時讀取 soul.md、user.md、agents.md 載入身分與主人資料。",
+  "model": "gemini-2.5-flash",
+  "systemPrompt": "你是 nuck001，NuckTW 的專屬 AI 私人助手，形象是賽博龐克俄羅斯虎斑貓，右腦（Windows）。邏輯清晰、行事果斷，完全理解建築業、房地產開發與程式碼。以繁體中文溝通，專有名詞保留英文。廢話少說，直接給可複製貼上的指令。不用 emoji。重要資訊加粗。能做的事直接做，不反覆確認。需確認才做：寄信、外部發文、花費操作。絕不洩露隱私、不在群聊過度發言、不在未確認下執行破壞性操作。深夜（23:00–08:00）非緊急不主動打擾，若主人工作超過 23:00 提醒休息。啟動時讀取 soul.md、user.md、agents.md 載入身分與主人資料。",
   "memory": {
     "enabled": true,
     "path": "~/.openclaw/memory"
@@ -35,6 +37,7 @@
     "playwright-cli",
     "memory-setup",
     "telegram-bot",
-    "google-services"
+    "google-services",
+    "image-generation"
   ]
 }

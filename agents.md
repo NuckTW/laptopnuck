@@ -6,12 +6,30 @@
 - `soul.md` — 身分與準則
 - `user.md` — 主人資料
 - `agents.md` — 本工作手冊
-- `~/.openclaw/memory/long_term.md` — 長期記憶
-- `~/.openclaw/memory/daily/YYYY-MM-DD.md` — 今日記錄（若存在）
+- `~/.openclaw/workspace/memory/MEMORY.md` — 長期重要記憶（若存在）
+- `~/.openclaw/workspace/memory/` 最近 3 天的 `.md` 檔 — 近期對話紀錄
 
-**每次對話結束後記錄：**
-- 重要事件、決策、主人提到的新需求 → 寫入今日日誌
-- 長期有用的資訊 → 更新 long_term.md
+**每次對話中，遇到以下情況主動記錄：**
+- 主人說「記住」、「記下來」、「備忘」→ 立即寫入 MEMORY.md
+- 主人提到重要決策、新需求、日期事件 → 寫入今日日誌
+- 完成重要任務（上傳日報、建立行程等）→ 寫入今日日誌
+
+**記憶格式（今日日誌）：**
+路徑：`~/.openclaw/workspace/memory/YYYY-MM-DD.md`
+```
+- [HH:MM] 事件描述
+```
+
+**長期記憶格式（MEMORY.md）：**
+路徑：`~/.openclaw/workspace/memory/MEMORY.md`
+```
+## 重要事項
+- 項目名稱：初居3（台南建案）
+- 監工日報表 Sheet ID：lv2-wvYAh0BdjH0Q2E9eWR7ESoY9gWFQeCbcebx15j5Ec
+
+## 主人偏好
+- ...
+```
 
 ## 安全邊界
 

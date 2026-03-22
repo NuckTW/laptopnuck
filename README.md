@@ -1,40 +1,8 @@
-# nuck001 — LAPTOP-Nuck OpenClaw Agent
+# nuck001 — LAPTOP-Nuck Python Telegram Bot
 
-橘貓/右腦 | Windows | OpenClaw + Claude
+橘貓/右腦 | Windows | Python + Gemini 2.5 Flash
 
-## 快速部署 (LAPTOP-Nuck)
-
-### 前置需求
-- Windows 10/11
-- [Node.js v20+](https://nodejs.org/)
-- [Git](https://git-scm.com/)
-
-### 第一次安裝
-
-```powershell
-# 1. 建立資料夾並 clone repo
-mkdir D:\ai
-git clone https://github.com/NuckTW/laptopnuck D:\ai\laptop
-cd D:\ai\laptop
-
-# 2. 執行安裝腳本 (會自動刪除舊版 OpenClaw 並安裝新版)
-.\setup.ps1
-
-# 3. 填入憑證
-notepad .env          # 填入 ANTHROPIC_API_KEY, TELEGRAM_TOKEN 等
-# 放入 credentials.json (Google OAuth)
-
-# 4. 啟動
-openclaw
-```
-
-### 正常重啟
-
-```powershell
-cd D:\ai\laptop
-git pull
-openclaw
-```
+> **2026-03-22 架構更新**：原本使用 OpenClaw 框架，因 Windows + Gemini 組合無法可靠執行程式碼，已全面改為純 Python Telegram Bot。
 
 ---
 
@@ -43,59 +11,81 @@ openclaw
 | 功能 | 說明 |
 |------|------|
 | Telegram | 透過 Telegram Bot 接收/發送訊息 |
+| 對話記憶 | 持久化本地記憶（最近 20 則 + 長期記憶） |
 | Gmail | 讀取未讀信件、寄送郵件 |
 | Google Calendar | 查看/新增行程 |
-| Google Drive | 搜尋/讀取雲端檔案 |
+| Google Drive | 搜尋雲端檔案 |
 | Google Sheets | 讀取/寫入試算表 |
-| 上網查資料 | DuckDuckGo 搜尋 + 讀取網頁內容 |
-| 開啟網站 | Playwright 瀏覽器自動化 |
-| 記憶系統 | 持久化本地記憶 |
-
----
-
-## 環境變數 (.env)
-
-複製 `.env.example` 為 `.env` 並填入：
-
-```
-ANTHROPIC_API_KEY=       # Anthropic API Key (Claude)
-TELEGRAM_TOKEN=          # Telegram Bot Token
-TELEGRAM_ALLOWED_IDS=8407969817
-GOOGLE_CLIENT_ID=        # Google OAuth Client ID
-GOOGLE_CLIENT_SECRET=    # Google OAuth Client Secret
-```
-
-## Google OAuth 設定
-
-1. 從 Google Cloud Console 下載 `credentials.json`
-2. 放在本目錄根目錄
-3. 第一次啟動會自動開啟瀏覽器進行授權
-4. 授權後 `token.json` 自動產生（gitignored）
+| 圖片分析 | Gemini Vision OCR（監工日報表自動辨識） |
+| 智慧路由 | 自動判斷要呼叫哪個服務 |
 
 ---
 
 ## 架構
 
 ```
-Telegram ↔ OpenClaw (LAPTOP-Nuck)
-              ├── Claude (Anthropic API)
-              ├── Skills (ClawHub)
-              │   ├── agent-browser      (網站瀏覽)
-              │   ├── playwright-cli     (瀏覽器自動化)
-              │   ├── memory-setup       (持久記憶)
-              │   ├── skill-vetter       (技能安全審查)
-              │   ├── find-skills        (技能搜尋)
-              │   └── skill-creator      (建立新技能)
-              ├── Custom Skills
-              │   ├── telegram-bot       (Telegram API)
-              │   └── google-services    (Google APIs)
-              └── Memory: ~/.openclaw/memory/
+使用者 (Telegram: 8407969817)
+        │
+        ▼
+bot.py (Python 3.x)
+        │
+        ├─ Gemini 2.5 Flash (對話 + Vision)
+        ├─ Google OAuth2 (token.json)
+        │   Gmail / Calendar / Drive / Sheets
+        └─ 本地記憶 (memory_store.json)
 ```
 
 ---
 
-## 關於 OpenClaw
+## 快速啟動 (LAPTOP-Nuck)
 
-OpenClaw（龍蝦）是一個開源 AI agent 作業系統，以 TypeScript 構建，設計用於 24/7 自主運行。
-- 官網: https://openclaw.ai
-- 技能市場: https://clawhub.ai
+### 前置需求
+- Windows 10/11
+- Python 3.10+
+- `pip install python-telegram-bot google-auth-oauthlib google-api-python-client google-generativeai`
+
+### 環境變數
+
+```powershell
+$env:GEMINI_API_KEY = "你的 Gemini API Key"
+$env:TELEGRAM_TOKEN = "你的 Telegram Bot Token"
+```
+
+### 啟動
+
+```powershell
+cd D:\ai\laptopnuck
+python bot.py
+```
+
+---
+
+## Google OAuth 設定
+
+1. 從 Google Cloud Console 下載 `credentials.json`，放在本目錄根目錄
+2. 第一次執行 `python google_auth.py` 完成瀏覽器授權
+3. 授權後 `token.json` 自動產生（gitignored）
+
+---
+
+## 檔案說明
+
+| 檔案 | 說明 |
+|------|------|
+| `bot.py` | 主程式，Telegram bot + 智慧路由 + 記憶 |
+| `google_services.py` | Google API 封裝（Gmail/Calendar/Drive/Sheets） |
+| `google_auth.py` | OAuth2 授權工具 |
+| `upload_report.py` | 手動上傳監工日報表到 Google Sheets |
+| `run_google.py` | CLI Google API 測試工具 |
+| `google_api_server.py` | HTTP API Bridge（備用，port 8766） |
+| `soul.md` | nuck001 身分與準則 |
+| `agents.md` | 工作手冊與記憶規則 |
+
+---
+
+## 開發紀錄
+
+詳細開發過程與架構演變請見 [PROGRESS.md](PROGRESS.md)。
+
+**重要結論（2026-03-22）：**
+OpenClaw 在 Windows + Gemini 的組合下，Skill 的 `exec:` 語法無法真正執行程式碼，Gemini 回報「沒有執行權限」。嘗試過 5 種方案均失敗，最終決定放棄 OpenClaw 框架，改用純 Python bot 直接整合所有功能。

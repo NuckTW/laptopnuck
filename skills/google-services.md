@@ -5,54 +5,42 @@ description: Access Gmail, Google Calendar, Google Drive, and Google Sheets. Use
 
 # Google Services Skill
 
-A local Google API Bridge runs at **http://localhost:8766**.
-Use `exec()` to call it with Python.
+Use playwright to run the helper script at `D:\ai\laptop\run_google.py`.
+Do NOT write your own Python code. Just call the script with the right arguments.
 
-## Gmail
-
-**List unread emails — run this:**
+## Gmail — 讀取未讀信件
 ```
-exec(command='''python -c "import requests,json; r=requests.get('http://localhost:8766/gmail/unread',params={'max':10}); print(json.dumps(r.json(),ensure_ascii=False))"''')
+run_script("python D:\\ai\\laptop\\run_google.py gmail.unread")
 ```
 
-**Send email — run this:**
+## Gmail — 發送信件
 ```
-exec(command='''python -c "import requests,json; r=requests.post('http://localhost:8766/gmail/send',json={'to':'RECIPIENT','subject':'SUBJECT','body':'BODY'}); print(json.dumps(r.json(),ensure_ascii=False))"''')
-```
-
-## Google Calendar
-
-**List upcoming events — run this:**
-```
-exec(command='''python -c "import requests,json; r=requests.get('http://localhost:8766/calendar/events',params={'max':10}); print(json.dumps(r.json(),ensure_ascii=False))"''')
+run_script("python D:\\ai\\laptop\\run_google.py gmail.send <收件人> <主旨> <內容>")
 ```
 
-**Create event — run this:**
+## Calendar — 查詢行程
 ```
-exec(command='''python -c "import requests,json; r=requests.post('http://localhost:8766/calendar/events',json={'summary':'TITLE','start':'2026-03-22T10:00:00+08:00','end':'2026-03-22T11:00:00+08:00','location':'台南'}); print(json.dumps(r.json(),ensure_ascii=False))"''')
-```
-
-## Google Drive
-
-**Search files — run this:**
-```
-exec(command='''python -c "import requests,json; r=requests.get('http://localhost:8766/drive/search',params={'q':'KEYWORD','max':10}); print(json.dumps(r.json(),ensure_ascii=False))"''')
+run_script("python D:\\ai\\laptop\\run_google.py calendar.events")
 ```
 
-## Google Sheets
+## Calendar — 新增行程
+```
+run_script("python D:\\ai\\laptop\\run_google.py calendar.add <標題> <開始時間> <結束時間>")
+```
+時間格式：`2026-03-22T10:00:00+08:00`
 
-**Read sheet — run this:**
+## Drive — 搜尋檔案
 ```
-exec(command='''python -c "import requests,json; r=requests.get('http://localhost:8766/sheets/read',params={'sheet_id':'SHEET_ID','range':'A1:Z100'}); print(json.dumps(r.json(),ensure_ascii=False))"''')
+run_script("python D:\\ai\\laptop\\run_google.py drive.search <關鍵字>")
 ```
 
-**Append rows — run this:**
+## Sheets — 讀取試算表
 ```
-exec(command='''python -c "import requests,json; r=requests.post('http://localhost:8766/sheets/append',json={'sheet_id':'SHEET_ID','rows':[['col1','col2']]}); print(json.dumps(r.json(),ensure_ascii=False))"''')
+run_script("python D:\\ai\\laptop\\run_google.py sheets.read <sheet_id>")
 ```
 
 ## Instructions
-- ALWAYS use exec() to run the commands above. Do NOT say you cannot access Google services.
-- Replace placeholders (RECIPIENT, SUBJECT, KEYWORD, SHEET_ID, etc.) with actual values.
-- Return the result in a human-readable format to the user.
-- For Calendar events, always include the event `link` in your response as proof of creation.
+- ALWAYS run the script above. Do NOT say you cannot access Google services.
+- The script handles everything. Just provide the right arguments.
+- Take the script output and format it nicely for the user.
+- If you get an error, report it to the user and check if google_api_server.py is running.

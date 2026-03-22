@@ -148,35 +148,90 @@
 
 ---
 
-## 現有架構（2026-03-22）
+## 2026-03-22 (2)
+
+### 結論：放棄 OpenClaw，改用 Python Bot
+
+**根本問題：**
+
+OpenClaw 在 Windows + Gemini 的組合下，**無法可靠執行程式碼**：
+- Skills 的 `exec:` 語法只是文件格式，不是真正的工具綁定
+- Gemini 回報「沒有執行 google-services 的權限」——根本原因
+- playwright skill 雖可執行程式碼，但速度太慢、不穩定、不適合 API 呼叫
+- gog (Google OAuth) ClawHub skill 只支援 macOS，不支援 Windows
+
+**嘗試過的所有方法（全部失敗）：**
+1. `google-services.md` 直接寫 Python → Gemini 不執行
+2. `run_google.py` CLI 腳本 + skill 呼叫 → Gemini 仍不執行
+3. `google_api_server.py` HTTP Bridge + curl → Gemini 不呼叫 curl
+4. playwright skill 讓 OpenClaw 執行 Python → 速度太慢，語法錯誤，不可靠
+5. Junction symlink 讓 git pull 自動同步 skills → skills 載入正常，執行仍失敗
+
+**最終決定：放棄 OpenClaw，改用純 Python Telegram Bot**
+
+---
+
+## 2026-03-22 (3)
+
+### Python Telegram Bot (bot.py) 上線
+
+**完成：**
+- `bot.py` — 獨立 Python Telegram bot，完全取代 OpenClaw
+  - Gemini 2.5 Flash 對話（含記憶，最近 20 則）
+  - 智慧路由：Google 服務關鍵字 → 直接 API，圖片 → Vision
+  - Google Services：Gmail 讀取/發送、Calendar 查詢/新增、Drive 搜尋、Sheets 讀寫
+  - Gemini Vision：圖片分析、監工日報表 OCR
+  - 網頁瀏覽：Playwright 搜尋與讀取（預留）
+  - 持久記憶：本地 JSON 儲存（memory_store.json）
+  - 單一 Telegram Token：nuck001 橘貓（8747592344:AAF...）
+
+**架構（最終版）：**
 
 ```
 使用者 (Telegram: 8407969817)
         │
         ▼
-OpenClaw Gateway (port 18789)
+bot.py (Python Telegram Bot)
 LLM: Google Gemini 2.5 Flash
         │
-        ├─ 圖片 → Gemini Vision OCR → 回傳結果
-        ├─ Google 服務 → curl http://localhost:8766/...
-        ├─ 生圖 → OpenAI DALL-E 3 API
-        └─ 一般對話 → Gemini 2.5 Flash
+        ├─ 圖片 → Gemini Vision → OCR / 分析
+        ├─ Google 服務關鍵字 → google_services.py (OAuth2)
+        │   Gmail / Calendar / Drive / Sheets
+        ├─ 一般對話 → Gemini 2.5 Flash (記憶 20 則)
+        └─ 記憶 → memory_store.json (本地 JSON)
 
-Google API Bridge (port 8766)
-python google_api_server.py
+輔助工具（手動執行）：
+- upload_report.py     — 手動上傳監工日報表到 Sheets
+- run_google.py        — CLI Google API 測試工具
+- google_api_server.py — HTTP Bridge（已不需要，保留備用）
+```
+
+**啟動方式（Windows PowerShell）：**
+```powershell
+cd D:\ai\laptopnuck
+$env:GEMINI_API_KEY = "..."
+$env:TELEGRAM_TOKEN = "8747592344:AAF..."
+python bot.py
+```
+
+**關鍵決策：**
+- OpenClaw 完全廢棄（仍保留檔案供參考）
+- 同一個 Telegram token（不需要第二支 bot）
+- nuck001 自己判斷要不要呼叫 Google 服務（智慧路由）
+- 記憶功能直接內建在 bot.py（不需要 memory-setup skill）
+
+---
+
+## 現有架構（2026-03-22 最終版）
+
+```
+使用者 (Telegram: 8407969817)
         │
-        └─ Google APIs (OAuth2: token.json)
-           Gmail / Calendar / Drive / Sheets
-
-Skills:
-- telegram-bot.md       (Telegram Bot API)
-- google-services.md    (→ localhost:8766 curl)
-- image-generation.md   (DALL-E 3)
-- skill-vetter          (ClawHub)
-- skill-creator         (ClawHub)
-- memory-setup          (ClawHub)
-
-Hooks:
-- boot-md               (載入 soul/user/agents.md)
-- session-memory        (對話記憶存檔)
+        ▼
+bot.py (Python 3.x)
+        │
+        ├─ Gemini 2.5 Flash (對話 + Vision)
+        ├─ Google OAuth2 (token.json)
+        │   Gmail / Calendar / Drive / Sheets
+        └─ 本地記憶 (memory_store.json)
 ```

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鴻騏初居3 — 實價登錄分析</title>
+<style>
+:root {
+  --navy: #1a3a5c;
+  --navy-dark: #122a45;
+  --gold: #f0b429;
+  --gold-light: #fef3c7;
+  --red: #dc2626;
+  --gray: #6b7280;
+  --border: #e5e7eb;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system,'Microsoft JhengHei',sans-serif; background:#f0f4f8; color:#1f2937; }
+
+/* ── LOGIN OVERLAY ── */
+#loginOverlay {
+  position:fixed; inset:0; z-index:9999;
+  background: linear-gradient(135deg, var(--navy-dark) 0%, #0f4c81 100%);
+  display:flex; align-items:center; justify-content:center;
+}
+#loginOverlay.hidden { display:none; }
+.login-box {
+  background:#fff; border-radius:16px;
+  padding:40px 44px; width:340px;
+  box-shadow:0 24px 60px rgba(0,0,0,.35);
+  text-align:center;
+}
+.login-logo { font-size:28px; font-weight:800; color:var(--navy); letter-spacing:.5px; }
+.login-logo span { color:var(--gold); }
+.login-sub { font-size:12px; color:var(--gray); margin-top:4px; margin-bottom:28px; }
+.login-field { margin-bottom:14px; text-align:left; }
+.login-field label { display:block; font-size:12px; font-weight:600; color:var(--gray); margin-bottom:5px; }
+.login-field input {
+  width:100%; padding:11px 14px; border:1.5px solid var(--border);
+  border-radius:8px; font-size:14px; outline:none; transition:border .2s;
+  font-family:inherit;
+}
+.login-field input:focus { border-color:var(--navy); }
+.login-btn {
+  width:100%; padding:12px; margin-top:8px;
+  background:var(--navy); color:#fff; border:none;
+  border-radius:8px; font-size:15px; font-weight:700;
+  cursor:pointer; transition:background .2s;
+}
+.login-btn:hover { background:var(--navy-dark); }
+.login-err {
+  display:none; color:var(--red); font-size:12px;
+  margin-top:10px; background:#fee2e2; padding:8px 12px;
+  border-radius:6px;
+}
+.login-err.show { display:block; }
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  color:#fff; padding:28px 40px 24px;
+  display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap;
+}
+.header-left h1 { font-size:26px; font-weight:800; letter-spacing:.5px; }
+.header-left .sub { font-size:13px; opacity:.65; margin-top:4px; }
+.header-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+  border-radius:20px; padding:4px 14px; font-size:12px;
+}
+
+/* ── STATS ── */
+.stats {
+  display:flex; gap:0; background:#fff;
+  border-bottom:3px solid var(--gold); overflow:hidden;
+}
+.stat {
+  flex:1; padding:16px 20px; text-align:center;
+  border-right:1px solid var(--border);
+}
+.stat:last-child { border-right:none; }
+.stat-val { font-size:22px; font-weight:800; color:var(--navy); line-height:1; }
+.stat-val span { font-size:13px; font-weight:500; color:var(--gray); }
+.stat-label { font-size:11px; color:var(--gray); margin-top:5px; }
+
+/* ── SECTION ── */
+.section { padding:28px 40px; }
+.section-title {
+  font-size:17px; font-weight:700; color:var(--navy);
+  display:flex; align-items:center; gap:10px; margin-bottom:20px;
+}
+.section-title::before {
+  content:''; display:block; width:4px; height:18px;
+  background:var(--gold); border-radius:2px;
+}
+
+/* ── 銷控表 ── */
+.grid-wrap { overflow-x:auto; }
+.legend { display:flex; gap:20px; margin-bottom:14px; font-size:12px; color:var(--gray); align-items:center; }
+.legend-item { display:flex; align-items:center; gap:6px; }
+.leg-box { width:14px; height:14px; border-radius:3px; }
+.leg-sold { background:var(--gold); }
+.leg-empty { background:#e9ecef; border:1px solid #d1d5db; }
+.leg-special { background:var(--gold); outline:2px solid var(--red); outline-offset:1px; }
+
+.grid-table { border-collapse:separate; border-spacing:4px; }
+.grid-th {
+  background:var(--navy); color:#fff;
+  padding:10px 16px; text-align:center; font-size:14px; font-weight:700;
+  border-radius:6px; min-width:110px;
+}
+.grid-th.floor-header { min-width:48px; }
+.floor-label {
+  background:var(--navy); color:#fff;
+  padding:0 10px; text-align:center; font-weight:700; font-size:15px;
+  border-radius:6px; vertical-align:middle; width:48px;
+}
+.unit-cell { width:110px; height:80px; border-radius:8px; vertical-align:top; cursor:default; }
+.unit-sold {
+  background:var(--gold);
+  box-shadow:0 1px 3px rgba(0,0,0,.12);
+  cursor:pointer; transition:transform .15s,box-shadow .15s;
+  position:relative;
+}
+.unit-sold:hover { transform:translateY(-2px); box-shadow:0 4px 10px rgba(0,0,0,.18); }
+.unit-empty { background:#e9ecef; }
+.unit-special { outline:2.5px solid var(--red); outline-offset:-2px; }
+.unit-content {
+  padding:8px 10px; height:100%;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.unit-id { font-size:10px; color:rgba(0,0,0,.55); font-weight:600; margin-bottom:1px; }
+.unit-date { font-size:11px; color:rgba(0,0,0,.6); }
+.unit-price { font-size:16px; font-weight:800; color:#1a1a1a; line-height:1.1; }
+.unit-price-sub { font-size:10px; color:rgba(0,0,0,.55); }
+.unit-total { font-size:10px; color:#444; margin-top:1px; }
+.special-badge {
+  position:absolute; top:4px; right:4px;
+  background:var(--red); color:#fff; font-size:9px; font-weight:700;
+  padding:1px 4px; border-radius:3px;
+}
+
+/* ── TOOLTIP ── */
+.tooltip-wrap { position:relative; }
+.tooltip {
+  display:none; position:absolute; z-index:99; bottom:calc(100% + 8px); left:50%;
+  transform:translateX(-50%);
+  background:var(--navy-dark); color:#fff; font-size:12px;
+  padding:10px 14px; border-radius:8px; width:170px;
+  box-shadow:0 4px 16px rgba(0,0,0,.3); line-height:1.7;
+  white-space:nowrap;
+}
+.tooltip::after {
+  content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:6px solid transparent; border-top-color:var(--navy-dark);
+}
+.unit-sold:hover .tooltip { display:block; }
+.tooltip-row { display:flex; justify-content:space-between; gap:12px; }
+.tooltip-key { color:rgba(255,255,255,.6); }
+.tooltip-val { font-weight:700; }
+
+/* ── LIST ── */
+.trans-table { width:100%; border-collapse:collapse; font-size:13px; }
+.trans-table thead th {
+  background:var(--navy); color:#fff;
+  padding:11px 14px; text-align:left; font-weight:600;
+  position:sticky; top:0; z-index:2;
+}
+.trans-table tbody tr:nth-child(even) td { background:#f9fafb; }
+.trans-table tbody tr:hover td { background:var(--gold-light); }
+.trans-table td { padding:10px 14px; border-bottom:1px solid var(--border); }
+.unit-tag {
+  display:inline-block; background:var(--navy); color:#fff;
+  padding:2px 8px; border-radius:4px; font-size:12px; font-weight:700;
+}
+.tag-presale {
+  display:inline-block; background:#dbeafe; color:#1d4ed8;
+  padding:2px 7px; border-radius:4px; font-size:11px;
+}
+.tag-special {
+  display:inline-block; background:#fee2e2; color:var(--red);
+  padding:2px 7px; border-radius:4px; font-size:11px; margin-left:4px;
+}
+.price-red { color:var(--red); font-weight:700; }
+.no-parking { color:var(--gray); }
+
+/* ── FOOTER ── */
+.footer {
+  background:var(--navy); color:rgba(255,255,255,.5);
+  text-align:center; padding:16px; font-size:12px;
+}
+
+@media(max-width:600px) {
+  .header { padding:20px; }
+  .section { padding:20px; }
+  .stats { flex-wrap:wrap; }
+  .stat { min-width:50%; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div id="loginOverlay">
+  <div class="login-box">
+    <div class="login-logo">鴻騏<span>初居3</span></div>
+    <div class="login-sub">實價登錄分析系統</div>
+    <div class="login-field">
+      <label>帳號</label>
+      <input type="text" id="loginUser" placeholder="請輸入帳號" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>密碼</label>
+      <input type="password" id="loginPass" placeholder="請輸入密碼" autocomplete="current-password">
+    </div>
+    <button class="login-btn" onclick="doLogin()">登入</button>
+    <div class="login-err" id="loginErr">帳號或密碼錯誤，請重試</div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>鴻騏初居3</h1>
+    <div class="sub">台南市歸仁區 ｜ 大樓 ｜ 2005年後新成屋（預售）</div>
+  </div>
+  <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <span class="header-badge">📍 台南市歸仁區</span>
+    <span class="header-badge">🏗 鴻騏建設有限公司</span>
+    <span class="header-badge">📞 (06)205-5988</span>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-val">27</div>
+    <div class="stat-label">成交筆數</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">28.3<span> 萬/坪</span></div>
+    <div class="stat-label">平均單價</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">24.98–31.87<span> 萬/坪</span></div>
+    <div class="stat-label">單價區間</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">638–1128<span> 萬</span></div>
+    <div class="stat-label">總價區間</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">115/03</div>
+    <div class="stat-label">最新成交</div>
+  </div>
+</div>
+
+<!-- 銷控表 -->
+<div class="section">
+  <div class="section-title">銷控表（依棟別 × 樓層）</div>
+  <div class="legend">
+    <div class="legend-item"><div class="leg-box leg-sold"></div>已成交</div>
+    <div class="legend-item"><div class="leg-box leg-empty"></div>無資料</div>
+    <div class="legend-item"><div class="leg-box leg-special" style="width:14px;height:14px;border-radius:3px;"></div>特殊交易</div>
+    <div style="margin-left:auto;font-size:11px;">點擊格子查看詳情</div>
+  </div>
+  <div class="grid-wrap">
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th class="grid-th floor-header">樓層</th>
+          <th class="grid-th">E1</th>
+          <th class="grid-th">E2</th>
+          <th class="grid-th">E3</th>
+          <th class="grid-th">E5</th>
+          <th class="grid-th">E6</th>
+          <th class="grid-th">E7</th>
+          <th class="grid-th">E8</th>
+        </tr>
+      </thead>
+      <tbody id="gridBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 交易列表 -->
+<div class="section" style="padding-top:0;">
+  <div class="section-title">成交明細（共27筆，按成交日近至遠）</div>
+  <div style="overflow-x:auto;">
+    <table class="trans-table">
+      <thead>
+        <tr>
+          <th>成交日</th>
+          <th>門牌</th>
+          <th>樓層</th>
+          <th>總坪數</th>
+          <th>總價</th>
+          <th>單價（萬/坪）</th>
+          <th>車位費</th>
+          <th>成交屋齡</th>
+          <th>備註</th>
+        </tr>
+      </thead>
+      <tbody id="listBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">資料來源：樂居實價登錄 leju.com.tw｜建案：鴻騏初居3｜共27筆預售成交紀錄</div>
+
+<script>
+// Login
+const USERS = { 'HC': '28032475' };
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+  if (USERS[u] && USERS[u] === p) {
+    sessionStorage.setItem('chuju3_auth','1');
+    document.getElementById('loginOverlay').classList.add('hidden');
+    err.classList.remove('show');
+  } else {
+    err.classList.add('show');
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !document.getElementById('loginOverlay').classList.contains('hidden')) doLogin();
+});
+if (sessionStorage.getItem('chuju3_auth') === '1') {
+  document.getElementById('loginOverlay').classList.add('hidden');
+}
+
+const transactions = [
+  { id:'E7-5F', date:'115/03', floor:5, total:6, totalPrice:988,  unitPrice:29.20, size:32.86, houseSize:28.53, parking:155 },
+  { id:'E2-4F', date:'115/03', floor:4, total:6, totalPrice:833,  unitPrice:28.43, size:28.18, houseSize:23.85, parking:155 },
+  { id:'E2-6F', date:'115/03', floor:6, total:6, totalPrice:908,  unitPrice:31.57, size:28.18, houseSize:23.85, parking:155 },
+  { id:'E6-6F', date:'115/02', floor:6, total:6, totalPrice:1128, unitPrice:31.87, size:34.70, houseSize:30.37, parking:160 },
+  { id:'E6-3F', date:'115/01', floor:3, total:6, totalPrice:1016, unitPrice:28.19, size:34.70, houseSize:30.37, parking:160 },
+  { id:'E7-4F', date:'115/01', floor:4, total:6, totalPrice:958,  unitPrice:27.97, size:32.86, houseSize:28.53, parking:160 },
+  { id:'E1-6F', date:'115/01', floor:6, total:6, totalPrice:796,  unitPrice:28.99, size:26.27, houseSize:21.94, parking:160, special:true },
+  { id:'E8-5F', date:'114/11', floor:5, total:6, totalPrice:836,  unitPrice:28.71, size:28.23, houseSize:23.89, parking:150 },
+  { id:'E6-2F', date:'114/11', floor:2, total:6, totalPrice:828,  unitPrice:27.26, size:30.37, houseSize:30.37, parking:null },
+  { id:'E3-4F', date:'114/10', floor:4, total:6, totalPrice:837,  unitPrice:28.88, size:28.12, houseSize:23.79, parking:150 },
+  { id:'E8-3F', date:'114/10', floor:3, total:6, totalPrice:800,  unitPrice:27.21, size:28.23, houseSize:23.89, parking:150 },
+  { id:'E2-3F', date:'114/10', floor:3, total:6, totalPrice:812,  unitPrice:27.76, size:28.18, houseSize:23.85, parking:150 },
+  { id:'E8-2F', date:'114/08', floor:2, total:6, totalPrice:776,  unitPrice:26.41, size:28.23, houseSize:23.89, parking:145 },
+  { id:'E5-2F', date:'114/08', floor:2, total:6, totalPrice:973,  unitPrice:26.93, size:34.70, houseSize:30.37, parking:155 },
+  { id:'E3-3F', date:'114/08', floor:3, total:6, totalPrice:808,  unitPrice:27.66, size:28.12, houseSize:23.79, parking:150 },
+  { id:'E7-3F', date:'114/07', floor:3, total:6, totalPrice:778,  unitPrice:27.27, size:28.53, houseSize:28.53, parking:null },
+  { id:'E5-3F', date:'114/07', floor:3, total:6, totalPrice:1010, unitPrice:27.99, size:34.70, houseSize:30.37, parking:160 },
+  { id:'E1-5F', date:'114/07', floor:5, total:6, totalPrice:758,  unitPrice:27.94, size:26.27, houseSize:21.94, parking:145 },
+  { id:'E2-5F', date:'114/07', floor:5, total:6, totalPrice:811,  unitPrice:27.92, size:28.18, houseSize:23.85, parking:145 },
+  { id:'E8-4F', date:'114/06', floor:4, total:6, totalPrice:783,  unitPrice:26.71, size:28.23, houseSize:23.89, parking:145 },
+  { id:'E7-2F', date:'114/06', floor:2, total:6, totalPrice:895,  unitPrice:25.94, size:32.86, houseSize:28.53, parking:155 },
+  { id:'E2-2F', date:'114/06', floor:2, total:6, totalPrice:646,  unitPrice:27.09, size:23.85, houseSize:23.85, parking:null },
+  { id:'E1-2F', date:'114/06', floor:2, total:6, totalPrice:698,  unitPrice:24.98, size:26.65, houseSize:21.94, parking:150 },
+  { id:'E1-3F', date:'114/06', floor:3, total:6, totalPrice:713,  unitPrice:25.89, size:26.27, houseSize:21.94, parking:145 },
+  { id:'E3-2F', date:'114/06', floor:2, total:6, totalPrice:638,  unitPrice:26.82, size:23.79, houseSize:23.79, parking:null },
+  { id:'E1-4F', date:'114/06', floor:4, total:6, totalPrice:728,  unitPrice:26.80, size:26.27, houseSize:21.94, parking:140 },
+  { id:'E6-5F', date:'114/06', floor:5, total:6, totalPrice:1060, unitPrice:30.13, size:34.70, houseSize:30.37, parking:145 },
+];
+
+const buildings = ['E1','E2','E3','E5','E6','E7','E8'];
+const floors = [6,5,4,3,2];
+
+// Build lookup map
+const lookup = {};
+transactions.forEach(t => {
+  const [bld] = t.id.split('-');
+  const key = `${bld}-${t.floor}`;
+  lookup[key] = t;
+});
+
+// Build grid
+const gridBody = document.getElementById('gridBody');
+floors.forEach(f => {
+  const tr = document.createElement('tr');
+  const tdLabel = document.createElement('td');
+  tdLabel.className = 'floor-label';
+  tdLabel.textContent = f + 'F';
+  tr.appendChild(tdLabel);
+
+  buildings.forEach(bld => {
+    const key = `${bld}-${f}`;
+    const t = lookup[key];
+    const td = document.createElement('td');
+    td.className = 'unit-cell tooltip-wrap';
+
+    if (t) {
+      td.classList.add('unit-sold');
+      if (t.special) td.classList.add('unit-special');
+      const parkingStr = t.parking ? `車位 ${t.parking}萬` : '無車位';
+      td.innerHTML = `
+        <div class="unit-content">
+          <div class="unit-date">${t.date}</div>
+          <div class="unit-price">${t.unitPrice.toFixed(2)}</div>
+          <div class="unit-price-sub">萬/坪</div>
+          <div class="unit-total">總價 ${t.totalPrice}萬</div>
+        </div>
+        ${t.special ? '<div class="special-badge">特殊</div>' : ''}
+        <div class="tooltip">
+          <div class="tooltip-row"><span class="tooltip-key">門牌</span><span class="tooltip-val">${t.id}</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">成交日</span><span class="tooltip-val">${t.date}</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">總價</span><span class="tooltip-val">${t.totalPrice} 萬</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">單價</span><span class="tooltip-val">${t.unitPrice} 萬/坪</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">總坪數</span><span class="tooltip-val">${t.size} 坪</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">房屋坪</span><span class="tooltip-val">${t.houseSize} 坪</span></div>
+          <div class="tooltip-row"><span class="tooltip-key">車位</span><span class="tooltip-val">${parkingStr}</span></div>
+        </div>`;
+    } else {
+      td.classList.add('unit-empty');
+    }
+    tr.appendChild(td);
+  });
+  gridBody.appendChild(tr);
+});
+
+// Build list
+const sorted = [...transactions].sort((a,b) => b.date.localeCompare(a.date));
+const listBody = document.getElementById('listBody');
+sorted.forEach(t => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${t.date}</td>
+    <td><span class="unit-tag">${t.id}</span></td>
+    <td>${t.floor}/${t.total} 樓</td>
+    <td>${t.size} 坪<br><span style="font-size:11px;color:var(--gray)">房 ${t.houseSize} 坪 ${t.parking ? '｜車 4.33 坪' : ''}</span></td>
+    <td class="price-red">${t.totalPrice} 萬</td>
+    <td class="price-red">${t.unitPrice.toFixed(2)} 萬/坪</td>
+    <td>${t.parking ? t.parking + ' 萬' : '<span class="no-parking">—</span>'}</td>
+    <td><span class="tag-presale">預售</span></td>
+    <td>${t.special ? '<span class="tag-special">特殊交易</span>' : '—'}</td>`;
+  listBody.appendChild(tr);
+});
+</script>
+</body>
+</html>

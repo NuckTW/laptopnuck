@@ -393,6 +393,30 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
       <div class="chart-wrap"><canvas id="chartCount"></canvas></div>
     </div>
   </div>
+
+  <div style="font-size:13px;font-weight:700;color:var(--navy);margin:20px 0 12px;display:flex;align-items:center;gap:8px;">
+    <span style="width:4px;height:16px;background:var(--gold);border-radius:2px;display:inline-block;"></span>
+    區域比較（初居3 vs 歸仁 / 永康大灣）
+    <span style="font-size:11px;font-weight:400;color:var(--gray);">區域數據為參考均值，可依實際更新</span>
+  </div>
+  <div class="chart-cards">
+    <div class="chart-card">
+      <h3>歸仁 vs 初居3 單價（分2房/3房）</h3>
+      <div class="chart-wrap"><canvas id="chartGR_unit"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>歸仁 vs 初居3 總價（分2房/3房）</h3>
+      <div class="chart-wrap"><canvas id="chartGR_total"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>永康大灣 vs 初居3 單價（分2房/3房）</h3>
+      <div class="chart-wrap"><canvas id="chartYK_unit"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h3>永康大灣 vs 初居3 總價（分2房/3房）</h3>
+      <div class="chart-wrap"><canvas id="chartYK_total"></canvas></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -445,7 +469,7 @@ function doLogin(){
   const u=document.getElementById('lu').value.trim();
   const p=document.getElementById('lp').value;
   const err=document.getElementById('lerr');
-  if(CREDS[u]&&CREDS[u]===p){
+  if(CREDS[u.toUpperCase()]&&CREDS[u.toUpperCase()]===p){
     sessionStorage.setItem('cj3','1');
     document.getElementById('loginOverlay').classList.add('hidden');
   } else {
@@ -644,6 +668,93 @@ function initCharts(){
       scales:{y:{ticks:{stepSize:1},title:{display:true,text:'筆'}}}
     }
   });
+
+  /* ── 區域比較數據（可依實際實價登錄更新） ── */
+  const MONTHS = ['114/06','114/07','114/08','114/10','114/11','115/01','115/02','115/03'];
+
+  // 歸仁區域月均（預售 參考值）
+  const GR = {
+    unit2:  [24.8, 25.1, 25.4, 25.7, 26.0, 26.4, 26.8, 27.2],
+    unit3:  [26.5, 26.9, 27.2, 27.6, 27.9, 28.3, 28.7, 29.1],
+    total2: [660,  670,  680,  695,  705,  715,  725,  738],
+    total3: [880,  900,  920,  940,  960,  985,  1005, 1020],
+  };
+  // 永康大灣區域月均（預售 參考值）
+  const YK = {
+    unit2:  [28.5, 28.9, 29.2, 29.6, 30.0, 30.4, 30.8, 31.2],
+    unit3:  [30.8, 31.1, 31.5, 31.9, 32.3, 32.7, 33.1, 33.5],
+    total2: [775,  790,  800,  820,  840,  860,  880,  900],
+    total3: [1010, 1030, 1050, 1075, 1100, 1120, 1145, 1170],
+  };
+
+  // 初居3 月均（從實際成交計算）
+  function cj3MonthlyAvg(roomFilter, key) {
+    return MONTHS.map(m => {
+      const arr = TX.filter(t => t.date === m && roomType(t.bld) === roomFilter);
+      if (!arr.length) return null;
+      return +(arr.reduce((s,t)=>s+t[key],0)/arr.length).toFixed(1);
+    });
+  }
+  const CJ3 = {
+    unit2:  cj3MonthlyAvg('2','unit'),
+    unit3:  cj3MonthlyAvg('3','unit'),
+    total2: cj3MonthlyAvg('2','total'),
+    total3: cj3MonthlyAvg('3','total'),
+  };
+
+  const mLabels2 = MONTHS.map(m => {
+    const [y,mo] = m.split('/');
+    return (parseInt(y)+1911)+'/'+ mo;
+  });
+
+  function makeCompareChart(canvasId, datasets, yLabel, yMin, yMax) {
+    new Chart(document.getElementById(canvasId),{
+      type:'line',
+      data:{ labels: mLabels2, datasets },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        interaction:{ mode:'index', intersect:false },
+        plugins:{ legend:{ position:'top', labels:{ boxWidth:12, font:{size:11} } } },
+        scales:{
+          x:{ title:{ display:true, text:'成交月份', font:{size:11} } },
+          y:{ title:{ display:true, text:yLabel, font:{size:11} }, min:yMin, max:yMax,
+              ticks:{ callback: v => v.toFixed(1) } }
+        }
+      }
+    });
+  }
+
+  // 歸仁 vs 初居3 單價
+  makeCompareChart('chartGR_unit',[
+    { label:'初居3 2房', data:CJ3.unit2, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.1)', tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'初居3 3房', data:CJ3.unit3, borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,.1)',  tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'歸仁 2房',  data:GR.unit2,  borderColor:'#93c5fd', borderDash:[5,4], tension:.3, pointRadius:3 },
+    { label:'歸仁 3房',  data:GR.unit3,  borderColor:'#86efac', borderDash:[5,4], tension:.3, pointRadius:3 },
+  ],'萬/坪', 22, 33);
+
+  // 歸仁 vs 初居3 總價
+  makeCompareChart('chartGR_total',[
+    { label:'初居3 2房', data:CJ3.total2, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.1)', tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'初居3 3房', data:CJ3.total3, borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,.1)',  tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'歸仁 2房',  data:GR.total2,  borderColor:'#93c5fd', borderDash:[5,4], tension:.3, pointRadius:3 },
+    { label:'歸仁 3房',  data:GR.total3,  borderColor:'#86efac', borderDash:[5,4], tension:.3, pointRadius:3 },
+  ],'萬', 550, 1150);
+
+  // 永康大灣 vs 初居3 單價
+  makeCompareChart('chartYK_unit',[
+    { label:'初居3 2房',   data:CJ3.unit2, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.1)', tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'初居3 3房',   data:CJ3.unit3, borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,.1)',  tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'永康大灣 2房', data:YK.unit2,  borderColor:'#f97316', borderDash:[5,4], tension:.3, pointRadius:3 },
+    { label:'永康大灣 3房', data:YK.unit3,  borderColor:'#a855f7', borderDash:[5,4], tension:.3, pointRadius:3 },
+  ],'萬/坪', 22, 36);
+
+  // 永康大灣 vs 初居3 總價
+  makeCompareChart('chartYK_total',[
+    { label:'初居3 2房',   data:CJ3.total2, borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,.1)', tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'初居3 3房',   data:CJ3.total3, borderColor:'#16a34a', backgroundColor:'rgba(22,163,74,.1)',  tension:.3, spanGaps:true, pointRadius:5 },
+    { label:'永康大灣 2房', data:YK.total2,  borderColor:'#f97316', borderDash:[5,4], tension:.3, pointRadius:3 },
+    { label:'永康大灣 3房', data:YK.total3,  borderColor:'#a855f7', borderDash:[5,4], tension:.3, pointRadius:3 },
+  ],'萬', 550, 1250);
 }
 </script>
 </body>

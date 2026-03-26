@@ -1,91 +1,124 @@
-# nuck001 — LAPTOP-Nuck Python Telegram Bot
+# 鴻騏初居3 實價登錄分析系統
 
-橘貓/右腦 | Windows | Python + Gemini 2.5 Flash
+> 台南市歸仁區「鴻騏初居3」建案實價登錄分析網站
 
-> **2026-03-22 架構更新**：原本使用 OpenClaw 框架，因 Windows + Gemini 組合無法可靠執行程式碼，已全面改為純 Python Telegram Bot。
+🌐 **線上網址**：https://chuju3-hc.web.app
 
 ---
 
-## 功能
+## 📋 功能頁面
 
-| 功能 | 說明 |
+| 頁面 | 說明 |
 |------|------|
-| Telegram | 透過 Telegram Bot 接收/發送訊息 |
-| 對話記憶 | 持久化本地記憶（最近 20 則 + 長期記憶） |
-| Gmail | 讀取未讀信件、寄送郵件 |
-| Google Calendar | 查看/新增行程 |
-| Google Drive | 搜尋雲端檔案 |
-| Google Sheets | 讀取/寫入試算表 |
-| 圖片分析 | Gemini Vision OCR（監工日報表自動辨識） |
-| 智慧路由 | 自動判斷要呼叫哪個服務 |
+| 🏠 首頁 | 建案基本資訊、統計摘要、2房/3房剩餘戶數、價格分析表 |
+| 📊 銷控表 | 按棟別×樓層排列，hover 顯示詳細資訊（單價/總價/車位） |
+| 📋 明細表 | 27筆成交資料，可依房型篩選，含總價/房價/車位/單價 |
+| 📈 分析圖 | 單價趨勢、總價分布、房型比較、各月成交量（Chart.js） |
+| 🔒 內部管理 | 購買人、銷售人員、車位對照、溢價彙總、未售底價（登入可見） |
 
 ---
 
-## 架構
+## 🏗 技術架構
 
 ```
-使用者 (Telegram: 8407969817)
-        │
-        ▼
-bot.py (Python 3.x)
-        │
-        ├─ Gemini 2.5 Flash (對話 + Vision)
-        ├─ Google OAuth2 (token.json)
-        │   Gmail / Calendar / Drive / Sheets
-        └─ 本地記憶 (memory_store.json)
+chuju3.html  (Single Page Application)
+├── 登入層          — 帳號密碼驗證（大小寫不敏感），sessionStorage 保持狀態
+├── Header          — 固定頂欄，含電話、建商名稱、🌙/☀️ 深淺色切換
+├── Nav Tabs        — 首頁 / 銷控表 / 明細表 / 分析圖 / 內部管理
+│
+├── 資料層 (JS)
+│   ├── TX[]          — 27筆實價登錄成交資料（日期/總價/單價/坪數/車位）
+│   ├── MGMT_DATA[]   — 內部銷控資料（購買人、銷售人員、房屋溢價、車位溢價）
+│   ├── PARKING_DATA[]— 停車位對照（汽車位號、機車位號）
+│   └── UNSOLD_DATA[] — 未售8戶底價資料
+│
+├── 銷控表          — JS 動態產生 Grid，float tooltip 不被裁切
+├── 明細表          — JS 動態產生 Table，房型篩選
+├── 分析圖          — Chart.js scatter + bar + line
+│   └── 區域比較    — 歸仁/永康大灣 vs 初居3（暫隱藏，待補實際數據）
+│
+└── 🔒 內部管理（登入後可見）
+    ├── 溢價彙總    — 房屋溢335萬 + 車位溢265萬 = 總溢600萬
+    ├── 銷售人員業績 — 秀儒(14戶)、珮綾(7戶)、秀圓(4戶)、明騰(2戶)
+    ├── 已售27戶    — 購買人、汽機車位、溢價完整明細
+    ├── 停車位對照  — 全戶汽機車位號一覽（含僅機車位標示）
+    └── 未售8戶     — 房屋底價 + 車位底價 + 合計底價
+
+依賴套件：
+  Chart.js 4.4.0 (CDN) — 無其他外部依賴，純 HTML/CSS/Vanilla JS
 ```
 
 ---
 
-## 快速啟動 (LAPTOP-Nuck)
+## 🏢 建案資訊
 
-### 前置需求
-- Windows 10/11
-- Python 3.10+
-- `pip install python-telegram-bot google-auth-oauthlib google-api-python-client google-generativeai`
+| 項目 | 內容 |
+|------|------|
+| 名稱 | 鴻騏初居3 |
+| 地址 | 台南市歸仁區 |
+| 建商 | 鴻騏建設有限公司 |
+| 電話 | (06)237-5126 |
+| 類型 | 華廈（6層）/ 預售 |
+| 總戶數 | 35戶（E1\~E3, E5\~E8，無E4） |
+| 2房棟別 | E1, E2, E3, E8（共20戶，已售17，餘3） |
+| 3房棟別 | E5, E6, E7（共15戶，已售10，餘5） |
 
-### 環境變數
+---
+
+## 📊 成交統計（截至 2026/03）
+
+| 項目 | 數值 |
+|------|------|
+| 成交筆數 | 27 筆 |
+| 2房均價 | 27.69 萬/坪 |
+| 3房均價 | 28.28 萬/坪 |
+| 整體均價 | 27.93 萬/坪 |
+| 房屋總銷 | 19,330 萬 |
+| 車位總銷 | 3,485 萬 |
+| 房＋車合計 | 22,815 萬 |
+| 房屋溢價 | 335 萬 |
+| 車位溢價 | 265 萬 |
+| **總溢價** | **600 萬** |
+
+---
+
+## 🚀 部署方式
 
 ```powershell
-$env:GEMINI_API_KEY = "你的 Gemini API Key"
-$env:TELEGRAM_TOKEN = "你的 Telegram Bot Token"
+# 編輯 chuju3.html 後，同步並部署：
+Copy-Item chuju3.html public\index.html -Force
+git add public/index.html chuju3.html
+git commit -m "feat: 更新內容說明"
+git push origin main
+firebase deploy --only hosting
 ```
 
-### 啟動
+**環境需求**
+- Node.js + Firebase CLI：`npm install -g firebase-tools`
+- Firebase 專案：`chuju3-hc`
+- GitHub Repo：`NuckTW/laptopnuck`
 
-```powershell
-cd D:\ai\laptopnuck
-python bot.py
+---
+
+## 📁 檔案結構
+
+```
+laptopnuck/
+├── chuju3.html        ← 主程式（編輯這個）
+├── public/
+│   └── index.html     ← Firebase 部署用（從 chuju3.html 同步）
+├── firebase.json      ← Firebase Hosting 設定
+├── .firebaserc        ← Firebase 專案綁定
+└── README.md          ← 本文件（專案說明 + 架構）
 ```
 
 ---
 
-## Google OAuth 設定
+## 🔑 登入
 
-1. 從 Google Cloud Console 下載 `credentials.json`，放在本目錄根目錄
-2. 第一次執行 `python google_auth.py` 完成瀏覽器授權
-3. 授權後 `token.json` 自動產生（gitignored）
-
----
-
-## 檔案說明
-
-| 檔案 | 說明 |
-|------|------|
-| `bot.py` | 主程式，Telegram bot + 智慧路由 + 記憶 |
-| `google_services.py` | Google API 封裝（Gmail/Calendar/Drive/Sheets） |
-| `google_auth.py` | OAuth2 授權工具 |
-| `upload_report.py` | 手動上傳監工日報表到 Google Sheets |
-| `run_google.py` | CLI Google API 測試工具 |
-| `google_api_server.py` | HTTP API Bridge（備用，port 8766） |
-| `soul.md` | nuck001 身分與準則 |
-| `agents.md` | 工作手冊與記憶規則 |
+- 帳號：`HC`（大小寫不分）
+- 密碼：內部使用
 
 ---
 
-## 開發紀錄
-
-詳細開發過程與架構演變請見 [PROGRESS.md](PROGRESS.md)。
-
-**重要結論（2026-03-22）：**
-OpenClaw 在 Windows + Gemini 的組合下，Skill 的 `exec:` 語法無法真正執行程式碼，Gemini 回報「沒有執行權限」。嘗試過 5 種方案均失敗，最終決定放棄 OpenClaw 框架，改用純 Python bot 直接整合所有功能。
+*最後更新：2026/03　開發者：NuckTW*

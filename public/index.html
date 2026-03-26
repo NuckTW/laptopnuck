@@ -254,6 +254,48 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 .sum-box.highlight .sv{color:var(--gold);}
 .sum-box.highlight .sl{color:rgba(255,255,255,.7);}
 
+/* ── DARK MODE ── */
+[data-theme="dark"]{
+  --bg:#0f172a; --navy-dark:#0a1628; --border:#334155;
+  --gold-light:rgba(240,180,41,.12);
+}
+[data-theme="dark"] body{background:#0f172a;color:#e2e8f0;}
+[data-theme="dark"] .nav-tabs{background:#1e293b;border-color:#334155;}
+[data-theme="dark"] .nav-tab{color:#94a3b8;}
+[data-theme="dark"] .nav-tab.active{color:#f0b429;border-bottom-color:#f0b429;}
+[data-theme="dark"] .page{background:#0f172a;}
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .seller-card,
+[data-theme="dark"] .sum-box,
+[data-theme="dark"] .login-box{background:#1e293b;color:#e2e8f0;}
+[data-theme="dark"] .stat-card .lbl,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .seller-card .sop{color:#94a3b8;}
+[data-theme="dark"] .room-card.r2{background:linear-gradient(135deg,#1e3a5f,#172b46);border-color:#1d4ed8;}
+[data-theme="dark"] .room-card.r3{background:linear-gradient(135deg,#14402a,#0f2d1d);border-color:#16a34a;}
+[data-theme="dark"] .room-card .rsubtext{color:#94a3b8;}
+[data-theme="dark"] .filter-btn{background:#1e293b;color:#94a3b8;border-color:#334155;}
+[data-theme="dark"] .filter-btn.active{background:var(--navy);color:#fff;}
+[data-theme="dark"] .trans-table tbody tr:nth-child(even) td{background:#1a2744;}
+[data-theme="dark"] .trans-table tbody tr:hover td{background:rgba(240,180,41,.1);}
+[data-theme="dark"] .trans-table td{border-color:#334155;color:#e2e8f0;}
+[data-theme="dark"] .mgmt-table tbody tr:nth-child(even) td{background:#1a2744;}
+[data-theme="dark"] .mgmt-table tbody tr:hover td{background:rgba(240,180,41,.1);}
+[data-theme="dark"] .mgmt-table td{border-color:#334155;color:#e2e8f0;}
+[data-theme="dark"] .unsold-table td{border-color:#334155;color:#e2e8f0;}
+[data-theme="dark"] .unsold-table tbody tr:nth-child(even) td{background:#1a2744;}
+[data-theme="dark"] .unit-empty{background:#1e293b;}
+[data-theme="dark"] .grid-wrap{background:transparent;}
+[data-theme="dark"] .no-park-row td{background:#2a1f10 !important;}
+[data-theme="dark"] .list-scroll,
+[data-theme="dark"] .mgmt-scroll{background:transparent;}
+[data-theme="dark"] #floatTip{background:#0f172a;border:1px solid #334155;}
+[data-theme="dark"] .sum-box.highlight{background:var(--navy);}
+[data-theme="dark"] .home-summary-table tbody tr:nth-child(even) td{background:#1a2744;}
+[data-theme="dark"] .home-summary-table td{border-color:#334155;color:#e2e8f0;}
+[data-theme="dark"] .home-summary-table{background:#1e293b;}
+
 /* ── RESPONSIVE ── */
 @media(max-width:480px){
   .header{padding:12px 14px 10px;}
@@ -293,6 +335,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   <div class="header-badges">
     <span class="hbadge">📞 (06)237-5126</span>
     <span class="hbadge">🏗 鴻騏建設</span>
+    <button id="themeBtn" onclick="toggleTheme()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;">🌙 深色</button>
   </div>
 </div>
 
@@ -536,6 +579,23 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
           </tr>
         </thead>
         <tbody id="mgmtSoldBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 停車位對照表 -->
+  <div class="mgmt-section">
+    <div class="mgmt-title">停車位對照表（汽機車位）</div>
+    <div style="font-size:11px;color:var(--gray);margin-bottom:8px;">🟠 橘色 = 僅機車位，無汽車位</div>
+    <div class="mgmt-scroll">
+      <table class="mgmt-table">
+        <thead>
+          <tr>
+            <th>門牌</th><th>房型</th><th>購買人</th>
+            <th>汽車位號</th><th>機車位號</th><th>車位價(萬)</th><th>備註</th>
+          </tr>
+        </thead>
+        <tbody id="parkingBody"></tbody>
       </table>
     </div>
   </div>
@@ -869,6 +929,54 @@ function initCharts(){
     {id:'E8-6F',room:'2',houseFloor:693,pkFloor:140,totalFloor:833},
   ];
 
+  /* ── DARK MODE ── */
+  function toggleTheme(){
+    const html=document.documentElement;
+    const isDark=html.getAttribute('data-theme')==='dark';
+    html.setAttribute('data-theme', isDark?'light':'dark');
+    document.getElementById('themeBtn').textContent = isDark?'🌙 深色':'☀️ 淺色';
+    localStorage.setItem('cj3theme', isDark?'light':'dark');
+  }
+  (function(){
+    const t=localStorage.getItem('cj3theme')||'light';
+    document.documentElement.setAttribute('data-theme',t);
+    window.addEventListener('DOMContentLoaded',()=>{
+      const btn=document.getElementById('themeBtn');
+      if(btn) btn.textContent=t==='dark'?'☀️ 淺色':'🌙 深色';
+    });
+  })();
+
+  /* ── PARKING TABLE ── */
+  const PARKING_DATA = [
+    {id:'E1-6F',room:'2',buyer:'柯惠玲',  car:'－',   moto:'－',    pkPx:160,  note:'特殊交易'},
+    {id:'E1-5F',room:'2',buyer:'黃佳惠',  car:'－',   moto:'26',    pkPx:145,  note:''},
+    {id:'E1-4F',room:'2',buyer:'戴嘉慧',  car:'13',   moto:'9',     pkPx:140,  note:''},
+    {id:'E1-3F',room:'2',buyer:'闕元達',  car:'13',   moto:'23',    pkPx:145,  note:''},
+    {id:'E1-2F',room:'2',buyer:'江秀儒',  car:'32',   moto:'10',    pkPx:150,  note:'銷售自購'},
+    {id:'E2-6F',room:'2',buyer:'熊仁鳳',  car:'－',   moto:'－',    pkPx:155,  note:''},
+    {id:'E2-5F',room:'2',buyer:'黃佳琪',  car:'15',   moto:'27',    pkPx:145,  note:''},
+    {id:'E2-4F',room:'2',buyer:'周義哲',  car:'－',   moto:'－',    pkPx:155,  note:''},
+    {id:'E2-3F',room:'2',buyer:'徐湘雯',  car:'30',   moto:'18',    pkPx:150,  note:''},
+    {id:'E2-2F',room:'2',buyer:'何明賢',  car:'無',   moto:'8',     pkPx:0,    note:'僅機車位',noPark:true},
+    {id:'E3-4F',room:'2',buyer:'郭品嫺',  car:'－',   moto:'－',    pkPx:150,  note:''},
+    {id:'E3-3F',room:'2',buyer:'潘俊豪',  car:'29',   moto:'16',    pkPx:150,  note:''},
+    {id:'E3-2F',room:'2',buyer:'吳怡佩',  car:'無',   moto:'17',    pkPx:0,    note:'僅機車位',noPark:true},
+    {id:'E5-3F',room:'3',buyer:'邱承銘',  car:'3',    moto:'33A',   pkPx:160,  note:''},
+    {id:'E5-2F',room:'3',buyer:'童敏音',  car:'20',   moto:'35',    pkPx:155,  note:''},
+    {id:'E6-6F',room:'3',buyer:'陳柏溫',  car:'－',   moto:'－',    pkPx:160,  note:''},
+    {id:'E6-5F',room:'3',buyer:'蘇秀玲',  car:'12',   moto:'25',    pkPx:145,  note:''},
+    {id:'E6-3F',room:'3',buyer:'黃芝瑋',  car:'－',   moto:'－',    pkPx:160,  note:''},
+    {id:'E6-2F',room:'3',buyer:'曹政淇',  car:'6',    moto:'32',    pkPx:160,  note:''},
+    {id:'E7-5F',room:'3',buyer:'廖倩君',  car:'－',   moto:'－',    pkPx:155,  note:''},
+    {id:'E7-4F',room:'3',buyer:'廖仁靖',  car:'7',    moto:'31',    pkPx:160,  note:''},
+    {id:'E7-3F',room:'3',buyer:'陳柏華',  car:'無',   moto:'20',    pkPx:0,    note:'僅機車位',noPark:true},
+    {id:'E7-2F',room:'3',buyer:'李昱璇',  car:'22',   moto:'22',    pkPx:155,  note:''},
+    {id:'E8-5F',room:'2',buyer:'盧威志',  car:'－',   moto:'－',    pkPx:150,  note:''},
+    {id:'E8-4F',room:'2',buyer:'李淑芬',  car:'28',   moto:'19',    pkPx:145,  note:''},
+    {id:'E8-3F',room:'2',buyer:'陳雅彤',  car:'26',   moto:'21',    pkPx:150,  note:''},
+    {id:'E8-2F',room:'2',buyer:'傅晨哲',  car:'17',   moto:'23A',   pkPx:145,  note:''},
+  ];
+
   let mgmtInited=false;
   function renderMgmt(){
     if(mgmtInited) return; mgmtInited=true;
@@ -891,6 +999,20 @@ function initCharts(){
         <div class="sop" style="font-weight:700;color:var(--navy);margin-top:3px;">總溢: ${tot>=0?'+':''}${tot}萬</div>
       </div>`;
     });
+    // Parking table
+    const pb=document.getElementById('parkingBody');
+    PARKING_DATA.forEach(t=>{
+      pb.innerHTML+=`<tr class="${t.noPark?'no-park-row':''}">
+        <td><span class="unit-tag">${t.id}</span></td>
+        <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
+        <td>${t.buyer}</td>
+        <td style="text-align:center;font-weight:700;${t.car==='無'?'color:#dc2626':''}">${t.car}</td>
+        <td style="text-align:center;">${t.moto}</td>
+        <td style="text-align:right;">${t.pkPx||'—'}</td>
+        <td style="font-size:11px;color:var(--gray);">${t.note}</td>
+      </tr>`;
+    });
+
     // Sold rows
     const sb=document.getElementById('mgmtSoldBody');
     [...MGMT_DATA].sort((a,b)=>b.date.localeCompare(a.date)).forEach(t=>{

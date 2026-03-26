@@ -137,21 +137,26 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 .leg-special{background:var(--gold);outline:2px solid var(--red);outline-offset:1px;}
 
 .grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.grid-table{border-collapse:separate;border-spacing:4px;}
+.grid-table{
+  border-collapse:separate;border-spacing:3px;
+  width:100%;table-layout:fixed;min-width:320px;
+}
 .grid-th{
   background:var(--navy);color:#fff;
-  padding:8px 10px;text-align:center;font-size:13px;font-weight:700;
-  border-radius:6px;min-width:90px;
+  padding:6px 4px;text-align:center;
+  font-size:clamp(10px,1.7vw,13px);font-weight:700;
+  border-radius:6px;min-width:0;
 }
 .grid-th.bld-2{background:#1d4ed8;}
 .grid-th.bld-3{background:var(--green);}
-.grid-th.floor-col{min-width:40px;}
+.grid-th.floor-col{width:36px;min-width:36px;}
 .floor-lbl{
   background:var(--navy);color:#fff;
-  padding:0 8px;text-align:center;font-weight:700;font-size:14px;
-  border-radius:6px;vertical-align:middle;width:40px;
+  padding:0 4px;text-align:center;font-weight:700;
+  font-size:clamp(11px,1.8vw,14px);
+  border-radius:6px;vertical-align:middle;width:36px;
 }
-.unit-cell{width:90px;height:72px;border-radius:8px;vertical-align:top;position:relative;}
+.unit-cell{min-width:0;height:clamp(58px,9.5vw,80px);border-radius:8px;vertical-align:top;position:relative;}
 .unit-sold{
   background:var(--gold);box-shadow:0 1px 3px rgba(0,0,0,.12);
   cursor:pointer;transition:transform .15s;
@@ -161,11 +166,11 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 .unit-sold.bld-3{background:#bbf7d0;}
 .unit-empty{background:#e9ecef;}
 .unit-special{outline:2.5px solid var(--red);outline-offset:-2px;}
-.uc{padding:6px 8px;height:100%;display:flex;flex-direction:column;justify-content:center;}
-.uc-date{font-size:10px;color:rgba(0,0,0,.55);}
-.uc-price{font-size:14px;font-weight:800;color:#1a1a1a;line-height:1.1;}
-.uc-sub{font-size:9px;color:rgba(0,0,0,.5);}
-.uc-total{font-size:10px;color:#444;margin-top:1px;}
+.uc{padding:4px 5px;height:100%;display:flex;flex-direction:column;justify-content:center;}
+.uc-date{font-size:clamp(8px,1.3vw,10px);color:rgba(0,0,0,.55);}
+.uc-price{font-size:clamp(10px,2vw,14px);font-weight:800;color:#1a1a1a;line-height:1.1;}
+.uc-sub{font-size:clamp(7px,1.1vw,9px);color:rgba(0,0,0,.5);}
+.uc-total{font-size:clamp(8px,1.3vw,10px);color:#444;margin-top:1px;}
 .spec-badge{
   position:absolute;top:3px;right:3px;
   background:var(--red);color:#fff;font-size:8px;font-weight:700;
@@ -198,7 +203,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   background:#fff;font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;
 }
 .filter-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-.trans-table{width:100%;border-collapse:collapse;font-size:12px;min-width:600px;}
+.trans-table{width:100%;border-collapse:collapse;font-size:12px;min-width:680px;}
 .trans-table thead th{
   background:var(--navy);color:#fff;padding:10px 10px;text-align:left;
   font-weight:600;position:sticky;top:0;z-index:2;white-space:nowrap;
@@ -231,9 +236,8 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   .home-hero h2{font-size:19px;}
   .stats-grid{grid-template-columns:repeat(2,1fr);}
   .stat-card .val{font-size:17px;}
-  .grid-th{min-width:76px;}
-  .unit-cell{width:76px;height:65px;}
-  .uc-price{font-size:12px;}
+  .grid-th.floor-col{width:30px;min-width:30px;}
+  .floor-lbl{width:30px;}
   .nav-tab{font-size:12px;padding:11px 2px;}
 }
 </style>
@@ -256,10 +260,10 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 <div class="header">
   <div>
     <div class="header-title">鴻騏<span>初居3</span></div>
-    <div class="header-info">台南市歸仁區｜大樓｜預售</div>
+    <div class="header-info">台南市歸仁區｜華廈｜預售</div>
   </div>
   <div class="header-badges">
-    <span class="hbadge">📞 (06)205-5988</span>
+    <span class="hbadge">📞 (06)237-5126</span>
     <span class="hbadge">🏗 鴻騏建設</span>
   </div>
 </div>
@@ -276,8 +280,8 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 <div class="page active" id="page-home">
   <div class="home-hero">
     <h2>鴻騏初居3</h2>
-    <div class="sub">台南市歸仁區 ｜ 大樓（6層）｜ 2005/01 – 2026/03 成交</div>
-    <div class="phone">📞 (06)205-5988 ｜ 鴻騏建設有限公司</div>
+    <div class="sub">台南市歸仁區 ｜ 華廈（6層）｜ 2025/05 – 2026/03 成交</div>
+    <div class="phone">📞 (06)237-5126 ｜ 鴻騏建設有限公司</div>
   </div>
 
   <div class="stats-grid">
@@ -287,6 +291,52 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
     <div class="stat-card"><div class="val">638<br>–1128<small> 萬</small></div><div class="lbl">總價區間</div></div>
     <div class="stat-card"><div class="val">115/03</div><div class="lbl">最新成交</div></div>
     <div class="stat-card"><div class="val">114/06</div><div class="lbl">首筆成交</div></div>
+  </div>
+
+  <!-- 分析摘要表 -->
+  <div style="font-size:13px;font-weight:700;color:var(--navy);margin:4px 0 10px;display:flex;align-items:center;gap:6px;">
+    <span style="width:4px;height:14px;background:var(--gold);border-radius:2px;display:inline-block;"></span>
+    價格分析摘要
+  </div>
+  <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:400px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);">
+      <thead>
+        <tr style="background:var(--navy);color:#fff;">
+          <th style="padding:9px 12px;text-align:left;font-weight:600;">房型</th>
+          <th style="padding:9px 10px;text-align:center;font-weight:600;">筆數</th>
+          <th style="padding:9px 10px;text-align:center;font-weight:600;">平均單價</th>
+          <th style="padding:9px 10px;text-align:center;font-weight:600;">單價區間</th>
+          <th style="padding:9px 10px;text-align:center;font-weight:600;">平均總價</th>
+          <th style="padding:9px 10px;text-align:center;font-weight:600;">總價區間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:9px 12px;"><span style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;">2 房</span><br><span style="font-size:10px;color:var(--gray);">E1,E2,E3,E8</span></td>
+          <td style="padding:9px 10px;text-align:center;font-weight:700;">17</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.69 萬/坪</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">24.98 – 31.57</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">749 萬</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">638 – 908 萬</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:#f9fafb;">
+          <td style="padding:9px 12px;"><span style="background:#dcfce7;color:var(--green);padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;">3 房</span><br><span style="font-size:10px;color:var(--gray);">E5,E6,E7</span></td>
+          <td style="padding:9px 10px;text-align:center;font-weight:700;">10</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">28.28 萬/坪</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">25.94 – 31.87</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">963 萬</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">778 – 1128 萬</td>
+        </tr>
+        <tr>
+          <td style="padding:9px 12px;"><span style="background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;">整體</span></td>
+          <td style="padding:9px 10px;text-align:center;font-weight:700;">27</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.89 萬/坪</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">24.98 – 31.87</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">827 萬</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">638 – 1128 萬</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px;">剩餘戶數</div>
@@ -363,8 +413,8 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
       <thead>
         <tr>
           <th>成交日</th><th>門牌</th><th>房型</th><th>樓層</th>
-          <th>總坪</th><th>房坪</th><th>總價(萬)</th><th>單價(萬/坪)</th>
-          <th>車位(萬)</th><th>備註</th>
+          <th>總坪</th><th>房坪</th><th>總價(萬)</th>
+          <th>車位(萬)</th><th>房價(萬)</th><th>單價(萬/坪)</th><th>備註</th>
         </tr>
       </thead>
       <tbody id="listBody"></tbody>
@@ -394,6 +444,8 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
     </div>
   </div>
 
+  <!-- 區域比較圖（暫時隱藏，待補入實際數據後開啟） -->
+  <div id="compareSection" style="display:none;">
   <div style="font-size:13px;font-weight:700;color:var(--navy);margin:20px 0 12px;display:flex;align-items:center;gap:8px;">
     <span style="width:4px;height:16px;background:var(--gold);border-radius:2px;display:inline-block;"></span>
     區域比較（初居3 vs 歸仁 / 永康大灣）
@@ -416,6 +468,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
       <h3>永康大灣 vs 初居3 總價（分2房/3房）</h3>
       <div class="chart-wrap"><canvas id="chartYK_total"></canvas></div>
     </div>
+  </div>
   </div>
 </div>
 
@@ -550,8 +603,9 @@ function renderList(filter){
       <td>${t.size} 坪</td>
       <td>${t.hs} 坪</td>
       <td class="pr">${t.total}</td>
-      <td class="pr">${t.unit.toFixed(2)}</td>
       <td>${t.pk?t.pk:'—'}</td>
+      <td class="pr">${t.pk?(t.total-t.pk):'—'}</td>
+      <td class="pr">${t.unit.toFixed(2)}</td>
       <td><span class="tag-pre">預售</span>${t.sp?'<span class="tag-spec">特殊</span>':''}</td>`;
     lb.appendChild(tr);
   });

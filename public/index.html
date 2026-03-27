@@ -530,22 +530,21 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 <div class="header">
   <div>
     <div class="header-title">鴻騏<span>初居3</span></div>
-    <div class="header-info">台南市歸仁區｜華廈｜預售</div>
+    <div class="header-info">台南市歸仁區實價登錄分析</div>
   </div>
   <div class="header-badges">
-    <span class="hbadge">📞 (06)237-5126</span>
     <span class="hbadge">🏗 鴻騏建設</span>
     <button id="themeBtn" onclick="toggleTheme()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;">🌙 深色</button>
   </div>
-  <button id="lockBtn" class="lock-btn" type="button" onclick="lockInternalData(true)">鎖定內部</button>
+  <button id="lockBtn" class="lock-btn" type="button" onclick="lockInternalData(true)">🔐 鎖定內部</button>
 </div>
 
 <!-- NAV -->
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="showPage('home',this)">🏠 首頁</button>
-  <button class="nav-tab" onclick="showPage('grid',this)">📊 銷控表</button>
-  <button class="nav-tab" onclick="showPage('list',this)">📋 明細表</button>
-  <button class="nav-tab" onclick="showPage('chart',this);initCharts()">📈 分析圖</button>
+  <button class="nav-tab" onclick="showPage('grid',this)">🏢 銷控表</button>
+  <button class="nav-tab" onclick="showPage('list',this)">📋 成交明細</button>
+  <button class="nav-tab" onclick="showPage('chart',this);initCharts()">📊 圖表分析</button>
   <button class="nav-tab" onclick="showPage('gallery',this)">🖼️ 圖面</button>
   <button class="nav-tab" onclick="showPage('mgmt',this)">🔒 內部</button>
 </div>
@@ -554,7 +553,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 <div class="page active" id="page-home">
   <div class="home-hero">
     <h2>鴻騏初居3</h2>
-    <div class="sub">台南市歸仁區 ｜ 華廈（6層）｜ 2025/05 – 2026/03 成交</div>
+    <div class="sub">台南市歸仁區 ｜ 成交期間 2025/05 至 2026/03</div>
     <div class="phone">📞 (06)237-5126 ｜ 鴻騏建設有限公司</div>
   </div>
 
@@ -999,7 +998,7 @@ function setAuthMode(mode, message=''){
   clearLoginError();
   pass.value = '';
   if(mode === 'site'){
-    title.innerHTML = '??<span>??3</span>';
+    title.innerHTML = '鴻騏<span>初居3</span>';
     sub.textContent = '實價登錄分析系統';
     user.readOnly = false;
     user.value = user.value || 'HC';
@@ -1086,7 +1085,7 @@ async function doLogin(){
     return;
   }
   btn.disabled = true;
-  btn.textContent = '???...';
+  btn.textContent = '驗證中...';
   const ok = await unlockInternalData(password);
   btn.disabled = false;
   btn.textContent = '??';

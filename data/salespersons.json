@@ -1,0 +1,50 @@
+{
+  "project": "鴻騏初居3",
+  "source": "IMG_0643.HEIC（代銷控制表單）",
+  "salespersons": [
+    {
+      "name": "秀儒",
+      "units_sold": 14,
+      "units": ["E1-6F","E1-5F","E1-4F","E1-3F","E1-2F","E2-6F","E2-5F","E2-4F","E3-3F","E6-6F","E6-5F","E6-3F","E6-2F","E7-3F"],
+      "house_total": 9913,
+      "parking_total": 2025,
+      "grand_total": 11938,
+      "house_premium": 130,
+      "parking_premium": 155,
+      "total_premium": 285
+    },
+    {
+      "name": "珮綾",
+      "units_sold": 7,
+      "units": ["E3-2F","E5-2F","E7-5F","E7-4F","E8-5F","E8-3F","E8-2F"],
+      "house_total": 5461,
+      "parking_total": 1065,
+      "grand_total": 6526,
+      "house_premium": 125,
+      "parking_premium": 70,
+      "total_premium": 195
+    },
+    {
+      "name": "秀圓",
+      "units_sold": 4,
+      "units": ["E2-3F","E2-2F","E5-3F","E7-2F"],
+      "house_total": 2876,
+      "parking_total": 305,
+      "grand_total": 3181,
+      "house_premium": 83,
+      "parking_premium": 35,
+      "total_premium": 118
+    },
+    {
+      "name": "明騰",
+      "units_sold": 2,
+      "units": ["E3-4F","E8-4F"],
+      "house_total": 1325,
+      "parking_total": 295,
+      "grand_total": 1620,
+      "house_premium": 14,
+      "parking_premium": 15,
+      "total_premium": 29
+    }
+  ]
+}

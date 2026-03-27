@@ -1,0 +1,337 @@
+{
+  "project": "鴻騏初居3",
+  "source": "IMG_0643.HEIC（代銷控制表單手寫拍照）",
+  "total_units": 35,
+  "sold": 27,
+  "remaining": 8,
+  "summary": {
+    "house_total": 19330,
+    "parking_total": 3485,
+    "grand_total": 22815,
+    "avg_unit_price": 27.93,
+    "house_premium": 335,
+    "parking_premium": 265,
+    "total_premium": 600
+  },
+  "legend": {
+    "cell_format": {
+      "row1": ["購買日", "房價(萬)", "車位價(萬)", "車位底價(萬)"],
+      "row2": ["銷售人員", "成交單價(萬/坪)", "房屋溢價(萬)", "汽機車位編號"],
+      "row3": ["車位溢價(萬)", "購買人", "房屋底價(萬)"]
+    },
+    "colors": {
+      "藍色": "一階底（2房）",
+      "綠色": "二階底（3房）",
+      "橘色": "沒買汽車位"
+    }
+  },
+  "sold_units": [
+    {
+      "id": "E1-6F", "building": "E1", "floor": 6, "room_type": "2房",
+      "purchase_date": "114/12/21",
+      "house_price": 636, "parking_price": 160, "total_price": 796,
+      "unit_price": 28.99,
+      "house_premium": 0, "parking_premium": 20,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "秀儒", "buyer": "柯惠玲",
+      "house_floor_price": 636, "parking_floor_price": 140,
+      "note": "特殊交易"
+    },
+    {
+      "id": "E1-5F", "building": "E1", "floor": 5, "room_type": "2房",
+      "purchase_date": "114/5/18",
+      "house_price": 613, "parking_price": 145, "total_price": 758,
+      "unit_price": 27.94,
+      "house_premium": -1, "parking_premium": 5,
+      "parking_spots": { "car": null, "moto": "26" },
+      "salesperson": "秀儒", "buyer": "黃佳惠",
+      "house_floor_price": 614, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E1-4F", "building": "E1", "floor": 4, "room_type": "2房",
+      "purchase_date": "114/5/31",
+      "house_price": 588, "parking_price": 140, "total_price": 728,
+      "unit_price": 26.80,
+      "house_premium": 7, "parking_premium": 0,
+      "parking_spots": { "car": "13", "moto": "9" },
+      "salesperson": "秀儒", "buyer": "戴嘉慧",
+      "house_floor_price": 581, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E1-3F", "building": "E1", "floor": 3, "room_type": "2房",
+      "purchase_date": "114/5/30",
+      "house_price": 568, "parking_price": 145, "total_price": 713,
+      "unit_price": 25.89,
+      "house_premium": 9, "parking_premium": 5,
+      "parking_spots": { "car": "13", "moto": "23" },
+      "salesperson": "秀儒", "buyer": "闕元達",
+      "house_floor_price": 559, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E1-2F", "building": "E1", "floor": 2, "room_type": "2房",
+      "purchase_date": "114/6/7",
+      "house_price": 548, "parking_price": 150, "total_price": 698,
+      "unit_price": 24.98,
+      "house_premium": 10, "parking_premium": 10,
+      "parking_spots": { "car": "32", "moto": "10" },
+      "salesperson": "秀儒", "buyer": "江秀儒",
+      "house_floor_price": 538, "parking_floor_price": 140,
+      "note": "銷售人員自購"
+    },
+    {
+      "id": "E2-6F", "building": "E2", "floor": 6, "room_type": "2房",
+      "purchase_date": "115/3/1",
+      "house_price": 753, "parking_price": 155, "total_price": 908,
+      "unit_price": 31.59,
+      "house_premium": 31, "parking_premium": 15,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "秀儒", "buyer": "熊仁鳳",
+      "house_floor_price": 722, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E2-5F", "building": "E2", "floor": 5, "room_type": "2房",
+      "purchase_date": "114/5/18",
+      "house_price": 666, "parking_price": 145, "total_price": 811,
+      "unit_price": 27.94,
+      "house_premium": -30, "parking_premium": 5,
+      "parking_spots": { "car": "15", "moto": "27" },
+      "salesperson": "秀儒", "buyer": "黃佳琪",
+      "house_floor_price": 696, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E2-4F", "building": "E2", "floor": 4, "room_type": "2房",
+      "purchase_date": "115/2/28",
+      "house_price": 678, "parking_price": 155, "total_price": 833,
+      "unit_price": 28.44,
+      "house_premium": -13, "parking_premium": 15,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "秀儒", "buyer": "周義哲",
+      "house_floor_price": 691, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E2-3F", "building": "E2", "floor": 3, "room_type": "2房",
+      "purchase_date": "114/9/27",
+      "house_price": 662, "parking_price": 150, "total_price": 812,
+      "unit_price": 27.77,
+      "house_premium": 11, "parking_premium": 10,
+      "parking_spots": { "car": "30", "moto": "18" },
+      "salesperson": "秀圓", "buyer": "徐湘雯",
+      "house_floor_price": 651, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E2-2F", "building": "E2", "floor": 2, "room_type": "2房",
+      "purchase_date": "114/6/2",
+      "house_price": 646, "parking_price": 0, "total_price": 646,
+      "unit_price": 27.10,
+      "house_premium": 21, "parking_premium": 0,
+      "parking_spots": { "car": null, "moto": "8" },
+      "salesperson": "秀圓", "buyer": "何明賢",
+      "house_floor_price": 625, "parking_floor_price": 140,
+      "note": "僅機車位"
+    },
+    {
+      "id": "E3-4F", "building": "E3", "floor": 4, "room_type": "2房",
+      "purchase_date": "114/10/19",
+      "house_price": 687, "parking_price": 150, "total_price": 837,
+      "unit_price": 28.88,
+      "house_premium": 9, "parking_premium": 10,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "明騰", "buyer": "郭品嫺",
+      "house_floor_price": 678, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E3-3F", "building": "E3", "floor": 3, "room_type": "2房",
+      "purchase_date": "114/7/26",
+      "house_price": 658, "parking_price": 150, "total_price": 808,
+      "unit_price": 27.66,
+      "house_premium": 16, "parking_premium": 10,
+      "parking_spots": { "car": "29", "moto": "16" },
+      "salesperson": "秀儒", "buyer": "潘俊豪",
+      "house_floor_price": 642, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E3-2F", "building": "E3", "floor": 2, "room_type": "2房",
+      "purchase_date": "114/6/14",
+      "house_price": 638, "parking_price": 0, "total_price": 638,
+      "unit_price": 26.82,
+      "house_premium": 10, "parking_premium": 0,
+      "parking_spots": { "car": null, "moto": "17" },
+      "salesperson": "珮綾", "buyer": "吳怡佩",
+      "house_floor_price": 628, "parking_floor_price": 140,
+      "note": "僅機車位"
+    },
+    {
+      "id": "E5-3F", "building": "E5", "floor": 3, "room_type": "3房",
+      "purchase_date": "114/6/29",
+      "house_price": 850, "parking_price": 160, "total_price": 1010,
+      "unit_price": 27.99,
+      "house_premium": 30, "parking_premium": 20,
+      "parking_spots": { "car": "3", "moto": "33A" },
+      "salesperson": "秀圓", "buyer": "邱承銘",
+      "house_floor_price": 820, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E5-2F", "building": "E5", "floor": 2, "room_type": "3房",
+      "purchase_date": "114/8/7",
+      "house_price": 818, "parking_price": 155, "total_price": 973,
+      "unit_price": 26.93,
+      "house_premium": 16, "parking_premium": 15,
+      "parking_spots": { "car": "20", "moto": "35" },
+      "salesperson": "珮綾", "buyer": "童敏音",
+      "house_floor_price": 802, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E6-6F", "building": "E6", "floor": 6, "room_type": "3房",
+      "purchase_date": "115/2/9",
+      "house_price": 968, "parking_price": 160, "total_price": 1128,
+      "unit_price": 31.87,
+      "house_premium": 48, "parking_premium": 20,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "秀儒", "buyer": "陳柏溫",
+      "house_floor_price": 920, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E6-5F", "building": "E6", "floor": 5, "room_type": "3房",
+      "purchase_date": "114/6/14",
+      "house_price": 915, "parking_price": 145, "total_price": 1060,
+      "unit_price": 30.13,
+      "house_premium": 13, "parking_premium": 5,
+      "parking_spots": { "car": "12", "moto": "25" },
+      "salesperson": "秀儒", "buyer": "蘇秀玲",
+      "house_floor_price": 902, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E6-3F", "building": "E6", "floor": 3, "room_type": "3房",
+      "purchase_date": "115/1/21",
+      "house_price": 856, "parking_price": 160, "total_price": 1016,
+      "unit_price": 28.19,
+      "house_premium": 21, "parking_premium": 20,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "秀儒", "buyer": "黃芝瑋",
+      "house_floor_price": 835, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E6-2F", "building": "E6", "floor": 2, "room_type": "3房",
+      "purchase_date": "114/10/26",
+      "house_price": 828, "parking_price": 160, "total_price": 988,
+      "unit_price": 27.26,
+      "house_premium": 17, "parking_premium": 20,
+      "parking_spots": { "car": "6", "moto": "32" },
+      "salesperson": "秀儒", "buyer": "曹政淇",
+      "house_floor_price": 811, "parking_floor_price": 140,
+      "note": "實價登錄僅顯示828萬（停車或另簽）"
+    },
+    {
+      "id": "E7-5F", "building": "E7", "floor": 5, "room_type": "3房",
+      "purchase_date": "115/3/8",
+      "house_price": 833, "parking_price": 155, "total_price": 988,
+      "unit_price": 29.21,
+      "house_premium": -11, "parking_premium": 15,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "珮綾", "buyer": "廖倩君",
+      "house_floor_price": 844, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E7-4F", "building": "E7", "floor": 4, "room_type": "3房",
+      "purchase_date": "115/1/10",
+      "house_price": 798, "parking_price": 160, "total_price": 958,
+      "unit_price": 27.98,
+      "house_premium": -15, "parking_premium": 20,
+      "parking_spots": { "car": "7", "moto": "31" },
+      "salesperson": "珮綾", "buyer": "廖仁靖",
+      "house_floor_price": 813, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E7-3F", "building": "E7", "floor": 3, "room_type": "3房",
+      "purchase_date": "114/6/29",
+      "house_price": 778, "parking_price": 0, "total_price": 778,
+      "unit_price": 27.28,
+      "house_premium": 11, "parking_premium": 0,
+      "parking_spots": { "car": null, "moto": "20" },
+      "salesperson": "秀儒", "buyer": "陳柏華",
+      "house_floor_price": 767, "parking_floor_price": 140,
+      "note": "僅機車位"
+    },
+    {
+      "id": "E7-2F", "building": "E7", "floor": 2, "room_type": "3房",
+      "purchase_date": "114/6/8",
+      "house_price": 740, "parking_price": 155, "total_price": 895,
+      "unit_price": 25.95,
+      "house_premium": 21, "parking_premium": 15,
+      "parking_spots": { "car": "22", "moto": "22" },
+      "salesperson": "秀圓", "buyer": "李昱璇",
+      "house_floor_price": 719, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E8-5F", "building": "E8", "floor": 5, "room_type": "2房",
+      "purchase_date": "114/11/24",
+      "house_price": 686, "parking_price": 150, "total_price": 836,
+      "unit_price": 28.71,
+      "house_premium": 17, "parking_premium": 10,
+      "parking_spots": { "car": null, "moto": null },
+      "salesperson": "珮綾", "buyer": "盧威志",
+      "house_floor_price": 669, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E8-4F", "building": "E8", "floor": 4, "room_type": "2房",
+      "purchase_date": "114/6/19",
+      "house_price": 638, "parking_price": 145, "total_price": 783,
+      "unit_price": 26.71,
+      "house_premium": 5, "parking_premium": 5,
+      "parking_spots": { "car": "28", "moto": "19" },
+      "salesperson": "明騰", "buyer": "李淑芬",
+      "house_floor_price": 633, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E8-3F", "building": "E8", "floor": 3, "room_type": "2房",
+      "purchase_date": "114/9/27",
+      "house_price": 650, "parking_price": 150, "total_price": 800,
+      "unit_price": 27.21,
+      "house_premium": 41, "parking_premium": 10,
+      "parking_spots": { "car": "26", "moto": "21" },
+      "salesperson": "珮綾", "buyer": "陳雅彤",
+      "house_floor_price": 609, "parking_floor_price": 140,
+      "note": ""
+    },
+    {
+      "id": "E8-2F", "building": "E8", "floor": 2, "room_type": "2房",
+      "purchase_date": "114/8/31",
+      "house_price": 631, "parking_price": 145, "total_price": 776,
+      "unit_price": 26.41,
+      "house_premium": 41, "parking_premium": 5,
+      "parking_spots": { "car": "17", "moto": "23A" },
+      "salesperson": "珮綾", "buyer": "傅晨哲",
+      "house_floor_price": 590, "parking_floor_price": 140,
+      "note": ""
+    }
+  ],
+  "unsold_units": [
+    { "id": "E3-6F", "building": "E3", "floor": 6, "room_type": "2房", "house_floor_price": 714, "parking_floor_price": 140, "total_floor_price": 854 },
+    { "id": "E3-5F", "building": "E3", "floor": 5, "room_type": "2房", "house_floor_price": 702, "parking_floor_price": 140, "total_floor_price": 842 },
+    { "id": "E5-6F", "building": "E5", "floor": 6, "room_type": "3房", "house_floor_price": 911, "parking_floor_price": 140, "total_floor_price": 1051 },
+    { "id": "E5-5F", "building": "E5", "floor": 5, "room_type": "3房", "house_floor_price": 896, "parking_floor_price": 140, "total_floor_price": 1036 },
+    { "id": "E5-4F", "building": "E5", "floor": 4, "room_type": "3房", "house_floor_price": 866, "parking_floor_price": 140, "total_floor_price": 1006 },
+    { "id": "E6-4F", "building": "E6", "floor": 4, "room_type": "3房", "house_floor_price": 881, "parking_floor_price": 140, "total_floor_price": 1021 },
+    { "id": "E7-6F", "building": "E7", "floor": 6, "room_type": "3房", "house_floor_price": 858, "parking_floor_price": 140, "total_floor_price": 998 },
+    { "id": "E8-6F", "building": "E8", "floor": 6, "room_type": "2房", "house_floor_price": 693, "parking_floor_price": 140, "total_floor_price": 833 }
+  ]
+}

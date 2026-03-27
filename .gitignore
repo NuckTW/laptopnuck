@@ -14,8 +14,7 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Data & memory (stay local, not in git)
-data/
+# Memory (stay local, not in git)
 memory/
 .memory/
 

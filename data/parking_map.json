@@ -1,0 +1,52 @@
+{
+  "project": "鴻騏初居3",
+  "source": "IMG_0641.HEIC（一樓車位平面圖）+ IMG_0642.HEIC（車位列表）+ IMG_0643.HEIC（銷控表）",
+  "note": "車位底價統一 140萬，機車位包含在車位合約內",
+  "car_spots": [
+    { "spot_no": "3",  "unit": "E5-3F", "buyer": "邱承銘" },
+    { "spot_no": "6",  "unit": "E6-2F", "buyer": "曹政淇" },
+    { "spot_no": "7",  "unit": "E7-4F", "buyer": "廖仁靖" },
+    { "spot_no": "12", "unit": "E6-5F", "buyer": "蘇秀玲" },
+    { "spot_no": "13", "unit": "E1-4F", "buyer": "戴嘉慧" },
+    { "spot_no": "13", "unit": "E1-3F", "buyer": "闕元達", "note": "同號確認中" },
+    { "spot_no": "15", "unit": "E2-5F", "buyer": "黃佳琪" },
+    { "spot_no": "17", "unit": "E8-2F", "buyer": "傅晨哲" },
+    { "spot_no": "20", "unit": "E5-2F", "buyer": "童敏音" },
+    { "spot_no": "22", "unit": "E7-2F", "buyer": "李昱璇" },
+    { "spot_no": "26", "unit": "E8-3F", "buyer": "陳雅彤" },
+    { "spot_no": "28", "unit": "E8-4F", "buyer": "李淑芬" },
+    { "spot_no": "29", "unit": "E3-3F", "buyer": "潘俊豪" },
+    { "spot_no": "30", "unit": "E2-3F", "buyer": "徐湘雯" },
+    { "spot_no": "32", "unit": "E1-2F", "buyer": "江秀儒" }
+  ],
+  "moto_spots": [
+    { "spot_no": "8",   "unit": "E2-2F", "buyer": "何明賢",  "car_only": false },
+    { "spot_no": "9",   "unit": "E1-4F", "buyer": "戴嘉慧" },
+    { "spot_no": "10",  "unit": "E1-2F", "buyer": "江秀儒" },
+    { "spot_no": "16",  "unit": "E3-3F", "buyer": "潘俊豪" },
+    { "spot_no": "17",  "unit": "E3-2F", "buyer": "吳怡佩",  "car_only": false },
+    { "spot_no": "18",  "unit": "E2-3F", "buyer": "徐湘雯" },
+    { "spot_no": "19",  "unit": "E8-4F", "buyer": "李淑芬" },
+    { "spot_no": "20",  "unit": "E7-3F", "buyer": "陳柏華",  "car_only": false },
+    { "spot_no": "21",  "unit": "E8-3F", "buyer": "陳雅彤" },
+    { "spot_no": "22",  "unit": "E7-2F", "buyer": "李昱璇" },
+    { "spot_no": "23",  "unit": "E1-3F", "buyer": "闕元達" },
+    { "spot_no": "23A", "unit": "E8-2F", "buyer": "傅晨哲" },
+    { "spot_no": "25",  "unit": "E6-5F", "buyer": "蘇秀玲" },
+    { "spot_no": "26",  "unit": "E1-5F", "buyer": "黃佳惠" },
+    { "spot_no": "27",  "unit": "E2-5F", "buyer": "黃佳琪" },
+    { "spot_no": "31",  "unit": "E7-4F", "buyer": "廖仁靖" },
+    { "spot_no": "32",  "unit": "E6-2F", "buyer": "曹政淇" },
+    { "spot_no": "33A", "unit": "E5-3F", "buyer": "邱承銘" },
+    { "spot_no": "35",  "unit": "E5-2F", "buyer": "童敏音" }
+  ],
+  "no_car_units": [
+    { "unit": "E2-2F", "buyer": "何明賢",  "moto": "8" },
+    { "unit": "E3-2F", "buyer": "吳怡佩",  "moto": "17" },
+    { "unit": "E7-3F", "buyer": "陳柏華",  "moto": "20" }
+  ],
+  "unassigned_spots": {
+    "car":  ["1","2","4","5","8","9","10","11","14","16","18","19","21","23","24","25","27","31"],
+    "note": "以上車位號未從圖片中明確讀到，可能為未售戶車位或讀取不完整"
+  }
+}

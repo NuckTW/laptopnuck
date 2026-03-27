@@ -515,7 +515,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 <body>
 
 <!-- LOGIN -->
-<div id="loginOverlay">
+<div id="loginOverlay" class="hidden">
   <div class="login-box">
     <div class="login-logo">鴻騏<span>初居3</span></div>
     <div class="login-sub" style="margin:6px 0 0;font-size:12px;color:var(--gray);">實價登錄分析系統</div>
@@ -537,6 +537,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
     <span class="hbadge">🏗 鴻騏建設</span>
     <button id="themeBtn" onclick="toggleTheme()" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:20px;padding:4px 12px;font-size:13px;cursor:pointer;">🌙 深色</button>
   </div>
+  <button id="lockBtn" class="lock-btn" type="button" onclick="lockInternalData(true)">?? ????</button>
 </div>
 
 <!-- NAV -->
@@ -944,34 +945,185 @@ function rocToDate(roc){
 }
 
 /* ── LOGIN ── */
-const CREDS = {'HC':'28032475'};
-function doLogin(){
-  const u=document.getElementById('lu').value.trim();
-  const p=document.getElementById('lp').value;
-  const err=document.getElementById('lerr');
-  if(CREDS[u.toUpperCase()]&&CREDS[u.toUpperCase()]===p){
-    sessionStorage.setItem('cj3','1');
-    document.getElementById('loginOverlay').classList.add('hidden');
-  } else {
-    err.classList.add('show');
-    document.getElementById('lp').value='';
-    document.getElementById('lp').focus();
-  }
-}
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&!document.getElementById('loginOverlay').classList.contains('hidden')) doLogin();
-});
-if(sessionStorage.getItem('cj3')==='1') document.getElementById('loginOverlay').classList.add('hidden');
+const ALLOWED_USERS = new Set(['HC']);
+let MGMT_DATA = [];
+let UNSOLD_DATA = [];
+let PARKING_DATA = [];
+let internalUnlocked = false;
+let authTimer = null;
+let pendingNavTarget = null;
+let pendingNavTab = null;
+const AUTH_TIMEOUT_MS = 15 * 60 * 1000;
+const HIDE_LOCK_MS = 60 * 1000;
+const SECURE_PAYLOADS = [{"salt":"75zravmRMFrOab6A2c3hTQ==","iv":"PieeQxjQE6n6BAKR","tag":"xepAtyrGzhrkFeai0PWubg==","data":"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"},{"salt":"EVVBYrtfycB3/8s3isCaqA==","iv":"SMZZ3eAuZY61uvWa","tag":"8uz8agJGgb1bD32kyYniYA==","data":"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"}];
 
-/* ── NAV ── */
-function showPage(id,tab){
+function activatePage(id, tab){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  tab.classList.add('active');
+  if(tab) tab.classList.add('active');
+}
+function getHomeTab(){
+  return document.querySelector('.nav-tab');
+}
+function isMgmtActive(){
+  return document.getElementById('page-mgmt').classList.contains('active');
+}
+function updateLockButton(){
+  const btn = document.getElementById('lockBtn');
+  if(!btn) return;
+  btn.classList.toggle('show', internalUnlocked);
+}
+function resetInternalViews(){
+  ['mgmtKpis','roomFilters','sellerFilters','unitMatrix','detailPanel','sellerGrid','mgmtSoldBody','parkingBody','mgmtUnsoldBody'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = '';
+  });
+}
+function showLoginError(message='???????'){
+  const err = document.getElementById('lerr');
+  err.textContent = message;
+  err.classList.add('show');
+}
+function clearLoginError(){
+  document.getElementById('lerr').classList.remove('show');
+}
+function promptForInternalAccess(message='???????'){
+  document.getElementById('loginOverlay').classList.remove('hidden');
+  document.getElementById('lu').value = document.getElementById('lu').value || 'HC';
+  document.getElementById('lp').value = '';
+  showLoginError(message);
+  document.getElementById('lp').focus();
+}
+function touchAuthSession(){
+  if(!internalUnlocked) return;
+  clearTimeout(authTimer);
+  authTimer = setTimeout(()=>lockInternalData(false, '??????? 15 ???????????'), AUTH_TIMEOUT_MS);
+}
+function base64ToBytes(base64){
+  return Uint8Array.from(atob(base64), c=>c.charCodeAt(0));
+}
+async function decryptSecurePayload(password, payload){
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  const key = await crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt: base64ToBytes(payload.salt), iterations:150000, hash:'SHA-256' },
+    keyMaterial,
+    { name:'AES-GCM', length:256 },
+    false,
+    ['decrypt']
+  );
+  const data = base64ToBytes(payload.data);
+  const tag = base64ToBytes(payload.tag);
+  const merged = new Uint8Array(data.length + tag.length);
+  merged.set(data, 0);
+  merged.set(tag, data.length);
+  const decrypted = await crypto.subtle.decrypt(
+    { name:'AES-GCM', iv: base64ToBytes(payload.iv), tagLength:128 },
+    key,
+    merged
+  );
+  return JSON.parse(new TextDecoder().decode(decrypted));
+}
+async function unlockInternalData(password){
+  for(const payload of SECURE_PAYLOADS){
+    try{
+      const decoded = await decryptSecurePayload(password, payload);
+      MGMT_DATA = decoded.MGMT_DATA || [];
+      UNSOLD_DATA = decoded.UNSOLD_DATA || [];
+      PARKING_DATA = decoded.PARKING_DATA || [];
+      internalUnlocked = true;
+      updateLockButton();
+      touchAuthSession();
+      return true;
+    }catch(err){}
+  }
+  return false;
+}
+async function doLogin(){
+  const user = document.getElementById('lu').value.trim().toUpperCase();
+  const password = document.getElementById('lp').value;
+  const btn = document.querySelector('.login-btn');
+  clearLoginError();
+  if(!ALLOWED_USERS.has(user)){
+    showLoginError('????');
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = '???...';
+  const ok = await unlockInternalData(password);
+  btn.disabled = false;
+  btn.textContent = '??';
+  if(!ok){
+    showLoginError('????');
+    document.getElementById('lp').value = '';
+    document.getElementById('lp').focus();
+    return;
+  }
+  document.getElementById('loginOverlay').classList.add('hidden');
+  clearLoginError();
+  if(pendingNavTarget === 'mgmt'){
+    activatePage('mgmt', pendingNavTab);
+    renderMgmt();
+  }
+}
+function lockInternalData(manual=false, message='????????'){
+  internalUnlocked = false;
+  MGMT_DATA = [];
+  UNSOLD_DATA = [];
+  PARKING_DATA = [];
+  clearTimeout(authTimer);
+  updateLockButton();
+  resetInternalViews();
+  if(isMgmtActive()) activatePage('home', getHomeTab());
+  if(manual){
+    pendingNavTarget = 'mgmt';
+    pendingNavTab = document.querySelector('.nav-tab[onclick*="mgmt"]');
+    promptForInternalAccess('??????????????????');
+  } else if(message){
+    promptForInternalAccess(message);
+  }
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !document.getElementById('loginOverlay').classList.contains('hidden')) doLogin();
+});
+['click','keydown','mousemove','touchstart','scroll'].forEach(evt=>{
+  document.addEventListener(evt, ()=>touchAuthSession(), {passive:true});
+});
+document.addEventListener('visibilitychange', ()=>{
+  if(!internalUnlocked) return;
+  if(document.hidden){
+    clearTimeout(authTimer);
+    authTimer = setTimeout(()=>lockInternalData(false, '????????????????'), HIDE_LOCK_MS);
+  } else {
+    touchAuthSession();
+  }
+});
+['copy','cut','contextmenu','dragstart'].forEach(evt=>{
+  document.addEventListener(evt, e=>{
+    if(internalUnlocked && isMgmtActive()) e.preventDefault();
+  });
+});
+window.addEventListener('beforeprint', ()=>{
+  if(internalUnlocked && isMgmtActive()) lockInternalData(false, '???????????????????');
+});
+
+function showPage(id,tab){
+  if(id==='mgmt'){
+    pendingNavTarget = 'mgmt';
+    pendingNavTab = tab;
+    if(!internalUnlocked){
+      promptForInternalAccess('??????????????????');
+      return;
+    }
+    touchAuthSession();
+    activatePage(id,tab);
+    renderMgmt();
+    return;
+  }
+  activatePage(id,tab);
 }
 
-/* ── GRID ── */
 const lookup={};
 TX.forEach(t=>{ lookup[t.bld+'-'+t.fl]=t; });
 
@@ -1098,75 +1250,6 @@ function closeImageModal(){
   });
 })();
 
-const MGMT_DATA = [
-  {id:'E1-6F',bld:'E1',fl:6,room:'2',date:'114/12/21',housePx:636,pkPx:160,total:796, unit:28.99,houseOP:0,  pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'柯惠玲',sp:true,note:'特殊交易'},
-  {id:'E1-5F',bld:'E1',fl:5,room:'2',date:'114/5/18', housePx:613,pkPx:145,total:758, unit:27.94,houseOP:-1, pkOP:5,  parking:'汽:－機:26',  seller:'秀儒',buyer:'黃佳惠',note:''},
-  {id:'E1-4F',bld:'E1',fl:4,room:'2',date:'114/5/31', housePx:588,pkPx:140,total:728, unit:26.80,houseOP:7,  pkOP:0,  parking:'汽:13機:9',   seller:'秀儒',buyer:'戴嘉慧',note:''},
-  {id:'E1-3F',bld:'E1',fl:3,room:'2',date:'114/5/30', housePx:568,pkPx:145,total:713, unit:25.89,houseOP:9,  pkOP:5,  parking:'汽:13機:23',  seller:'秀儒',buyer:'闕元達',note:''},
-  {id:'E1-2F',bld:'E1',fl:2,room:'2',date:'114/6/7',  housePx:548,pkPx:150,total:698, unit:24.98,houseOP:10, pkOP:10, parking:'汽:32機:10',  seller:'秀儒',buyer:'江秀儒',note:'銷售人員自購'},
-  {id:'E2-6F',bld:'E2',fl:6,room:'2',date:'115/3/1',  housePx:753,pkPx:155,total:908, unit:31.59,houseOP:31, pkOP:15, parking:'汽:－機:－',  seller:'秀儒',buyer:'熊仁鳳',note:''},
-  {id:'E2-5F',bld:'E2',fl:5,room:'2',date:'114/5/18', housePx:666,pkPx:145,total:811, unit:27.94,houseOP:-30,pkOP:5,  parking:'汽:15機:27',  seller:'秀儒',buyer:'黃佳琪',note:''},
-  {id:'E2-4F',bld:'E2',fl:4,room:'2',date:'115/2/28', housePx:678,pkPx:155,total:833, unit:28.44,houseOP:-13,pkOP:15, parking:'汽:－機:－',  seller:'秀儒',buyer:'周義哲',note:''},
-  {id:'E2-3F',bld:'E2',fl:3,room:'2',date:'114/9/27', housePx:662,pkPx:150,total:812, unit:27.77,houseOP:11, pkOP:10, parking:'汽:30機:18',  seller:'秀圓',buyer:'徐湘雯',note:''},
-  {id:'E2-2F',bld:'E2',fl:2,room:'2',date:'114/6/2',  housePx:646,pkPx:0,  total:646, unit:27.10,houseOP:21, pkOP:0,  parking:'機:8號',      seller:'秀圓',buyer:'何明賢',noPark:true,note:'僅機車位'},
-  {id:'E3-4F',bld:'E3',fl:4,room:'2',date:'114/10/19',housePx:687,pkPx:150,total:837, unit:28.88,houseOP:9,  pkOP:10, parking:'汽:－機:－',  seller:'明騰',buyer:'郭品嫺',note:''},
-  {id:'E3-3F',bld:'E3',fl:3,room:'2',date:'114/7/26', housePx:658,pkPx:150,total:808, unit:27.66,houseOP:16, pkOP:10, parking:'汽:29機:16',  seller:'秀儒',buyer:'潘俊豪',note:''},
-  {id:'E3-2F',bld:'E3',fl:2,room:'2',date:'114/6/14', housePx:638,pkPx:0,  total:638, unit:26.82,houseOP:10, pkOP:0,  parking:'機:17號',     seller:'珮綾',buyer:'吳怡佩',noPark:true,note:'僅機車位'},
-  {id:'E5-3F',bld:'E5',fl:3,room:'3',date:'114/6/29', housePx:850,pkPx:160,total:1010,unit:27.99,houseOP:30, pkOP:20, parking:'汽:3機:33A',  seller:'秀圓',buyer:'邱承銘',note:''},
-  {id:'E5-2F',bld:'E5',fl:2,room:'3',date:'114/8/7',  housePx:818,pkPx:155,total:973, unit:26.93,houseOP:16, pkOP:15, parking:'汽:20機:35',  seller:'珮綾',buyer:'童敏音',note:''},
-  {id:'E6-6F',bld:'E6',fl:6,room:'3',date:'115/2/9',  housePx:968,pkPx:160,total:1128,unit:31.87,houseOP:48, pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'陳柏溫',note:''},
-  {id:'E6-5F',bld:'E6',fl:5,room:'3',date:'114/6/14', housePx:915,pkPx:145,total:1060,unit:30.13,houseOP:13, pkOP:5,  parking:'汽:12機:25',  seller:'秀儒',buyer:'蘇秀玲',note:''},
-  {id:'E6-3F',bld:'E6',fl:3,room:'3',date:'115/1/21', housePx:856,pkPx:160,total:1016,unit:28.19,houseOP:21, pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'黃芝瑋',note:''},
-  {id:'E6-2F',bld:'E6',fl:2,room:'3',date:'114/10/26',housePx:828,pkPx:160,total:988, unit:27.26,houseOP:17, pkOP:20, parking:'汽:6機:32',   seller:'秀儒',buyer:'曹政淇',note:'實價登錄僅顯示828萬（停車或另簽）'},
-  {id:'E7-5F',bld:'E7',fl:5,room:'3',date:'115/3/8',  housePx:833,pkPx:155,total:988, unit:29.21,houseOP:-11,pkOP:15, parking:'汽:－機:－',  seller:'珮綾',buyer:'廖倩君',note:''},
-  {id:'E7-4F',bld:'E7',fl:4,room:'3',date:'115/1/10', housePx:798,pkPx:160,total:958, unit:27.98,houseOP:-15,pkOP:20, parking:'汽:7機:31',   seller:'珮綾',buyer:'廖仁靖',note:''},
-  {id:'E7-3F',bld:'E7',fl:3,room:'3',date:'114/6/29', housePx:778,pkPx:0,  total:778, unit:27.28,houseOP:11, pkOP:0,  parking:'機:20',        seller:'秀儒',buyer:'陳柏華',noPark:true,note:'僅機車位'},
-  {id:'E7-2F',bld:'E7',fl:2,room:'3',date:'114/6/8',  housePx:740,pkPx:155,total:895, unit:25.95,houseOP:21, pkOP:15, parking:'汽:22機:22',  seller:'秀圓',buyer:'李昱璇',note:''},
-  {id:'E8-5F',bld:'E8',fl:5,room:'2',date:'114/11/24',housePx:686,pkPx:150,total:836, unit:28.71,houseOP:17, pkOP:10, parking:'汽:－機:－',  seller:'珮綾',buyer:'盧威志',note:''},
-  {id:'E8-4F',bld:'E8',fl:4,room:'2',date:'114/6/19', housePx:638,pkPx:145,total:783, unit:26.71,houseOP:5,  pkOP:5,  parking:'汽:28機:19',  seller:'明騰',buyer:'李淑芬',note:''},
-  {id:'E8-3F',bld:'E8',fl:3,room:'2',date:'114/9/27', housePx:650,pkPx:150,total:800, unit:27.21,houseOP:41, pkOP:10, parking:'汽:26機:21',  seller:'珮綾',buyer:'陳雅彤',note:''},
-  {id:'E8-2F',bld:'E8',fl:2,room:'2',date:'114/8/31', housePx:631,pkPx:145,total:776, unit:26.41,houseOP:41, pkOP:5,  parking:'汽:17機:23A', seller:'珮綾',buyer:'傅晨哲',note:''},
-];
-const UNSOLD_DATA = [
-  {id:'E3-6F',bld:'E3',fl:6,room:'2',houseFloor:714,pkFloor:140,totalFloor:854},
-  {id:'E3-5F',bld:'E3',fl:5,room:'2',houseFloor:702,pkFloor:140,totalFloor:842},
-  {id:'E5-6F',bld:'E5',fl:6,room:'3',houseFloor:911,pkFloor:140,totalFloor:1051},
-  {id:'E5-5F',bld:'E5',fl:5,room:'3',houseFloor:896,pkFloor:140,totalFloor:1036},
-  {id:'E5-4F',bld:'E5',fl:4,room:'3',houseFloor:866,pkFloor:140,totalFloor:1006},
-  {id:'E6-4F',bld:'E6',fl:4,room:'3',houseFloor:881,pkFloor:140,totalFloor:1021},
-  {id:'E7-6F',bld:'E7',fl:6,room:'3',houseFloor:858,pkFloor:140,totalFloor:998},
-  {id:'E8-6F',bld:'E8',fl:6,room:'2',houseFloor:693,pkFloor:140,totalFloor:833},
-];
-const PARKING_DATA = [
-  {id:'E1-6F',room:'2',buyer:'柯惠玲',  car:'－', moto:'－',  pkPx:160,note:'特殊交易'},
-  {id:'E1-5F',room:'2',buyer:'黃佳惠',  car:'－', moto:'26',  pkPx:145,note:''},
-  {id:'E1-4F',room:'2',buyer:'戴嘉慧',  car:'13', moto:'9',   pkPx:140,note:''},
-  {id:'E1-3F',room:'2',buyer:'闕元達',  car:'13', moto:'23',  pkPx:145,note:''},
-  {id:'E1-2F',room:'2',buyer:'江秀儒',  car:'32', moto:'10',  pkPx:150,note:'銷售自購'},
-  {id:'E2-6F',room:'2',buyer:'熊仁鳳',  car:'－', moto:'－',  pkPx:155,note:''},
-  {id:'E2-5F',room:'2',buyer:'黃佳琪',  car:'15', moto:'27',  pkPx:145,note:''},
-  {id:'E2-4F',room:'2',buyer:'周義哲',  car:'－', moto:'－',  pkPx:155,note:''},
-  {id:'E2-3F',room:'2',buyer:'徐湘雯',  car:'30', moto:'18',  pkPx:150,note:''},
-  {id:'E2-2F',room:'2',buyer:'何明賢',  car:'無', moto:'8',   pkPx:0,  note:'僅機車位',noPark:true},
-  {id:'E3-4F',room:'2',buyer:'郭品嫺',  car:'－', moto:'－',  pkPx:150,note:''},
-  {id:'E3-3F',room:'2',buyer:'潘俊豪',  car:'29', moto:'16',  pkPx:150,note:''},
-  {id:'E3-2F',room:'2',buyer:'吳怡佩',  car:'無', moto:'17',  pkPx:0,  note:'僅機車位',noPark:true},
-  {id:'E5-3F',room:'3',buyer:'邱承銘',  car:'3',  moto:'33A', pkPx:160,note:''},
-  {id:'E5-2F',room:'3',buyer:'童敏音',  car:'20', moto:'35',  pkPx:155,note:''},
-  {id:'E6-6F',room:'3',buyer:'陳柏溫',  car:'－', moto:'－',  pkPx:160,note:''},
-  {id:'E6-5F',room:'3',buyer:'蘇秀玲',  car:'12', moto:'25',  pkPx:145,note:''},
-  {id:'E6-3F',room:'3',buyer:'黃芝瑋',  car:'－', moto:'－',  pkPx:160,note:''},
-  {id:'E6-2F',room:'3',buyer:'曹政淇',  car:'6',  moto:'32',  pkPx:160,note:''},
-  {id:'E7-5F',room:'3',buyer:'廖倩君',  car:'－', moto:'－',  pkPx:155,note:''},
-  {id:'E7-4F',room:'3',buyer:'廖仁靖',  car:'7',  moto:'31',  pkPx:160,note:''},
-  {id:'E7-3F',room:'3',buyer:'陳柏華',  car:'無', moto:'20',  pkPx:0,  note:'僅機車位',noPark:true},
-  {id:'E7-2F',room:'3',buyer:'李昱璇',  car:'22', moto:'22',  pkPx:155,note:''},
-  {id:'E8-5F',room:'2',buyer:'盧威志',  car:'－', moto:'－',  pkPx:150,note:''},
-  {id:'E8-4F',room:'2',buyer:'李淑芬',  car:'28', moto:'19',  pkPx:145,note:''},
-  {id:'E8-3F',room:'2',buyer:'陳雅彤',  car:'26', moto:'21',  pkPx:150,note:''},
-  {id:'E8-2F',room:'2',buyer:'傅晨哲',  car:'17', moto:'23A', pkPx:145,note:''},
-];
-
 const mgmtState = { mode:'all', seller:'all', selected:null };
 let mgmtInited = false;
 
@@ -1213,6 +1296,10 @@ function formatPremium(v){
   return `${v>0?'+':''}${v}萬`;
 }
 function renderMgmt(){
+  if(!internalUnlocked || !MGMT_DATA.length){
+    resetInternalViews();
+    return;
+  }
   const allUnits = [...MGMT_DATA.map(enrichSoldUnit), ...UNSOLD_DATA.map(enrichUnsoldUnit)];
   const sellers = [...new Set(MGMT_DATA.map(x=>x.seller))];
   if(!mgmtInited){
@@ -1528,146 +1615,6 @@ function initCharts(){
   });
 
   /* ── MGMT DATA & RENDER ── */
-  const MGMT_DATA = [
-    {id:'E1-6F',bld:'E1',fl:6,room:'2',date:'114/12/21',housePx:636,pkPx:160,total:796, unit:28.99,houseOP:0,  pkOP:20,parking:'汽:－機:－',  seller:'秀儒',buyer:'柯惠玲',sp:true},
-    {id:'E1-5F',bld:'E1',fl:5,room:'2',date:'114/5/18', housePx:613,pkPx:145,total:758, unit:27.94,houseOP:-1, pkOP:5, parking:'汽:－機:26',  seller:'秀儒',buyer:'黃佳惠'},
-    {id:'E1-4F',bld:'E1',fl:4,room:'2',date:'114/5/31', housePx:588,pkPx:140,total:728, unit:26.80,houseOP:7,  pkOP:0, parking:'汽:13機:9',   seller:'秀儒',buyer:'戴嘉慧'},
-    {id:'E1-3F',bld:'E1',fl:3,room:'2',date:'114/5/30', housePx:568,pkPx:145,total:713, unit:25.89,houseOP:9,  pkOP:5, parking:'汽:13機:23',  seller:'秀儒',buyer:'闕元達'},
-    {id:'E1-2F',bld:'E1',fl:2,room:'2',date:'114/6/7',  housePx:548,pkPx:150,total:698, unit:24.98,houseOP:10, pkOP:10,parking:'汽:32機:10',  seller:'秀儒',buyer:'江秀儒（同銷售）'},
-    {id:'E2-6F',bld:'E2',fl:6,room:'2',date:'115/3/1',  housePx:753,pkPx:155,total:908, unit:31.59,houseOP:31, pkOP:15,parking:'汽:－機:－',  seller:'秀儒',buyer:'熊仁鳳'},
-    {id:'E2-5F',bld:'E2',fl:5,room:'2',date:'114/5/18', housePx:666,pkPx:145,total:811, unit:27.94,houseOP:-30,pkOP:5, parking:'汽:15機:27',  seller:'秀儒',buyer:'黃佳琪'},
-    {id:'E2-4F',bld:'E2',fl:4,room:'2',date:'115/2/28', housePx:678,pkPx:155,total:833, unit:28.44,houseOP:-13,pkOP:15,parking:'汽:－機:－',  seller:'秀儒',buyer:'周義哲'},
-    {id:'E2-3F',bld:'E2',fl:3,room:'2',date:'114/9/27', housePx:662,pkPx:150,total:812, unit:27.77,houseOP:11, pkOP:10,parking:'汽:30機:18',  seller:'秀圓',buyer:'徐湘雯'},
-    {id:'E2-2F',bld:'E2',fl:2,room:'2',date:'114/6/2',  housePx:646,pkPx:0,  total:646, unit:27.10,houseOP:21, pkOP:0, parking:'機:8號',      seller:'秀圓',buyer:'何明賢',noPark:true},
-    {id:'E3-4F',bld:'E3',fl:4,room:'2',date:'114/10/19',housePx:687,pkPx:150,total:837, unit:28.88,houseOP:9,  pkOP:10,parking:'汽:－機:－',  seller:'明騰',buyer:'郭品嫺'},
-    {id:'E3-3F',bld:'E3',fl:3,room:'2',date:'114/7/26', housePx:658,pkPx:150,total:808, unit:27.66,houseOP:16, pkOP:10,parking:'汽:29機:16',  seller:'秀儒',buyer:'潘俊豪'},
-    {id:'E3-2F',bld:'E3',fl:2,room:'2',date:'114/6/14', housePx:638,pkPx:0,  total:638, unit:26.82,houseOP:10, pkOP:0, parking:'機:17號',     seller:'珮綾',buyer:'吳怡佩',noPark:true},
-    {id:'E5-3F',bld:'E5',fl:3,room:'3',date:'114/6/29', housePx:850,pkPx:160,total:1010,unit:27.99,houseOP:30, pkOP:20,parking:'汽:3機:33A',  seller:'秀圓',buyer:'邱承銘'},
-    {id:'E5-2F',bld:'E5',fl:2,room:'3',date:'114/8/7',  housePx:818,pkPx:155,total:973, unit:26.93,houseOP:16, pkOP:15,parking:'汽:20機:35',  seller:'珮綾',buyer:'童敏音'},
-    {id:'E6-6F',bld:'E6',fl:6,room:'3',date:'115/2/9',  housePx:968,pkPx:160,total:1128,unit:31.87,houseOP:48, pkOP:20,parking:'汽:－機:－',  seller:'秀儒',buyer:'陳柏溫'},
-    {id:'E6-5F',bld:'E6',fl:5,room:'3',date:'114/6/14', housePx:915,pkPx:145,total:1060,unit:30.13,houseOP:13, pkOP:5, parking:'汽:12機:25',  seller:'秀儒',buyer:'蘇秀玲'},
-    {id:'E6-3F',bld:'E6',fl:3,room:'3',date:'115/1/21', housePx:856,pkPx:160,total:1016,unit:28.19,houseOP:21, pkOP:20,parking:'汽:－機:－',  seller:'秀儒',buyer:'黃芝瑋'},
-    {id:'E6-2F',bld:'E6',fl:2,room:'3',date:'114/10/26',housePx:828,pkPx:160,total:988, unit:27.26,houseOP:17, pkOP:20,parking:'汽:6機:32',   seller:'秀儒',buyer:'曹政淇'},
-    {id:'E7-5F',bld:'E7',fl:5,room:'3',date:'115/3/8',  housePx:833,pkPx:155,total:988, unit:29.21,houseOP:-11,pkOP:15,parking:'汽:－機:－',  seller:'珮綾',buyer:'廖倩君'},
-    {id:'E7-4F',bld:'E7',fl:4,room:'3',date:'115/1/10', housePx:798,pkPx:160,total:958, unit:27.98,houseOP:-15,pkOP:20,parking:'汽:7機:31',   seller:'珮綾',buyer:'廖仁靖'},
-    {id:'E7-3F',bld:'E7',fl:3,room:'3',date:'114/6/29', housePx:778,pkPx:0,  total:778, unit:27.28,houseOP:11, pkOP:0, parking:'機:20',        seller:'秀儒',buyer:'陳柏華',noPark:true},
-    {id:'E7-2F',bld:'E7',fl:2,room:'3',date:'114/6/8',  housePx:740,pkPx:155,total:895, unit:25.95,houseOP:21, pkOP:15,parking:'汽:22機:22',  seller:'秀圓',buyer:'李昱璇'},
-    {id:'E8-5F',bld:'E8',fl:5,room:'2',date:'114/11/24',housePx:686,pkPx:150,total:836, unit:28.71,houseOP:17, pkOP:10,parking:'汽:－機:－',  seller:'珮綾',buyer:'盧威志'},
-    {id:'E8-4F',bld:'E8',fl:4,room:'2',date:'114/6/19', housePx:638,pkPx:145,total:783, unit:26.71,houseOP:5,  pkOP:5, parking:'汽:28機:19',  seller:'明騰',buyer:'李淑芬'},
-    {id:'E8-3F',bld:'E8',fl:3,room:'2',date:'114/9/27', housePx:650,pkPx:150,total:800, unit:27.21,houseOP:41, pkOP:10,parking:'汽:26機:21',  seller:'珮綾',buyer:'陳雅彤'},
-    {id:'E8-2F',bld:'E8',fl:2,room:'2',date:'114/8/31', housePx:631,pkPx:145,total:776, unit:26.41,houseOP:41, pkOP:5, parking:'汽:17機:23A', seller:'珮綾',buyer:'傅晨哲'},
-  ];
-  const UNSOLD_DATA = [
-    {id:'E3-6F',room:'2',houseFloor:714,pkFloor:140,totalFloor:854},
-    {id:'E3-5F',room:'2',houseFloor:702,pkFloor:140,totalFloor:842},
-    {id:'E5-6F',room:'3',houseFloor:911,pkFloor:140,totalFloor:1051},
-    {id:'E5-5F',room:'3',houseFloor:896,pkFloor:140,totalFloor:1036},
-    {id:'E5-4F',room:'3',houseFloor:866,pkFloor:140,totalFloor:1006},
-    {id:'E6-4F',room:'3',houseFloor:881,pkFloor:140,totalFloor:1021},
-    {id:'E7-6F',room:'3',houseFloor:858,pkFloor:140,totalFloor:998},
-    {id:'E8-6F',room:'2',houseFloor:693,pkFloor:140,totalFloor:833},
-  ];
-
-  /* ── PARKING TABLE ── */
-  const PARKING_DATA = [
-    {id:'E1-6F',room:'2',buyer:'柯惠玲',  car:'－',   moto:'－',    pkPx:160,  note:'特殊交易'},
-    {id:'E1-5F',room:'2',buyer:'黃佳惠',  car:'－',   moto:'26',    pkPx:145,  note:''},
-    {id:'E1-4F',room:'2',buyer:'戴嘉慧',  car:'13',   moto:'9',     pkPx:140,  note:''},
-    {id:'E1-3F',room:'2',buyer:'闕元達',  car:'13',   moto:'23',    pkPx:145,  note:''},
-    {id:'E1-2F',room:'2',buyer:'江秀儒',  car:'32',   moto:'10',    pkPx:150,  note:'銷售自購'},
-    {id:'E2-6F',room:'2',buyer:'熊仁鳳',  car:'－',   moto:'－',    pkPx:155,  note:''},
-    {id:'E2-5F',room:'2',buyer:'黃佳琪',  car:'15',   moto:'27',    pkPx:145,  note:''},
-    {id:'E2-4F',room:'2',buyer:'周義哲',  car:'－',   moto:'－',    pkPx:155,  note:''},
-    {id:'E2-3F',room:'2',buyer:'徐湘雯',  car:'30',   moto:'18',    pkPx:150,  note:''},
-    {id:'E2-2F',room:'2',buyer:'何明賢',  car:'無',   moto:'8',     pkPx:0,    note:'僅機車位',noPark:true},
-    {id:'E3-4F',room:'2',buyer:'郭品嫺',  car:'－',   moto:'－',    pkPx:150,  note:''},
-    {id:'E3-3F',room:'2',buyer:'潘俊豪',  car:'29',   moto:'16',    pkPx:150,  note:''},
-    {id:'E3-2F',room:'2',buyer:'吳怡佩',  car:'無',   moto:'17',    pkPx:0,    note:'僅機車位',noPark:true},
-    {id:'E5-3F',room:'3',buyer:'邱承銘',  car:'3',    moto:'33A',   pkPx:160,  note:''},
-    {id:'E5-2F',room:'3',buyer:'童敏音',  car:'20',   moto:'35',    pkPx:155,  note:''},
-    {id:'E6-6F',room:'3',buyer:'陳柏溫',  car:'－',   moto:'－',    pkPx:160,  note:''},
-    {id:'E6-5F',room:'3',buyer:'蘇秀玲',  car:'12',   moto:'25',    pkPx:145,  note:''},
-    {id:'E6-3F',room:'3',buyer:'黃芝瑋',  car:'－',   moto:'－',    pkPx:160,  note:''},
-    {id:'E6-2F',room:'3',buyer:'曹政淇',  car:'6',    moto:'32',    pkPx:160,  note:''},
-    {id:'E7-5F',room:'3',buyer:'廖倩君',  car:'－',   moto:'－',    pkPx:155,  note:''},
-    {id:'E7-4F',room:'3',buyer:'廖仁靖',  car:'7',    moto:'31',    pkPx:160,  note:''},
-    {id:'E7-3F',room:'3',buyer:'陳柏華',  car:'無',   moto:'20',    pkPx:0,    note:'僅機車位',noPark:true},
-    {id:'E7-2F',room:'3',buyer:'李昱璇',  car:'22',   moto:'22',    pkPx:155,  note:''},
-    {id:'E8-5F',room:'2',buyer:'盧威志',  car:'－',   moto:'－',    pkPx:150,  note:''},
-    {id:'E8-4F',room:'2',buyer:'李淑芬',  car:'28',   moto:'19',    pkPx:145,  note:''},
-    {id:'E8-3F',room:'2',buyer:'陳雅彤',  car:'26',   moto:'21',    pkPx:150,  note:''},
-    {id:'E8-2F',room:'2',buyer:'傅晨哲',  car:'17',   moto:'23A',   pkPx:145,  note:''},
-  ];
-
-  let mgmtInited=false;
-  function renderMgmt(){
-    if(mgmtInited) return; mgmtInited=true;
-    // Seller cards
-    const sellerMap={};
-    MGMT_DATA.forEach(t=>{
-      if(!sellerMap[t.seller]) sellerMap[t.seller]={count:0,houseOP:0,pkOP:0};
-      sellerMap[t.seller].count++;
-      sellerMap[t.seller].houseOP+=t.houseOP;
-      sellerMap[t.seller].pkOP+=t.pkOP;
-    });
-    const sg=document.getElementById('sellerGrid');
-    Object.entries(sellerMap).sort((a,b)=>b[1].count-a[1].count).forEach(([name,s])=>{
-      const tot=s.houseOP+s.pkOP;
-      sg.innerHTML+=`<div class="seller-card">
-        <div class="sname">${name}</div>
-        <div class="scount">${s.count} 戶</div>
-        <div class="sop">房屋溢: ${s.houseOP>=0?'+':''}${s.houseOP}萬</div>
-        <div class="sop">車位溢: +${s.pkOP}萬</div>
-        <div class="sop" style="font-weight:700;color:var(--navy);margin-top:3px;">總溢: ${tot>=0?'+':''}${tot}萬</div>
-      </div>`;
-    });
-    // Parking table
-    const pb=document.getElementById('parkingBody');
-    PARKING_DATA.forEach(t=>{
-      pb.innerHTML+=`<tr class="${t.noPark?'no-park-row':''}">
-        <td><span class="unit-tag">${t.id}</span></td>
-        <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
-        <td>${t.buyer}</td>
-        <td style="text-align:center;font-weight:700;${t.car==='無'?'color:#dc2626':''}">${t.car}</td>
-        <td style="text-align:center;">${t.moto}</td>
-        <td style="text-align:right;">${t.pkPx||'—'}</td>
-        <td style="font-size:11px;color:var(--gray);">${t.note}</td>
-      </tr>`;
-    });
-
-    // Sold rows
-    const sb=document.getElementById('mgmtSoldBody');
-    [...MGMT_DATA].sort((a,b)=>b.date.localeCompare(a.date)).forEach(t=>{
-      const oc=v=>v>0?'op-pos':v<0?'op-neg':'op-zero';
-      sb.innerHTML+=`<tr class="${t.noPark?'no-park-row':''}">
-        <td><span class="unit-tag">${t.id}</span>${t.sp?'<span class="tag-spec" style="margin-left:3px">特殊</span>':''}</td>
-        <td>${t.date}</td>
-        <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
-        <td class="num">${t.housePx}</td>
-        <td class="num">${t.pkPx||'—'}</td>
-        <td class="num pr">${t.total}</td>
-        <td class="num pr">${t.unit.toFixed(2)}</td>
-        <td class="num ${oc(t.houseOP)}">${t.houseOP>=0?'+':''}${t.houseOP}</td>
-        <td class="num ${oc(t.pkOP)}">${t.pkOP>0?'+':''}${t.pkOP}</td>
-        <td>${t.parking}</td>
-        <td><strong>${t.seller}</strong></td>
-        <td>${t.buyer}</td>
-      </tr>`;
-    });
-    // Unsold rows
-    const ub=document.getElementById('mgmtUnsoldBody');
-    UNSOLD_DATA.forEach(t=>{
-      ub.innerHTML+=`<tr>
-        <td><span class="unit-tag" style="background:#6b7280">${t.id}</span></td>
-        <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
-        <td class="num">${t.houseFloor}</td>
-        <td class="num">${t.pkFloor}</td>
-        <td class="num" style="font-weight:700;color:var(--navy);">${t.totalFloor}</td>
-      </tr>`;
-    });
-  }
-
-  /* ── 區域比較數據（可依實際實價登錄更新） ── */
   const MONTHS = ['114/06','114/07','114/08','114/10','114/11','115/01','115/02','115/03'];
 
   // 歸仁區域月均（預售 參考值）

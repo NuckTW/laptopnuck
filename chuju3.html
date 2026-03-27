@@ -235,6 +235,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 }
 .gallery-card img{
   width:100%;height:240px;object-fit:contain;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;
+  cursor:zoom-in;
 }
 .gallery-card.tall img{height:300px;}
 .gallery-card h3{font-size:14px;font-weight:800;color:var(--navy);margin:12px 0 4px;}
@@ -243,6 +244,31 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;
   background:#eef6ff;color:#1d4ed8;font-size:10px;font-weight:800;
 }
+.unit-specs{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;
+}
+.spec-box{
+  background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:8px 6px;text-align:center;
+}
+.spec-box .sk{font-size:10px;color:var(--gray);}
+.spec-box .sv{font-size:14px;font-weight:800;color:var(--navy);margin-top:4px;}
+.image-modal{
+  position:fixed;inset:0;background:rgba(3,7,18,.82);display:none;align-items:center;justify-content:center;
+  z-index:10000;padding:18px;
+}
+.image-modal.open{display:flex;}
+.image-modal-content{
+  position:relative;width:min(96vw,1200px);max-height:92vh;background:#0f172a;border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;padding:16px;box-shadow:0 30px 80px rgba(0,0,0,.45);
+}
+.image-modal img{
+  width:100%;max-height:78vh;object-fit:contain;border-radius:12px;background:#111827;
+}
+.image-modal-close{
+  position:absolute;top:12px;right:12px;border:none;border-radius:999px;background:rgba(255,255,255,.14);
+  color:#fff;width:36px;height:36px;font-size:18px;cursor:pointer;
+}
+.image-modal-caption{color:#e5e7eb;font-size:12px;margin-top:10px;line-height:1.5;text-align:center;}
 
 /* ── MGMT PAGE ── */
 .mgmt-section{margin-bottom:24px;}
@@ -419,6 +445,9 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 [data-theme="dark"] .gallery-card h3{color:#f8fafc;}
 [data-theme="dark"] .gallery-card p{color:#9fb2c8;}
 [data-theme="dark"] .gallery-chip{background:#1e3a8a;color:#dbeafe;}
+[data-theme="dark"] .spec-box{background:#0f172a;border-color:#2f3d55;}
+[data-theme="dark"] .spec-box .sk{color:#9fb2c8;}
+[data-theme="dark"] .spec-box .sv{color:#f8fafc;}
 [data-theme="dark"] .kpi-card,
 [data-theme="dark"] .detail-panel,
 [data-theme="dark"] .plan-card,
@@ -479,6 +508,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   .gallery-grid,
   .gallery-grid.units{grid-template-columns:1fr;}
   .gallery-card img{height:220px;}
+  .unit-specs{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 </style>
 </head>
@@ -724,36 +754,36 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
       <span class="gallery-chip">1F 對照</span>
       <h3>1F 車位 / 基地配置</h3>
       <p>適合核對車位、出入口與戶別位置。</p>
-      <img src="gallery/1f-plan.jpg" alt="一樓車位與基地配置圖">
+      <img src="gallery/1f-plan.jpg" alt="一樓車位與基地配置圖" onclick="openImageModal(this.src,this.alt)">
     </div>
     <div class="gallery-card tall">
       <span class="gallery-chip">2F 對照</span>
       <h3>2F 標準層平面</h3>
       <p>用來比對 E1 到 E8 的相對位置與戶型配置。</p>
-      <img src="gallery/2f-plan.jpg" alt="二樓標準層平面圖">
+      <img src="gallery/2f-plan.jpg" alt="二樓標準層平面圖" onclick="openImageModal(this.src,this.alt)">
     </div>
     <div class="gallery-card">
       <span class="gallery-chip">環區</span>
       <h3>平面圖 / 環區圖</h3>
       <p>補充基地外圍與整體圖面關係。</p>
-      <img src="gallery/site-plan.jpg" alt="平面圖與環區圖">
+      <img src="gallery/site-plan.jpg" alt="平面圖與環區圖" onclick="openImageModal(this.src,this.alt)">
     </div>
     <div class="gallery-card">
       <span class="gallery-chip">外觀</span>
       <h3>建案外觀</h3>
       <p>方便和銷售資料、戶別位置一起對照。</p>
-      <img src="gallery/exterior.jpg" alt="建案外觀圖">
+      <img src="gallery/exterior.jpg" alt="建案外觀圖" onclick="openImageModal(this.src,this.alt)">
     </div>
   </div>
   <div class="mgmt-title" style="margin:20px 0 12px;">各戶確認圖</div>
   <div class="gallery-grid units">
-    <div class="gallery-card"><span class="gallery-chip">E1</span><h3>E1 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e1.jpg" alt="E1 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E2</span><h3>E2 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e2.jpg" alt="E2 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E3</span><h3>E3 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e3.jpg" alt="E3 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E5</span><h3>E5 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e5.jpg" alt="E5 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E6</span><h3>E6 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e6.jpg" alt="E6 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E7</span><h3>E7 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e7.jpg" alt="E7 戶確認圖"></div>
-    <div class="gallery-card"><span class="gallery-chip">E8</span><h3>E8 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e8.jpg" alt="E8 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E1</span><h3>E1 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e1.jpg" alt="E1 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">26.27</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">21.94</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E2</span><h3>E2 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e2.jpg" alt="E2 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">28.18</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">23.85</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E3</span><h3>E3 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e3.jpg" alt="E3 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">28.12</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">23.79</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E5</span><h3>E5 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e5.jpg" alt="E5 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">34.70</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">30.37</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E6</span><h3>E6 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e6.jpg" alt="E6 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">34.70</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">30.37</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E7</span><h3>E7 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e7.jpg" alt="E7 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">32.86</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">28.53</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.33</div></div></div></div>
+    <div class="gallery-card"><span class="gallery-chip">E8</span><h3>E8 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e8.jpg" alt="E8 戶確認圖" onclick="openImageModal(this.src,this.alt)"><div class="unit-specs"><div class="spec-box"><div class="sk">總坪數</div><div class="sv">28.23</div></div><div class="spec-box"><div class="sk">室內坪</div><div class="sv">23.89</div></div><div class="spec-box"><div class="sk">陽台坪</div><div class="sv">4.34</div></div></div></div>
   </div>
 </div>
 
@@ -858,6 +888,14 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
     </div>
 
     <aside class="detail-panel" id="detailPanel"></aside>
+  </div>
+</div>
+
+<div class="image-modal" id="imageModal" onclick="if(event.target===this) closeImageModal()">
+  <div class="image-modal-content">
+    <button class="image-modal-close" type="button" onclick="closeImageModal()">×</button>
+    <img id="imageModalImg" src="" alt="">
+    <div class="image-modal-caption" id="imageModalCaption"></div>
   </div>
 </div>
 
@@ -1035,12 +1073,28 @@ function toggleTheme(){
   document.getElementById('themeBtn').textContent = isDark?'🌙 深色':'☀️ 淺色';
   localStorage.setItem('cj3theme', isDark?'light':'dark');
 }
+function openImageModal(src, caption){
+  const modal = document.getElementById('imageModal');
+  document.getElementById('imageModalImg').src = src;
+  document.getElementById('imageModalImg').alt = caption || '';
+  document.getElementById('imageModalCaption').textContent = caption || '';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeImageModal(){
+  const modal = document.getElementById('imageModal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
 (function(){
   const t=localStorage.getItem('cj3theme')||'light';
   document.documentElement.setAttribute('data-theme',t);
   window.addEventListener('DOMContentLoaded',()=>{
     const btn=document.getElementById('themeBtn');
     if(btn) btn.textContent=t==='dark'?'☀️ 淺色':'🌙 深色';
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key === 'Escape') closeImageModal();
   });
 })();
 

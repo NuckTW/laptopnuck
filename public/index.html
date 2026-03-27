@@ -221,10 +221,127 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 .chart-card h3::before{content:'';width:3px;height:14px;background:var(--gold);border-radius:2px;}
 .chart-wrap{position:relative;height:240px;}
 
+/* ── GALLERY PAGE ── */
+.gallery-intro{
+  background:linear-gradient(135deg,#f7fbff,#eef6ff);
+  border:1px solid #d7e5f5;border-radius:16px;padding:16px 18px;
+  color:#37506b;font-size:12px;line-height:1.7;margin-bottom:16px;
+}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.gallery-grid.units{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:14px;}
+.gallery-card{
+  background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:14px;
+  box-shadow:0 2px 10px rgba(15,23,42,.05);
+}
+.gallery-card img{
+  width:100%;height:240px;object-fit:contain;background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;
+}
+.gallery-card.tall img{height:300px;}
+.gallery-card h3{font-size:14px;font-weight:800;color:var(--navy);margin:12px 0 4px;}
+.gallery-card p{font-size:11px;color:var(--gray);line-height:1.6;}
+.gallery-chip{
+  display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;
+  background:#eef6ff;color:#1d4ed8;font-size:10px;font-weight:800;
+}
+
 /* ── MGMT PAGE ── */
 .mgmt-section{margin-bottom:24px;}
 .mgmt-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .mgmt-title::before{content:'';width:4px;height:16px;background:var(--gold);border-radius:2px;}
+.mgmt-intro{
+  background:linear-gradient(135deg,#fff8eb,#fff);
+  border:1px solid #f6d693;border-radius:14px;padding:14px 16px;
+  font-size:12px;line-height:1.7;color:#7c5a10;margin-bottom:16px;
+}
+.mgmt-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.kpi-card{
+  background:#fff;border:1px solid #e8edf4;border-radius:14px;padding:14px 16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.kpi-label{font-size:11px;color:var(--gray);margin-bottom:6px;}
+.kpi-value{font-size:24px;font-weight:800;color:var(--navy);line-height:1.1;}
+.kpi-meta{font-size:11px;color:var(--gray);margin-top:6px;}
+.mgmt-toolbar{display:grid;gap:10px;margin-bottom:16px;}
+.plan-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:20px;}
+.plan-card{
+  background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:14px;
+  box-shadow:0 2px 10px rgba(15,23,42,.05);
+}
+.plan-card img{
+  width:100%;height:280px;object-fit:contain;border-radius:12px;border:1px solid #e5e7eb;background:#f8fafc;
+}
+.plan-meta{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px;}
+.plan-title{font-size:14px;font-weight:800;color:var(--navy);}
+.plan-sub{font-size:11px;color:var(--gray);margin-top:3px;line-height:1.5;}
+.filter-group{display:flex;gap:8px;flex-wrap:wrap;}
+.mfilter{
+  border:1px solid #d6deea;background:#fff;color:#4b5563;border-radius:999px;
+  padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:.15s;
+}
+.mfilter:hover{transform:translateY(-1px);}
+.mfilter.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.mgmt-layout{display:grid;grid-template-columns:minmax(0,1.9fr) 330px;gap:18px;align-items:start;}
+.detail-panel{
+  background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:16px;
+  box-shadow:0 4px 18px rgba(15,23,42,.08);position:sticky;top:126px;
+}
+.detail-eyebrow{font-size:11px;font-weight:700;color:#b45309;letter-spacing:.04em;text-transform:uppercase;}
+.detail-unit{font-size:24px;font-weight:800;color:var(--navy);margin-top:4px;}
+.detail-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:700;margin-top:8px;}
+.detail-status.sold{background:#dcfce7;color:#166534;}
+.detail-status.unsold{background:#e5e7eb;color:#374151;}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.detail-box{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:10px;}
+.detail-box .label{font-size:11px;color:var(--gray);}
+.detail-box .value{font-size:18px;font-weight:800;color:var(--navy);margin-top:4px;}
+.detail-list{display:grid;gap:8px;margin-top:14px;}
+.detail-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #edf2f7;padding-bottom:8px;font-size:12px;}
+.detail-row:last-child{border-bottom:none;padding-bottom:0;}
+.detail-row .dk{color:var(--gray);}
+.detail-row .dv{font-weight:700;text-align:right;}
+.detail-note{margin-top:14px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.6;}
+.matrix-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--gray);}
+.legend-pill{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e7eb;border-radius:999px;padding:5px 9px;}
+.legend-dot{width:10px;height:10px;border-radius:999px;}
+.unit-matrix{
+  display:grid;grid-template-columns:52px repeat(7,minmax(92px,1fr));
+  gap:8px;align-items:stretch;
+}
+.matrix-head,.matrix-floor{
+  background:var(--navy-dark);color:#fff;border-radius:10px;font-size:12px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:10px 6px;text-align:center;
+}
+.matrix-card{
+  border-radius:14px;border:1px solid #dbe4ef;padding:10px;min-height:124px;cursor:pointer;
+  display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 2px 10px rgba(15,23,42,.05);
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+}
+.matrix-card:hover{transform:translateY(-2px);}
+.matrix-card.selected{border-color:#f59e0b;box-shadow:0 0 0 2px rgba(245,158,11,.22);}
+.matrix-card.filtered{opacity:.28;filter:saturate(.55);}
+.matrix-card.room-2{background:linear-gradient(180deg,#eff6ff,#ffffff);}
+.matrix-card.room-3{background:linear-gradient(180deg,#ecfdf5,#ffffff);}
+.matrix-card.unsold{background:linear-gradient(180deg,#f8fafc,#ffffff);}
+.matrix-card.no-car{background:linear-gradient(180deg,#fff7ed,#ffffff);}
+.matrix-card.special{box-shadow:0 0 0 2px rgba(124,58,237,.12);}
+.mc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.mc-unit{font-size:14px;font-weight:800;color:var(--navy);}
+.mc-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;}
+.mc-badge{font-size:10px;font-weight:700;border-radius:999px;padding:2px 6px;}
+.mc-badge.sold{background:#dbeafe;color:#1d4ed8;}
+.mc-badge.unsold{background:#e5e7eb;color:#4b5563;}
+.mc-badge.special{background:#ede9fe;color:#6d28d9;}
+.mc-main{margin-top:8px;}
+.mc-price{font-size:22px;font-weight:800;color:#111827;line-height:1.1;}
+.mc-price small{font-size:11px;font-weight:700;color:var(--gray);}
+.mc-sub{font-size:11px;color:var(--gray);margin-top:3px;line-height:1.45;}
+.mc-premium{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;}
+.premium-chip{border-radius:999px;padding:4px 8px;font-weight:800;}
+.premium-chip.pos{background:#fee2e2;color:#b91c1c;}
+.premium-chip.neg{background:#dcfce7;color:#166534;}
+.premium-chip.zero{background:#e5e7eb;color:#4b5563;}
+.premium-chip.unsold{background:#e0f2fe;color:#075985;}
+.premium-breakdown{font-size:10px;color:var(--gray);text-align:right;}
 .mgmt-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .mgmt-table{width:100%;border-collapse:collapse;font-size:12px;min-width:760px;}
 .mgmt-table thead th{background:var(--navy-dark);color:#fff;padding:9px 10px;text-align:left;font-weight:600;white-space:nowrap;position:sticky;top:0;z-index:2;}
@@ -295,6 +412,51 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 [data-theme="dark"] .home-summary-table tbody tr:nth-child(even) td{background:#1a2744;}
 [data-theme="dark"] .home-summary-table td{border-color:#334155;color:#e2e8f0;}
 [data-theme="dark"] .home-summary-table{background:#1e293b;}
+[data-theme="dark"] .mgmt-intro{background:linear-gradient(135deg,#3a2a11,#1c2230);border-color:#6b4f1d;color:#f6d48d;}
+[data-theme="dark"] .gallery-intro{background:linear-gradient(135deg,#132235,#18263a);border-color:#31425d;color:#dbe7f4;}
+[data-theme="dark"] .gallery-card{background:#162033;border-color:#31425d;}
+[data-theme="dark"] .gallery-card img{background:#0f172a;border-color:#2f3d55;}
+[data-theme="dark"] .gallery-card h3{color:#f8fafc;}
+[data-theme="dark"] .gallery-card p{color:#9fb2c8;}
+[data-theme="dark"] .gallery-chip{background:#1e3a8a;color:#dbeafe;}
+[data-theme="dark"] .kpi-card,
+[data-theme="dark"] .detail-panel,
+[data-theme="dark"] .plan-card,
+[data-theme="dark"] .legend-pill,
+[data-theme="dark"] .mfilter{background:#162033;border-color:#31425d;color:#dbe7f4;}
+[data-theme="dark"] .kpi-label,
+[data-theme="dark"] .plan-sub,
+[data-theme="dark"] .kpi-meta,
+[data-theme="dark"] .detail-row .dk,
+[data-theme="dark"] .mc-sub,
+[data-theme="dark"] .premium-breakdown{color:#9fb2c8;}
+[data-theme="dark"] .kpi-value,
+[data-theme="dark"] .plan-title,
+[data-theme="dark"] .detail-unit,
+[data-theme="dark"] .detail-box .value,
+[data-theme="dark"] .mc-unit{color:#f8fafc;}
+[data-theme="dark"] .plan-card img{border-color:#2f3d55;background:#0f172a;}
+[data-theme="dark"] .detail-box{background:#0f172a;border-color:#2f3d55;}
+[data-theme="dark"] .detail-row{border-color:#243244;}
+[data-theme="dark"] .detail-note{background:#31210f;border-color:#7c5a10;color:#f6d48d;}
+[data-theme="dark"] .mfilter.active{background:#f0b429;border-color:#f0b429;color:#111827;}
+[data-theme="dark"] .matrix-head,
+[data-theme="dark"] .matrix-floor{background:#122033;}
+[data-theme="dark"] .matrix-card{border-color:#2f3d55;box-shadow:none;}
+[data-theme="dark"] .matrix-card.room-2{background:linear-gradient(180deg,#15263f,#111827);}
+[data-theme="dark"] .matrix-card.room-3{background:linear-gradient(180deg,#123126,#111827);}
+[data-theme="dark"] .matrix-card.unsold{background:linear-gradient(180deg,#1b2432,#111827);}
+[data-theme="dark"] .matrix-card.no-car{background:linear-gradient(180deg,#392615,#111827);}
+[data-theme="dark"] .matrix-card.selected{border-color:#f0b429;box-shadow:0 0 0 2px rgba(240,180,41,.22);}
+[data-theme="dark"] .matrix-card.filtered{opacity:.24;}
+[data-theme="dark"] .mc-price{color:#f8fafc;}
+[data-theme="dark"] .mc-badge.sold{background:#1e3a8a;color:#dbeafe;}
+[data-theme="dark"] .mc-badge.unsold{background:#334155;color:#e5e7eb;}
+[data-theme="dark"] .mc-badge.special{background:#4c1d95;color:#ede9fe;}
+[data-theme="dark"] .premium-chip.pos{background:#4c1d1d;color:#fecaca;}
+[data-theme="dark"] .premium-chip.neg{background:#15341f;color:#bbf7d0;}
+[data-theme="dark"] .premium-chip.zero{background:#334155;color:#e2e8f0;}
+[data-theme="dark"] .premium-chip.unsold{background:#0c4a6e;color:#bae6fd;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:480px){
@@ -309,6 +471,14 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   .grid-th.floor-col{width:30px;min-width:30px;}
   .floor-lbl{width:30px;}
   .nav-tab{font-size:12px;padding:11px 2px;}
+  .mgmt-layout{grid-template-columns:1fr;}
+  .detail-panel{position:static;}
+  .detail-grid{grid-template-columns:1fr 1fr;}
+  .unit-matrix{grid-template-columns:44px repeat(7,minmax(84px,1fr));}
+  .plan-gallery{grid-template-columns:1fr;}
+  .gallery-grid,
+  .gallery-grid.units{grid-template-columns:1fr;}
+  .gallery-card img{height:220px;}
 }
 </style>
 </head>
@@ -345,6 +515,7 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   <button class="nav-tab" onclick="showPage('grid',this)">📊 銷控表</button>
   <button class="nav-tab" onclick="showPage('list',this)">📋 明細表</button>
   <button class="nav-tab" onclick="showPage('chart',this);initCharts()">📈 分析圖</button>
+  <button class="nav-tab" onclick="showPage('gallery',this)">🖼️ 圖面</button>
   <button class="nav-tab" onclick="showPage('mgmt',this);renderMgmt()">🔒 內部</button>
 </div>
 
@@ -358,11 +529,11 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
 
   <div class="stats-grid">
     <div class="stat-card"><div class="val">27</div><div class="lbl">總成交筆數</div></div>
-    <div class="stat-card"><div class="val">28.3<small> 萬/坪</small></div><div class="lbl">平均單價</div></div>
+    <div class="stat-card"><div class="val">27.88<small> 萬/坪</small></div><div class="lbl">平均單價</div></div>
     <div class="stat-card"><div class="val">24.98<br>–31.87<small> 萬</small></div><div class="lbl">單價區間（萬/坪）</div></div>
     <div class="stat-card"><div class="val">638<br>–1128<small> 萬</small></div><div class="lbl">總價區間</div></div>
     <div class="stat-card"><div class="val">115/03</div><div class="lbl">最新成交</div></div>
-    <div class="stat-card"><div class="val">114/06</div><div class="lbl">首筆成交</div></div>
+    <div class="stat-card"><div class="val">114/05</div><div class="lbl">首筆成交</div></div>
   </div>
 
   <!-- 分析摘要表 -->
@@ -386,9 +557,9 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
         <tr style="border-bottom:1px solid var(--border);">
           <td style="padding:9px 12px;"><span style="background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;">2 房</span><br><span style="font-size:10px;color:var(--gray);">E1,E2,E3,E8</span></td>
           <td style="padding:9px 10px;text-align:center;font-weight:700;">17</td>
-          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.69 萬/坪</td>
-          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">24.98 – 31.57</td>
-          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">749 萬</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.64 萬/坪</td>
+          <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">24.98 – 31.59</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">775 萬</td>
           <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">638 – 908 萬</td>
         </tr>
         <tr style="border-bottom:1px solid var(--border);background:#f9fafb;">
@@ -396,13 +567,13 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
           <td style="padding:9px 10px;text-align:center;font-weight:700;">10</td>
           <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">28.28 萬/坪</td>
           <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">25.94 – 31.87</td>
-          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">963 萬</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">979 萬</td>
           <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">778 – 1128 萬</td>
         </tr>
         <tr>
           <td style="padding:9px 12px;"><span style="background:var(--navy);color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;">整體</span></td>
           <td style="padding:9px 10px;text-align:center;font-weight:700;">27</td>
-          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.89 萬/坪</td>
+          <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">27.88 萬/坪</td>
           <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">24.98 – 31.87</td>
           <td style="padding:9px 10px;text-align:center;color:var(--red);font-weight:700;">827 萬</td>
           <td style="padding:9px 10px;text-align:center;font-size:11px;color:#374151;">638 – 1128 萬</td>
@@ -544,108 +715,181 @@ body{font-family:-apple-system,'Microsoft JhengHei',sans-serif;background:var(--
   </div>
 </div>
 
+<!-- PAGE: GALLERY -->
+<div class="page" id="page-gallery">
+  <div class="page-title" style="margin-bottom:16px;">🖼️ 圖面相簿</div>
+  <div class="gallery-intro">整理這案子的 1F / 2F 平面、基地環區、外觀與各戶確認圖，方便在 iPad 與 iPhone 上直接滑動比對。平面圖採完整顯示，不裁切。</div>
+  <div class="gallery-grid">
+    <div class="gallery-card tall">
+      <span class="gallery-chip">1F 對照</span>
+      <h3>1F 車位 / 基地配置</h3>
+      <p>適合核對車位、出入口與戶別位置。</p>
+      <img src="gallery/1f-plan.jpg" alt="一樓車位與基地配置圖">
+    </div>
+    <div class="gallery-card tall">
+      <span class="gallery-chip">2F 對照</span>
+      <h3>2F 標準層平面</h3>
+      <p>用來比對 E1 到 E8 的相對位置與戶型配置。</p>
+      <img src="gallery/2f-plan.jpg" alt="二樓標準層平面圖">
+    </div>
+    <div class="gallery-card">
+      <span class="gallery-chip">環區</span>
+      <h3>平面圖 / 環區圖</h3>
+      <p>補充基地外圍與整體圖面關係。</p>
+      <img src="gallery/site-plan.jpg" alt="平面圖與環區圖">
+    </div>
+    <div class="gallery-card">
+      <span class="gallery-chip">外觀</span>
+      <h3>建案外觀</h3>
+      <p>方便和銷售資料、戶別位置一起對照。</p>
+      <img src="gallery/exterior.jpg" alt="建案外觀圖">
+    </div>
+  </div>
+  <div class="mgmt-title" style="margin:20px 0 12px;">各戶確認圖</div>
+  <div class="gallery-grid units">
+    <div class="gallery-card"><span class="gallery-chip">E1</span><h3>E1 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e1.jpg" alt="E1 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E2</span><h3>E2 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e2.jpg" alt="E2 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E3</span><h3>E3 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e3.jpg" alt="E3 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E5</span><h3>E5 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e5.jpg" alt="E5 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E6</span><h3>E6 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e6.jpg" alt="E6 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E7</span><h3>E7 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e7.jpg" alt="E7 戶確認圖"></div>
+    <div class="gallery-card"><span class="gallery-chip">E8</span><h3>E8 戶確認圖</h3><p>戶型配置與室內關係。</p><img src="gallery/e8.jpg" alt="E8 戶確認圖"></div>
+  </div>
+</div>
+
 <!-- PAGE: MGMT -->
 <div class="page" id="page-mgmt">
   <div class="page-title" style="margin-bottom:16px;">🔒 內部管理</div>
-
-  <!-- 溢價彙總 -->
-  <div class="mgmt-section">
-    <div class="mgmt-title">溢價彙總</div>
-    <div class="summary-boxes">
-      <div class="sum-box"><div class="sv">335</div><div class="sl">房屋溢價（萬）</div></div>
-      <div class="sum-box"><div class="sv">265</div><div class="sl">車位溢價（萬）</div></div>
-      <div class="sum-box highlight"><div class="sv">600</div><div class="sl">總溢價（萬）</div></div>
-    </div>
+  <div class="mgmt-intro">依 `IMG_0643` 內部控制表整理，這一頁用來比對每一戶的房屋底價、車位底價、成交售價、溢價與銷售紀錄。建議先看戶別矩陣，再點選右側明細卡核對單戶資料。</div>
+  <div class="mgmt-kpis" id="mgmtKpis"></div>
+  <div class="mgmt-toolbar">
+    <div class="filter-group" id="roomFilters"></div>
+    <div class="filter-group" id="sellerFilters"></div>
   </div>
+  <div class="mgmt-layout">
+    <div>
+      <div class="mgmt-section">
+        <div class="mgmt-title">平面圖對照</div>
+        <div class="plan-gallery">
+          <div class="plan-card">
+            <div class="plan-meta">
+              <div>
+                <div class="plan-title">1F 車位 / 基地配置圖</div>
+                <div class="plan-sub">改用 Drive 裡的確認圖，適合核對汽車位、機車位與戶別位置。</div>
+              </div>
+            </div>
+            <img src="gallery/1f-plan.jpg" alt="初居3 一樓車位配置圖">
+          </div>
+          <div class="plan-card">
+            <div class="plan-meta">
+              <div>
+                <div class="plan-title">2F 標準層平面圖</div>
+                <div class="plan-sub">改用 Drive 裡的確認圖，可直接比對 E1~E8 戶型與相對位置。</div>
+              </div>
+            </div>
+            <img src="gallery/2f-plan.jpg" alt="初居3 二樓標準層平面圖">
+          </div>
+        </div>
+      </div>
 
-  <!-- 銷售人員業績 -->
-  <div class="mgmt-section">
-    <div class="mgmt-title">銷售人員業績</div>
-    <div class="seller-grid" id="sellerGrid"></div>
-  </div>
+      <div class="mgmt-section">
+        <div class="mgmt-title">戶別溢價矩陣</div>
+        <div class="matrix-legend">
+          <span class="legend-pill"><span class="legend-dot" style="background:#93c5fd"></span>2房成交</span>
+          <span class="legend-pill"><span class="legend-dot" style="background:#86efac"></span>3房成交</span>
+          <span class="legend-pill"><span class="legend-dot" style="background:#cbd5e1"></span>未售底價</span>
+          <span class="legend-pill"><span class="legend-dot" style="background:#fdba74"></span>無汽車位</span>
+          <span class="legend-pill"><span class="legend-dot" style="background:#c4b5fd"></span>特殊交易</span>
+        </div>
+        <div class="unit-matrix" id="unitMatrix"></div>
+      </div>
 
-  <!-- 已售 -->
-  <div class="mgmt-section">
-    <div class="mgmt-title">已售 27 戶</div>
-    <div style="font-size:11px;color:var(--gray);margin-bottom:8px;">🟠 橘底 = 無汽車位</div>
-    <div class="mgmt-scroll">
-      <table class="mgmt-table">
-        <thead>
-          <tr>
-            <th>門牌</th><th>購買日</th><th>房型</th>
-            <th class="num">房價(萬)</th><th class="num">車位(萬)</th><th class="num">總價(萬)</th>
-            <th class="num">單價</th><th class="num">房屋溢</th><th class="num">車位溢</th>
-            <th>汽機車位</th><th>銷售人員</th><th>購買人</th>
-          </tr>
-        </thead>
-        <tbody id="mgmtSoldBody"></tbody>
-      </table>
+      <div class="mgmt-section">
+        <div class="mgmt-title">銷售人員業績</div>
+        <div class="seller-grid" id="sellerGrid"></div>
+      </div>
+
+      <div class="mgmt-section">
+        <div class="mgmt-title">成交明細</div>
+        <div class="mgmt-scroll">
+          <table class="mgmt-table">
+            <thead>
+              <tr>
+                <th>門牌</th><th>購買日</th><th>房型</th>
+                <th class="num">成交總價</th><th class="num">底價合計</th><th class="num">總溢價</th>
+                <th class="num">房屋溢</th><th class="num">車位溢</th>
+                <th>銷售人員</th><th>購買人</th><th>汽機車位</th><th>備註</th>
+              </tr>
+            </thead>
+            <tbody id="mgmtSoldBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mgmt-section">
+        <div class="mgmt-title">停車位對照表</div>
+        <div class="mgmt-scroll">
+          <table class="mgmt-table">
+            <thead>
+              <tr>
+                <th>門牌</th><th>房型</th><th>購買人</th>
+                <th>汽車位號</th><th>機車位號</th><th>車位價(萬)</th><th>備註</th>
+              </tr>
+            </thead>
+            <tbody id="parkingBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="mgmt-section">
+        <div class="mgmt-title">未售底價</div>
+        <div class="mgmt-scroll">
+          <table class="unsold-table">
+            <thead>
+              <tr>
+                <th>門牌</th><th>房型</th>
+                <th class="num">房屋底價(萬)</th><th class="num">車位底價(萬)</th><th class="num">合計底價(萬)</th>
+              </tr>
+            </thead>
+            <tbody id="mgmtUnsoldBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- 停車位對照表 -->
-  <div class="mgmt-section">
-    <div class="mgmt-title">停車位對照表（汽機車位）</div>
-    <div style="font-size:11px;color:var(--gray);margin-bottom:8px;">🟠 橘色 = 僅機車位，無汽車位</div>
-    <div class="mgmt-scroll">
-      <table class="mgmt-table">
-        <thead>
-          <tr>
-            <th>門牌</th><th>房型</th><th>購買人</th>
-            <th>汽車位號</th><th>機車位號</th><th>車位價(萬)</th><th>備註</th>
-          </tr>
-        </thead>
-        <tbody id="parkingBody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 未售 -->
-  <div class="mgmt-section">
-    <div class="mgmt-title">未售 8 戶（底價）</div>
-    <div class="mgmt-scroll">
-      <table class="unsold-table">
-        <thead>
-          <tr>
-            <th>門牌</th><th>房型</th>
-            <th class="num">房屋底價(萬)</th><th class="num">車位底價(萬)</th><th class="num">合計底價(萬)</th>
-          </tr>
-        </thead>
-        <tbody id="mgmtUnsoldBody"></tbody>
-      </table>
-    </div>
+    <aside class="detail-panel" id="detailPanel"></aside>
   </div>
 </div>
 
 <script>
 /* ── DATA ── */
 const TX = [
-  {id:'E7-5F',bld:'E7',fl:5,date:'115/03',total:988, unit:29.20,size:32.86,hs:28.53,pk:155},
-  {id:'E2-4F',bld:'E2',fl:4,date:'115/03',total:833, unit:28.43,size:28.18,hs:23.85,pk:155},
-  {id:'E2-6F',bld:'E2',fl:6,date:'115/03',total:908, unit:31.57,size:28.18,hs:23.85,pk:155},
+  {id:'E7-5F',bld:'E7',fl:5,date:'115/03',total:988, unit:29.21,size:32.86,hs:28.53,pk:155},
+  {id:'E2-4F',bld:'E2',fl:4,date:'115/02',total:833, unit:28.44,size:28.18,hs:23.85,pk:155},
+  {id:'E2-6F',bld:'E2',fl:6,date:'115/03',total:908, unit:31.59,size:28.18,hs:23.85,pk:155},
   {id:'E6-6F',bld:'E6',fl:6,date:'115/02',total:1128,unit:31.87,size:34.70,hs:30.37,pk:160},
   {id:'E6-3F',bld:'E6',fl:3,date:'115/01',total:1016,unit:28.19,size:34.70,hs:30.37,pk:160},
-  {id:'E7-4F',bld:'E7',fl:4,date:'115/01',total:958, unit:27.97,size:32.86,hs:28.53,pk:160},
-  {id:'E1-6F',bld:'E1',fl:6,date:'115/01',total:796, unit:28.99,size:26.27,hs:21.94,pk:160,sp:true},
+  {id:'E7-4F',bld:'E7',fl:4,date:'115/01',total:958, unit:27.98,size:32.86,hs:28.53,pk:160},
+  {id:'E1-6F',bld:'E1',fl:6,date:'114/12',total:796, unit:28.99,size:26.27,hs:21.94,pk:160,sp:true},
   {id:'E8-5F',bld:'E8',fl:5,date:'114/11',total:836, unit:28.71,size:28.23,hs:23.89,pk:150},
-  {id:'E6-2F',bld:'E6',fl:2,date:'114/11',total:828, unit:27.26,size:30.37,hs:30.37,pk:null},
+  {id:'E6-2F',bld:'E6',fl:2,date:'114/10',total:988, unit:27.26,size:30.37,hs:30.37,pk:160},
   {id:'E3-4F',bld:'E3',fl:4,date:'114/10',total:837, unit:28.88,size:28.12,hs:23.79,pk:150},
-  {id:'E8-3F',bld:'E8',fl:3,date:'114/10',total:800, unit:27.21,size:28.23,hs:23.89,pk:150},
-  {id:'E2-3F',bld:'E2',fl:3,date:'114/10',total:812, unit:27.76,size:28.18,hs:23.85,pk:150},
+  {id:'E8-3F',bld:'E8',fl:3,date:'114/09',total:800, unit:27.21,size:28.23,hs:23.89,pk:150},
+  {id:'E2-3F',bld:'E2',fl:3,date:'114/09',total:812, unit:27.77,size:28.18,hs:23.85,pk:150},
   {id:'E8-2F',bld:'E8',fl:2,date:'114/08',total:776, unit:26.41,size:28.23,hs:23.89,pk:145},
   {id:'E5-2F',bld:'E5',fl:2,date:'114/08',total:973, unit:26.93,size:34.70,hs:30.37,pk:155},
   {id:'E3-3F',bld:'E3',fl:3,date:'114/08',total:808, unit:27.66,size:28.12,hs:23.79,pk:150},
-  {id:'E7-3F',bld:'E7',fl:3,date:'114/07',total:778, unit:27.27,size:28.53,hs:28.53,pk:null},
+  {id:'E7-3F',bld:'E7',fl:3,date:'114/06',total:778, unit:27.28,size:28.53,hs:28.53,pk:null},
   {id:'E5-3F',bld:'E5',fl:3,date:'114/07',total:1010,unit:27.99,size:34.70,hs:30.37,pk:160},
-  {id:'E1-5F',bld:'E1',fl:5,date:'114/07',total:758, unit:27.94,size:26.27,hs:21.94,pk:145},
-  {id:'E2-5F',bld:'E2',fl:5,date:'114/07',total:811, unit:27.92,size:28.18,hs:23.85,pk:145},
+  {id:'E1-5F',bld:'E1',fl:5,date:'114/05',total:758, unit:27.94,size:26.27,hs:21.94,pk:145},
+  {id:'E2-5F',bld:'E2',fl:5,date:'114/05',total:811, unit:27.94,size:28.18,hs:23.85,pk:145},
   {id:'E8-4F',bld:'E8',fl:4,date:'114/06',total:783, unit:26.71,size:28.23,hs:23.89,pk:145},
-  {id:'E7-2F',bld:'E7',fl:2,date:'114/06',total:895, unit:25.94,size:32.86,hs:28.53,pk:155},
-  {id:'E2-2F',bld:'E2',fl:2,date:'114/06',total:646, unit:27.09,size:23.85,hs:23.85,pk:null},
+  {id:'E7-2F',bld:'E7',fl:2,date:'114/06',total:895, unit:25.95,size:32.86,hs:28.53,pk:155},
+  {id:'E2-2F',bld:'E2',fl:2,date:'114/06',total:646, unit:27.10,size:23.85,hs:23.85,pk:null},
   {id:'E1-2F',bld:'E1',fl:2,date:'114/06',total:698, unit:24.98,size:26.65,hs:21.94,pk:150},
-  {id:'E1-3F',bld:'E1',fl:3,date:'114/06',total:713, unit:25.89,size:26.27,hs:21.94,pk:145},
+  {id:'E1-3F',bld:'E1',fl:3,date:'114/05',total:713, unit:25.89,size:26.27,hs:21.94,pk:145},
   {id:'E3-2F',bld:'E3',fl:2,date:'114/06',total:638, unit:26.82,size:23.79,hs:23.79,pk:null},
-  {id:'E1-4F',bld:'E1',fl:4,date:'114/06',total:728, unit:26.80,size:26.27,hs:21.94,pk:140},
+  {id:'E1-4F',bld:'E1',fl:4,date:'114/05',total:728, unit:26.80,size:26.27,hs:21.94,pk:140},
   {id:'E6-5F',bld:'E6',fl:5,date:'114/06',total:1060,unit:30.13,size:34.70,hs:30.37,pk:145},
 ];
 
@@ -782,6 +1026,347 @@ const floatTip=(()=>{
     cell.addEventListener('mouseleave',()=>el.style.display='none');
   });
 })();
+
+/* ── DARK MODE ── */
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme', isDark?'light':'dark');
+  document.getElementById('themeBtn').textContent = isDark?'🌙 深色':'☀️ 淺色';
+  localStorage.setItem('cj3theme', isDark?'light':'dark');
+}
+(function(){
+  const t=localStorage.getItem('cj3theme')||'light';
+  document.documentElement.setAttribute('data-theme',t);
+  window.addEventListener('DOMContentLoaded',()=>{
+    const btn=document.getElementById('themeBtn');
+    if(btn) btn.textContent=t==='dark'?'☀️ 淺色':'🌙 深色';
+  });
+})();
+
+const MGMT_DATA = [
+  {id:'E1-6F',bld:'E1',fl:6,room:'2',date:'114/12/21',housePx:636,pkPx:160,total:796, unit:28.99,houseOP:0,  pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'柯惠玲',sp:true,note:'特殊交易'},
+  {id:'E1-5F',bld:'E1',fl:5,room:'2',date:'114/5/18', housePx:613,pkPx:145,total:758, unit:27.94,houseOP:-1, pkOP:5,  parking:'汽:－機:26',  seller:'秀儒',buyer:'黃佳惠',note:''},
+  {id:'E1-4F',bld:'E1',fl:4,room:'2',date:'114/5/31', housePx:588,pkPx:140,total:728, unit:26.80,houseOP:7,  pkOP:0,  parking:'汽:13機:9',   seller:'秀儒',buyer:'戴嘉慧',note:''},
+  {id:'E1-3F',bld:'E1',fl:3,room:'2',date:'114/5/30', housePx:568,pkPx:145,total:713, unit:25.89,houseOP:9,  pkOP:5,  parking:'汽:13機:23',  seller:'秀儒',buyer:'闕元達',note:''},
+  {id:'E1-2F',bld:'E1',fl:2,room:'2',date:'114/6/7',  housePx:548,pkPx:150,total:698, unit:24.98,houseOP:10, pkOP:10, parking:'汽:32機:10',  seller:'秀儒',buyer:'江秀儒',note:'銷售人員自購'},
+  {id:'E2-6F',bld:'E2',fl:6,room:'2',date:'115/3/1',  housePx:753,pkPx:155,total:908, unit:31.59,houseOP:31, pkOP:15, parking:'汽:－機:－',  seller:'秀儒',buyer:'熊仁鳳',note:''},
+  {id:'E2-5F',bld:'E2',fl:5,room:'2',date:'114/5/18', housePx:666,pkPx:145,total:811, unit:27.94,houseOP:-30,pkOP:5,  parking:'汽:15機:27',  seller:'秀儒',buyer:'黃佳琪',note:''},
+  {id:'E2-4F',bld:'E2',fl:4,room:'2',date:'115/2/28', housePx:678,pkPx:155,total:833, unit:28.44,houseOP:-13,pkOP:15, parking:'汽:－機:－',  seller:'秀儒',buyer:'周義哲',note:''},
+  {id:'E2-3F',bld:'E2',fl:3,room:'2',date:'114/9/27', housePx:662,pkPx:150,total:812, unit:27.77,houseOP:11, pkOP:10, parking:'汽:30機:18',  seller:'秀圓',buyer:'徐湘雯',note:''},
+  {id:'E2-2F',bld:'E2',fl:2,room:'2',date:'114/6/2',  housePx:646,pkPx:0,  total:646, unit:27.10,houseOP:21, pkOP:0,  parking:'機:8號',      seller:'秀圓',buyer:'何明賢',noPark:true,note:'僅機車位'},
+  {id:'E3-4F',bld:'E3',fl:4,room:'2',date:'114/10/19',housePx:687,pkPx:150,total:837, unit:28.88,houseOP:9,  pkOP:10, parking:'汽:－機:－',  seller:'明騰',buyer:'郭品嫺',note:''},
+  {id:'E3-3F',bld:'E3',fl:3,room:'2',date:'114/7/26', housePx:658,pkPx:150,total:808, unit:27.66,houseOP:16, pkOP:10, parking:'汽:29機:16',  seller:'秀儒',buyer:'潘俊豪',note:''},
+  {id:'E3-2F',bld:'E3',fl:2,room:'2',date:'114/6/14', housePx:638,pkPx:0,  total:638, unit:26.82,houseOP:10, pkOP:0,  parking:'機:17號',     seller:'珮綾',buyer:'吳怡佩',noPark:true,note:'僅機車位'},
+  {id:'E5-3F',bld:'E5',fl:3,room:'3',date:'114/6/29', housePx:850,pkPx:160,total:1010,unit:27.99,houseOP:30, pkOP:20, parking:'汽:3機:33A',  seller:'秀圓',buyer:'邱承銘',note:''},
+  {id:'E5-2F',bld:'E5',fl:2,room:'3',date:'114/8/7',  housePx:818,pkPx:155,total:973, unit:26.93,houseOP:16, pkOP:15, parking:'汽:20機:35',  seller:'珮綾',buyer:'童敏音',note:''},
+  {id:'E6-6F',bld:'E6',fl:6,room:'3',date:'115/2/9',  housePx:968,pkPx:160,total:1128,unit:31.87,houseOP:48, pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'陳柏溫',note:''},
+  {id:'E6-5F',bld:'E6',fl:5,room:'3',date:'114/6/14', housePx:915,pkPx:145,total:1060,unit:30.13,houseOP:13, pkOP:5,  parking:'汽:12機:25',  seller:'秀儒',buyer:'蘇秀玲',note:''},
+  {id:'E6-3F',bld:'E6',fl:3,room:'3',date:'115/1/21', housePx:856,pkPx:160,total:1016,unit:28.19,houseOP:21, pkOP:20, parking:'汽:－機:－',  seller:'秀儒',buyer:'黃芝瑋',note:''},
+  {id:'E6-2F',bld:'E6',fl:2,room:'3',date:'114/10/26',housePx:828,pkPx:160,total:988, unit:27.26,houseOP:17, pkOP:20, parking:'汽:6機:32',   seller:'秀儒',buyer:'曹政淇',note:'實價登錄僅顯示828萬（停車或另簽）'},
+  {id:'E7-5F',bld:'E7',fl:5,room:'3',date:'115/3/8',  housePx:833,pkPx:155,total:988, unit:29.21,houseOP:-11,pkOP:15, parking:'汽:－機:－',  seller:'珮綾',buyer:'廖倩君',note:''},
+  {id:'E7-4F',bld:'E7',fl:4,room:'3',date:'115/1/10', housePx:798,pkPx:160,total:958, unit:27.98,houseOP:-15,pkOP:20, parking:'汽:7機:31',   seller:'珮綾',buyer:'廖仁靖',note:''},
+  {id:'E7-3F',bld:'E7',fl:3,room:'3',date:'114/6/29', housePx:778,pkPx:0,  total:778, unit:27.28,houseOP:11, pkOP:0,  parking:'機:20',        seller:'秀儒',buyer:'陳柏華',noPark:true,note:'僅機車位'},
+  {id:'E7-2F',bld:'E7',fl:2,room:'3',date:'114/6/8',  housePx:740,pkPx:155,total:895, unit:25.95,houseOP:21, pkOP:15, parking:'汽:22機:22',  seller:'秀圓',buyer:'李昱璇',note:''},
+  {id:'E8-5F',bld:'E8',fl:5,room:'2',date:'114/11/24',housePx:686,pkPx:150,total:836, unit:28.71,houseOP:17, pkOP:10, parking:'汽:－機:－',  seller:'珮綾',buyer:'盧威志',note:''},
+  {id:'E8-4F',bld:'E8',fl:4,room:'2',date:'114/6/19', housePx:638,pkPx:145,total:783, unit:26.71,houseOP:5,  pkOP:5,  parking:'汽:28機:19',  seller:'明騰',buyer:'李淑芬',note:''},
+  {id:'E8-3F',bld:'E8',fl:3,room:'2',date:'114/9/27', housePx:650,pkPx:150,total:800, unit:27.21,houseOP:41, pkOP:10, parking:'汽:26機:21',  seller:'珮綾',buyer:'陳雅彤',note:''},
+  {id:'E8-2F',bld:'E8',fl:2,room:'2',date:'114/8/31', housePx:631,pkPx:145,total:776, unit:26.41,houseOP:41, pkOP:5,  parking:'汽:17機:23A', seller:'珮綾',buyer:'傅晨哲',note:''},
+];
+const UNSOLD_DATA = [
+  {id:'E3-6F',bld:'E3',fl:6,room:'2',houseFloor:714,pkFloor:140,totalFloor:854},
+  {id:'E3-5F',bld:'E3',fl:5,room:'2',houseFloor:702,pkFloor:140,totalFloor:842},
+  {id:'E5-6F',bld:'E5',fl:6,room:'3',houseFloor:911,pkFloor:140,totalFloor:1051},
+  {id:'E5-5F',bld:'E5',fl:5,room:'3',houseFloor:896,pkFloor:140,totalFloor:1036},
+  {id:'E5-4F',bld:'E5',fl:4,room:'3',houseFloor:866,pkFloor:140,totalFloor:1006},
+  {id:'E6-4F',bld:'E6',fl:4,room:'3',houseFloor:881,pkFloor:140,totalFloor:1021},
+  {id:'E7-6F',bld:'E7',fl:6,room:'3',houseFloor:858,pkFloor:140,totalFloor:998},
+  {id:'E8-6F',bld:'E8',fl:6,room:'2',houseFloor:693,pkFloor:140,totalFloor:833},
+];
+const PARKING_DATA = [
+  {id:'E1-6F',room:'2',buyer:'柯惠玲',  car:'－', moto:'－',  pkPx:160,note:'特殊交易'},
+  {id:'E1-5F',room:'2',buyer:'黃佳惠',  car:'－', moto:'26',  pkPx:145,note:''},
+  {id:'E1-4F',room:'2',buyer:'戴嘉慧',  car:'13', moto:'9',   pkPx:140,note:''},
+  {id:'E1-3F',room:'2',buyer:'闕元達',  car:'13', moto:'23',  pkPx:145,note:''},
+  {id:'E1-2F',room:'2',buyer:'江秀儒',  car:'32', moto:'10',  pkPx:150,note:'銷售自購'},
+  {id:'E2-6F',room:'2',buyer:'熊仁鳳',  car:'－', moto:'－',  pkPx:155,note:''},
+  {id:'E2-5F',room:'2',buyer:'黃佳琪',  car:'15', moto:'27',  pkPx:145,note:''},
+  {id:'E2-4F',room:'2',buyer:'周義哲',  car:'－', moto:'－',  pkPx:155,note:''},
+  {id:'E2-3F',room:'2',buyer:'徐湘雯',  car:'30', moto:'18',  pkPx:150,note:''},
+  {id:'E2-2F',room:'2',buyer:'何明賢',  car:'無', moto:'8',   pkPx:0,  note:'僅機車位',noPark:true},
+  {id:'E3-4F',room:'2',buyer:'郭品嫺',  car:'－', moto:'－',  pkPx:150,note:''},
+  {id:'E3-3F',room:'2',buyer:'潘俊豪',  car:'29', moto:'16',  pkPx:150,note:''},
+  {id:'E3-2F',room:'2',buyer:'吳怡佩',  car:'無', moto:'17',  pkPx:0,  note:'僅機車位',noPark:true},
+  {id:'E5-3F',room:'3',buyer:'邱承銘',  car:'3',  moto:'33A', pkPx:160,note:''},
+  {id:'E5-2F',room:'3',buyer:'童敏音',  car:'20', moto:'35',  pkPx:155,note:''},
+  {id:'E6-6F',room:'3',buyer:'陳柏溫',  car:'－', moto:'－',  pkPx:160,note:''},
+  {id:'E6-5F',room:'3',buyer:'蘇秀玲',  car:'12', moto:'25',  pkPx:145,note:''},
+  {id:'E6-3F',room:'3',buyer:'黃芝瑋',  car:'－', moto:'－',  pkPx:160,note:''},
+  {id:'E6-2F',room:'3',buyer:'曹政淇',  car:'6',  moto:'32',  pkPx:160,note:''},
+  {id:'E7-5F',room:'3',buyer:'廖倩君',  car:'－', moto:'－',  pkPx:155,note:''},
+  {id:'E7-4F',room:'3',buyer:'廖仁靖',  car:'7',  moto:'31',  pkPx:160,note:''},
+  {id:'E7-3F',room:'3',buyer:'陳柏華',  car:'無', moto:'20',  pkPx:0,  note:'僅機車位',noPark:true},
+  {id:'E7-2F',room:'3',buyer:'李昱璇',  car:'22', moto:'22',  pkPx:155,note:''},
+  {id:'E8-5F',room:'2',buyer:'盧威志',  car:'－', moto:'－',  pkPx:150,note:''},
+  {id:'E8-4F',room:'2',buyer:'李淑芬',  car:'28', moto:'19',  pkPx:145,note:''},
+  {id:'E8-3F',room:'2',buyer:'陳雅彤',  car:'26', moto:'21',  pkPx:150,note:''},
+  {id:'E8-2F',room:'2',buyer:'傅晨哲',  car:'17', moto:'23A', pkPx:145,note:''},
+];
+
+const mgmtState = { mode:'all', seller:'all', selected:null };
+let mgmtInited = false;
+
+function parseRocDate(v){
+  const [y,m,d] = v.split('/').map(Number);
+  return new Date(y+1911, m-1, d||1);
+}
+function getTotalFloor(unit){
+  if(unit.status==='unsold') return unit.totalFloor;
+  const houseFloor = unit.housePx - unit.houseOP;
+  const pkFloor = unit.pkPx - unit.pkOP;
+  return houseFloor + pkFloor;
+}
+function getTotalPremium(unit){
+  return unit.status==='unsold' ? null : unit.houseOP + unit.pkOP;
+}
+function enrichSoldUnit(unit){
+  const houseFloor = unit.housePx - unit.houseOP;
+  const pkFloor = unit.pkPx - unit.pkOP;
+  return {
+    ...unit,
+    status:'sold',
+    houseFloor,
+    pkFloor,
+    totalFloor: houseFloor + pkFloor,
+    totalPremium: unit.houseOP + unit.pkOP,
+  };
+}
+function enrichUnsoldUnit(unit){
+  return { ...unit, status:'unsold', totalPremium:null, seller:'', buyer:'', note:'', total:unit.totalFloor, noPark:false, sp:false };
+}
+function matchesMgmtFilter(unit){
+  const mode = mgmtState.mode;
+  const sellerOK = mgmtState.seller==='all' || unit.seller===mgmtState.seller;
+  let modeOK = true;
+  if(mode==='r2') modeOK = unit.room==='2';
+  if(mode==='r3') modeOK = unit.room==='3';
+  if(mode==='negative') modeOK = unit.status==='sold' && unit.totalPremium < 0;
+  if(mode==='special') modeOK = unit.status==='sold' && !!unit.sp;
+  if(mode==='unsold') modeOK = unit.status==='unsold';
+  return sellerOK && modeOK;
+}
+function formatPremium(v){
+  return `${v>0?'+':''}${v}萬`;
+}
+function renderMgmt(){
+  const allUnits = [...MGMT_DATA.map(enrichSoldUnit), ...UNSOLD_DATA.map(enrichUnsoldUnit)];
+  const sellers = [...new Set(MGMT_DATA.map(x=>x.seller))];
+  if(!mgmtInited){
+    const roomFilters = [
+      ['all','全部戶別'],
+      ['r2','2房'],
+      ['r3','3房'],
+      ['negative','負溢價'],
+      ['special','特殊'],
+      ['unsold','未售'],
+    ];
+    document.getElementById('roomFilters').innerHTML = roomFilters.map(([value,label]) =>
+      `<button class="mfilter ${mgmtState.mode===value?'active':''}" data-mode="${value}">${label}</button>`
+    ).join('');
+    document.getElementById('sellerFilters').innerHTML = ['all', ...sellers].map(name =>
+      `<button class="mfilter ${mgmtState.seller===name?'active':''}" data-seller="${name}">${name==='all'?'全部銷售':name}</button>`
+    ).join('');
+    document.getElementById('roomFilters').addEventListener('click', e=>{
+      const btn = e.target.closest('[data-mode]');
+      if(!btn) return;
+      mgmtState.mode = btn.dataset.mode;
+      renderMgmt();
+    });
+    document.getElementById('sellerFilters').addEventListener('click', e=>{
+      const btn = e.target.closest('[data-seller]');
+      if(!btn) return;
+      mgmtState.seller = btn.dataset.seller;
+      renderMgmt();
+    });
+    document.getElementById('unitMatrix').addEventListener('click', e=>{
+      const card = e.target.closest('[data-unit]');
+      if(!card) return;
+      mgmtState.selected = card.dataset.unit;
+      renderMgmt();
+    });
+    mgmtInited = true;
+  }
+
+  document.querySelectorAll('#roomFilters .mfilter').forEach(btn=>btn.classList.toggle('active', btn.dataset.mode===mgmtState.mode));
+  document.querySelectorAll('#sellerFilters .mfilter').forEach(btn=>btn.classList.toggle('active', btn.dataset.seller===mgmtState.seller));
+
+  const filteredUnits = allUnits.filter(matchesMgmtFilter);
+  if(!filteredUnits.some(u=>u.id===mgmtState.selected)){
+    mgmtState.selected = (filteredUnits[0] || allUnits[0])?.id || null;
+  }
+  const selected = allUnits.find(u=>u.id===mgmtState.selected) || filteredUnits[0] || allUnits[0];
+
+  const soldUnits = filteredUnits.filter(u=>u.status==='sold');
+  const unsoldUnits = filteredUnits.filter(u=>u.status==='unsold');
+  const negativeCount = MGMT_DATA.map(enrichSoldUnit).filter(u=>u.totalPremium < 0).length;
+  const noCarCount = MGMT_DATA.filter(u=>u.noPark).length;
+
+  document.getElementById('mgmtKpis').innerHTML = `
+    <div class="kpi-card"><div class="kpi-label">總溢價</div><div class="kpi-value">600</div><div class="kpi-meta">IMG_0643 控制表彙總</div></div>
+    <div class="kpi-card"><div class="kpi-label">房屋溢價</div><div class="kpi-value">335</div><div class="kpi-meta">成交房價 - 房屋底價</div></div>
+    <div class="kpi-card"><div class="kpi-label">車位溢價</div><div class="kpi-value">265</div><div class="kpi-meta">成交車位 - 車位底價</div></div>
+    <div class="kpi-card"><div class="kpi-label">負溢價戶數</div><div class="kpi-value">${negativeCount}</div><div class="kpi-meta">用來快速找價差異常</div></div>
+    <div class="kpi-card"><div class="kpi-label">無汽車位戶數</div><div class="kpi-value">${noCarCount}</div><div class="kpi-meta">僅機車位成交戶</div></div>
+  `;
+
+  const matrixLookup = Object.fromEntries(allUnits.map(u=>[`${u.bld}-${u.fl}`, u]));
+  const matrix = document.getElementById('unitMatrix');
+  let matrixHtml = `<div class="matrix-head">樓層</div>${BLDS.map(b=>`<div class="matrix-head">${b}<br><small style="opacity:.7;font-size:10px">${roomType(b)}房</small></div>`).join('')}`;
+  FLOORS.forEach(fl=>{
+    matrixHtml += `<div class="matrix-floor">${fl}F</div>`;
+    BLDS.forEach(bld=>{
+      const unit = matrixLookup[`${bld}-${fl}`];
+      const visible = unit && matchesMgmtFilter(unit);
+      if(!unit){
+        matrixHtml += `<div class="matrix-card unsold filtered"></div>`;
+        return;
+      }
+      const premium = unit.totalPremium;
+      const chipClass = unit.status==='unsold' ? 'unsold' : premium>0 ? 'pos' : premium<0 ? 'neg' : 'zero';
+      const totalFloor = getTotalFloor(unit);
+      matrixHtml += `
+        <div class="matrix-card ${unit.status==='unsold'?'unsold':''} ${unit.room==='2'?'room-2':'room-3'} ${unit.noPark?'no-car':''} ${unit.sp?'special':''} ${!visible?'filtered':''} ${mgmtState.selected===unit.id?'selected':''}" data-unit="${unit.id}">
+          <div>
+            <div class="mc-top">
+              <div class="mc-unit">${unit.id}</div>
+              <div class="mc-badges">
+                <span class="mc-badge ${unit.status}">${unit.status==='sold'?'已售':'未售'}</span>
+                ${unit.sp?'<span class="mc-badge special">特殊</span>':''}
+              </div>
+            </div>
+            <div class="mc-main">
+              <div class="mc-price">${unit.status==='sold'?unit.total:unit.totalFloor}<small> 萬</small></div>
+              <div class="mc-sub">${unit.status==='sold'?'成交':'底價'} ｜ 房 ${unit.status==='sold'?unit.housePx:unit.houseFloor} / 車 ${unit.status==='sold'?(unit.pkPx||0):unit.pkFloor}</div>
+              <div class="mc-sub">底價合計 ${totalFloor} 萬</div>
+            </div>
+          </div>
+          <div class="mc-premium">
+            <span class="premium-chip ${chipClass}">
+              ${unit.status==='sold'?`總溢 ${formatPremium(premium)}`:'待售底價'}
+            </span>
+            <span class="premium-breakdown">
+              ${unit.status==='sold'?`房 ${formatPremium(unit.houseOP)} / 車 ${formatPremium(unit.pkOP)}`:`${unit.room}房`}
+            </span>
+          </div>
+        </div>`;
+    });
+  });
+  matrix.innerHTML = matrixHtml;
+
+  const detail = document.getElementById('detailPanel');
+  if(selected){
+    const totalFloor = getTotalFloor(selected);
+    const detailRows = selected.status==='sold'
+      ? `
+        <div class="detail-row"><span class="dk">購買日</span><span class="dv">${selected.date}</span></div>
+        <div class="detail-row"><span class="dk">銷售人員</span><span class="dv">${selected.seller}</span></div>
+        <div class="detail-row"><span class="dk">購買人</span><span class="dv">${selected.buyer}</span></div>
+        <div class="detail-row"><span class="dk">房屋底價 / 成交</span><span class="dv">${selected.houseFloor} / ${selected.housePx}</span></div>
+        <div class="detail-row"><span class="dk">車位底價 / 成交</span><span class="dv">${selected.pkFloor} / ${selected.pkPx||0}</span></div>
+        <div class="detail-row"><span class="dk">汽機車位</span><span class="dv">${selected.parking}</span></div>
+      `
+      : `
+        <div class="detail-row"><span class="dk">目前狀態</span><span class="dv">未售</span></div>
+        <div class="detail-row"><span class="dk">房屋底價</span><span class="dv">${selected.houseFloor} 萬</span></div>
+        <div class="detail-row"><span class="dk">車位底價</span><span class="dv">${selected.pkFloor} 萬</span></div>
+        <div class="detail-row"><span class="dk">合計底價</span><span class="dv">${selected.totalFloor} 萬</span></div>
+      `;
+    detail.innerHTML = `
+      <div class="detail-eyebrow">Internal Control</div>
+      <div class="detail-unit">${selected.id}</div>
+      <div class="detail-status ${selected.status}">${selected.status==='sold'?'已售戶':'未售戶'} ｜ ${selected.room}房</div>
+      <div class="detail-grid">
+        <div class="detail-box">
+          <div class="label">${selected.status==='sold'?'成交總價':'合計底價'}</div>
+          <div class="value">${selected.status==='sold'?selected.total:selected.totalFloor} 萬</div>
+        </div>
+        <div class="detail-box">
+          <div class="label">${selected.status==='sold'?'總溢價':'房型 / 樓層'}</div>
+          <div class="value">${selected.status==='sold'?formatPremium(selected.totalPremium):`${selected.room}房 / ${selected.fl}F`}</div>
+        </div>
+      </div>
+      <div class="detail-list">
+        <div class="detail-row"><span class="dk">棟別 / 樓層</span><span class="dv">${selected.bld} / ${selected.fl}F</span></div>
+        <div class="detail-row"><span class="dk">底價合計</span><span class="dv">${totalFloor} 萬</span></div>
+        ${detailRows}
+      </div>
+      ${selected.note?`<div class="detail-note">${selected.note}</div>`:''}
+    `;
+  }
+
+  const sellerMap = {};
+  soldUnits.forEach(u=>{
+    if(!sellerMap[u.seller]) sellerMap[u.seller] = { count:0, totalPremium:0, housePremium:0, parkingPremium:0 };
+    sellerMap[u.seller].count++;
+    sellerMap[u.seller].housePremium += u.houseOP;
+    sellerMap[u.seller].parkingPremium += u.pkOP;
+    sellerMap[u.seller].totalPremium += u.totalPremium;
+  });
+  document.getElementById('sellerGrid').innerHTML = Object.entries(sellerMap).sort((a,b)=>b[1].count-a[1].count).map(([name,s])=>`
+    <div class="seller-card">
+      <div class="sname">${name}</div>
+      <div class="scount">${s.count} 戶</div>
+      <div class="sop">房屋溢價 ${formatPremium(s.housePremium)}</div>
+      <div class="sop">車位溢價 ${formatPremium(s.parkingPremium)}</div>
+      <div class="sop" style="font-weight:800;color:var(--navy);margin-top:4px;">總溢價 ${formatPremium(s.totalPremium)}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('mgmtSoldBody').innerHTML = soldUnits.sort((a,b)=>parseRocDate(b.date)-parseRocDate(a.date)).map(t=>{
+    const totalFloor = getTotalFloor(t);
+    const totalPremium = getTotalPremium(t);
+    const cls = totalPremium>0?'op-pos':totalPremium<0?'op-neg':'op-zero';
+    return `<tr class="${t.noPark?'no-park-row':''}">
+      <td><span class="unit-tag">${t.id}</span>${t.sp?'<span class="tag-spec">特殊</span>':''}</td>
+      <td>${t.date}</td>
+      <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
+      <td class="num pr">${t.total}</td>
+      <td class="num">${totalFloor}</td>
+      <td class="num ${cls}">${formatPremium(totalPremium)}</td>
+      <td class="num ${t.houseOP>0?'op-pos':t.houseOP<0?'op-neg':'op-zero'}">${formatPremium(t.houseOP)}</td>
+      <td class="num ${t.pkOP>0?'op-pos':t.pkOP<0?'op-neg':'op-zero'}">${formatPremium(t.pkOP)}</td>
+      <td><strong>${t.seller}</strong></td>
+      <td>${t.buyer}</td>
+      <td>${t.parking}</td>
+      <td style="font-size:11px;color:var(--gray);">${t.note||'—'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('parkingBody').innerHTML = PARKING_DATA.filter(p=>{
+    const sold = MGMT_DATA.find(x=>x.id===p.id);
+    return sold ? matchesMgmtFilter(enrichSoldUnit(sold)) : true;
+  }).map(t=>`
+    <tr class="${t.noPark?'no-park-row':''}">
+      <td><span class="unit-tag">${t.id}</span></td>
+      <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
+      <td>${t.buyer}</td>
+      <td style="text-align:center;font-weight:700;${t.car==='無'?'color:#dc2626':''}">${t.car}</td>
+      <td style="text-align:center;">${t.moto}</td>
+      <td style="text-align:right;">${t.pkPx||'—'}</td>
+      <td style="font-size:11px;color:var(--gray);">${t.note||'—'}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('mgmtUnsoldBody').innerHTML = unsoldUnits.map(t=>`
+    <tr>
+      <td><span class="unit-tag" style="background:#6b7280">${t.id}</span></td>
+      <td><span class="${t.room==='2'?'tag-r2':'tag-r3'}">${t.room}房</span></td>
+      <td class="num">${t.houseFloor}</td>
+      <td class="num">${t.pkFloor}</td>
+      <td class="num" style="font-weight:700;color:var(--navy);">${t.totalFloor}</td>
+    </tr>
+  `).join('');
+}
 
 /* ── CHARTS ── */
 let chartsInited=false;
@@ -928,23 +1513,6 @@ function initCharts(){
     {id:'E7-6F',room:'3',houseFloor:858,pkFloor:140,totalFloor:998},
     {id:'E8-6F',room:'2',houseFloor:693,pkFloor:140,totalFloor:833},
   ];
-
-  /* ── DARK MODE ── */
-  function toggleTheme(){
-    const html=document.documentElement;
-    const isDark=html.getAttribute('data-theme')==='dark';
-    html.setAttribute('data-theme', isDark?'light':'dark');
-    document.getElementById('themeBtn').textContent = isDark?'🌙 深色':'☀️ 淺色';
-    localStorage.setItem('cj3theme', isDark?'light':'dark');
-  }
-  (function(){
-    const t=localStorage.getItem('cj3theme')||'light';
-    document.documentElement.setAttribute('data-theme',t);
-    window.addEventListener('DOMContentLoaded',()=>{
-      const btn=document.getElementById('themeBtn');
-      if(btn) btn.textContent=t==='dark'?'☀️ 淺色':'🌙 深色';
-    });
-  })();
 
   /* ── PARKING TABLE ── */
   const PARKING_DATA = [

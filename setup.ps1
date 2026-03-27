@@ -139,7 +139,7 @@ Write-Step "Setting up environment"
 if (-not (Test-Path ".env")) {
     Copy-Item ".env.example" ".env"
     Write-Warn ".env created from template — EDIT IT with your real credentials before starting!"
-    Write-Host "  Required: ANTHROPIC_API_KEY, TELEGRAM_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET" -ForegroundColor White
+    Write-Host "  Required: GEMINI_API_KEY, OPENAI_API_KEY, TELEGRAM_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET" -ForegroundColor White
 } else {
     Write-Ok ".env already exists"
 }

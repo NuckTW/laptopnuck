@@ -96,14 +96,14 @@ firebase deploy --only hosting
 **環境需求**
 - Node.js + Firebase CLI：`npm install -g firebase-tools`
 - Firebase 專案：`chuju3-hc`
-- GitHub Repo：`NuckTW/laptopnuck`
+- GitHub Repo：`NuckTW/CHUJU3`
 
 ---
 
 ## 📁 檔案結構
 
 ```
-laptopnuck/
+CHUJU3/
 ├── chuju3.html        ← 主程式（編輯這個）
 ├── public/
 │   └── index.html     ← Firebase 部署用（從 chuju3.html 同步）

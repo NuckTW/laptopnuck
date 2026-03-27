@@ -184,6 +184,11 @@ def health():
     return {'status': 'ok', 'service': 'Google API Bridge', 'port': 8766}
 
 
+@app.get('/health')
+def health_check():
+    return {'status': 'ok', 'service': 'Google API Bridge', 'port': 8766}
+
+
 if __name__ == '__main__':
     print('Google API Bridge starting on http://localhost:8766')
     uvicorn.run(app, host='127.0.0.1', port=8766)
